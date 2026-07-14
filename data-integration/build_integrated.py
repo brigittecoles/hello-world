@@ -31,12 +31,18 @@ def opp_prefix(name):
 
 
 # ---------------------------------------------------------------- load sources
-won = pd.read_excel(UP + '064bad35-Won_Opps_202620260713164807.xlsx', header=11).dropna(axis=1, how='all')
-won.columns = [c.strip() for c in won.columns]
-won = won[won['Opportunity Name'].notna()]
-won = won[~won['Opportunity Name'].astype(str).str.contains('Confidential|Copyright', na=False)].copy()
-won['Est. Close Date'] = pd.to_datetime(won['Est. Close Date'], errors='coerce')
-won['Start Date'] = pd.to_datetime(won['Start Date'], errors='coerce')
+def load_won_export(path):
+    """Salesforce won-opps report export: headers at row 12, footer boilerplate rows."""
+    df = pd.read_excel(path, header=11).dropna(axis=1, how='all')
+    df.columns = [c.strip() for c in df.columns]
+    df = df[df['Opportunity Name'].notna()]
+    df = df[~df['Opportunity Name'].astype(str).str.contains('Confidential|Copyright', na=False)].copy()
+    df['Est. Close Date'] = pd.to_datetime(df['Est. Close Date'], errors='coerce')
+    df['Start Date'] = pd.to_datetime(df['Start Date'], errors='coerce')
+    return df
+
+won = load_won_export(UP + '064bad35-Won_Opps_202620260713164807.xlsx')      # FY2026 closes
+won25 = load_won_export(UP + '88833b9a-Won_Opps_202620260713214830.xlsx')    # FY2025 closes
 
 rev = pd.ExcelFile(UP + '3259d9ae-RevOps_Account__Opportunity_Database_June_9.xlsx')
 master = rev.parse('Master Account Database')
@@ -113,12 +119,14 @@ def resolve_series(series, source):
     return out
 
 won['Master Account'] = resolve_series(won['Account Name: Account Name'], 'Won Opps 2026')
+won25['Master Account'] = resolve_series(won25['Account Name: Account Name'], 'Won Opps 2025')
 pipe['Master Account'] = resolve_series(pipe['Account Name'], 'RevOps Pipeline')
 rtb['Master Account'] = resolve_series(rtb['Account / Client'], 'RTB tab')
 
 # accounts not in the Master DB keep their raw name so nothing drops out of rollups;
 # the dimension marks them as not present in the 6/9 Master DB
-for df, raw_col in [(won, 'Account Name: Account Name'), (pipe, 'Account Name'), (rtb, 'Account / Client')]:
+for df, raw_col in [(won, 'Account Name: Account Name'), (won25, 'Account Name: Account Name'),
+                    (pipe, 'Account Name'), (rtb, 'Account / Client')]:
     df['Account In Master DB'] = np.where(df['Master Account'].notna(), 'Yes', 'No')
     df['Master Account'] = df['Master Account'].fillna(df[raw_col])
 
@@ -128,23 +136,25 @@ alias_df = (pd.DataFrame(alias_rows)
               .reset_index(drop=True))
 
 # ------------------------------------------- 3. RTB -> won opp match waterfall
-won['_norm_name'] = won['Opportunity Name'].map(norm)
-won['_norm_orig'] = won['Original Opp Name'].map(norm)
-won['_prefix'] = won['Opportunity Name'].map(opp_prefix)
+won_all = pd.concat([won.assign(FY='2026'), won25.assign(FY='2025')], ignore_index=True)
+won_all['_norm_name'] = won_all['Opportunity Name'].map(norm)
+won_all['_norm_orig'] = won_all['Original Opp Name'].map(norm)
+won_all['_prefix'] = won_all['Opportunity Name'].map(opp_prefix)
 
 def match_rtb_row(row):
-    """Waterfall: exact name -> prefix+account+date -> account+fuzzy. Returns (won_opp, method)."""
+    """Waterfall over both FY exports: exact name -> containment -> prefix+date -> account+fuzzy.
+    Returns (won_opp, fy, method)."""
     n = norm(row['Opportunity Name'])
-    hit = won[(won['_norm_name'] == n) | (won['_norm_orig'] == n)]
+    hit = won_all[(won_all['_norm_name'] == n) | (won_all['_norm_orig'] == n)]
     if len(hit):
-        return (hit.iloc[0]['Opportunity Name'], 'exact-name')
+        return (hit.iloc[0]['Opportunity Name'], hit.iloc[0]['FY'], 'exact-name')
     # containment on names within same account
     acct = row['Master Account']
     if pd.notna(acct):
-        sub = won[won['Master Account'] == acct]
+        sub = won_all[won_all['Master Account'] == acct]
         contain = sub[sub['_norm_name'].apply(lambda k: n in k or k in n)]
         if len(contain) == 1:
-            return (contain.iloc[0]['Opportunity Name'], 'name-containment')
+            return (contain.iloc[0]['Opportunity Name'], contain.iloc[0]['FY'], 'name-containment')
         # prefix + close date proximity
         pref = opp_prefix(row['Opportunity Name'])
         if pd.notna(pref) and pd.notna(row['Close Date']):
@@ -153,15 +163,17 @@ def match_rtb_row(row):
                 cand['_dd'] = (cand['Est. Close Date'] - row['Close Date']).abs().dt.days
                 cand = cand[cand['_dd'] <= 45]
                 if len(cand):
-                    return (cand.sort_values('_dd').iloc[0]['Opportunity Name'], 'prefix+close-date')
+                    best = cand.sort_values('_dd').iloc[0]
+                    return (best['Opportunity Name'], best['FY'], 'prefix+close-date')
         # fuzzy within account
         if len(sub):
             best = difflib.get_close_matches(n, sub['_norm_name'].tolist(), n=1, cutoff=0.75)
             if best:
-                return (sub[sub['_norm_name'] == best[0]].iloc[0]['Opportunity Name'], 'account+fuzzy-name')
-    return (np.nan, 'no-match (likely FY2025 close, outside Won Opps 2026 export)')
+                b = sub[sub['_norm_name'] == best[0]].iloc[0]
+                return (b['Opportunity Name'], b['FY'], 'account+fuzzy-name')
+    return (np.nan, np.nan, 'no-match in FY2025/FY2026 won exports')
 
-rtb[['Matched Won Opp', 'Opp Match Method']] = rtb.apply(
+rtb[['Matched Won Opp', 'Matched FY', 'Opp Match Method']] = rtb.apply(
     lambda r: pd.Series(match_rtb_row(r)), axis=1)
 
 # --------------------------------------- 4. AI_SOWs -> account from doc titles
@@ -170,6 +182,7 @@ from collections import Counter
 
 all_opps = pd.concat([
     pd.DataFrame({'opp': won['Opportunity Name'], 'acct': won['Account Name: Account Name']}),
+    pd.DataFrame({'opp': won25['Opportunity Name'], 'acct': won25['Account Name: Account Name']}),
     pd.DataFrame({'opp': pipe['Opportunity Name'], 'acct': pipe['Account Name']}),
     pd.DataFrame({'opp': old_pipe['Opportunity Name'], 'acct': old_pipe['Account Name']}),
 ]).dropna().drop_duplicates()
@@ -280,6 +293,7 @@ rtb_ev = pd.DataFrame({
     'Confidence': rtb['Confidence level'],
     'Explanation': rtb['Brief explanation of why this should or should not count as AI-leveraged work'],
     'Matched Opportunity': rtb['Matched Won Opp'],
+    'Matched FY': rtb['Matched FY'],
     'Match Method': rtb['Opp Match Method'],
 })
 sow_ev = pd.DataFrame({
@@ -294,6 +308,7 @@ sow_ev = pd.DataFrame({
     'Confidence': ai_sows['Confidence level'],
     'Explanation': ai_sows['Brief explanation of why this should or should not count as AI-leveraged work'],
     'Matched Opportunity': ai_sows['Matched Opp Name'],
+    'Matched FY': np.nan,
     'Match Method': ai_sows['Account Match Method'],
 })
 ai_evidence = pd.concat([rtb_ev, sow_ev], ignore_index=True)
@@ -302,20 +317,24 @@ ai_opps = set(ai_evidence['Matched Opportunity'].dropna())
 ai_accounts = set(ai_evidence['Master Account'].dropna())
 
 # -------------------------------------------------------- 6. opportunity fact
-won_fact = pd.DataFrame({
-    'Record Source': 'Won Opps 2026 (7/13 export)',
-    'Status': 'Won',
-    'Opportunity Name': won['Opportunity Name'],
-    'Original Opp Name': won['Original Opp Name'],
-    'Is Change Order': won['Opportunity Name'].ne(won['Original Opp Name']).map({True: 'Yes', False: 'No'}),
-    'Account (as given)': won['Account Name: Account Name'],
-    'Master Account': won['Master Account'],
-    'Fees (converted)': won['Estimated Fees (converted)'],
-    'Est. Close Date': won['Est. Close Date'],
-    'Start Date': won['Start Date'],
-    'Stage': won['Stage'],
-    'Pursuit Team': won['Pursuit Team'],
-})
+def won_to_fact(df, source_label):
+    return pd.DataFrame({
+        'Record Source': source_label,
+        'Status': 'Won',
+        'Opportunity Name': df['Opportunity Name'],
+        'Original Opp Name': df['Original Opp Name'],
+        'Is Change Order': df['Opportunity Name'].ne(df['Original Opp Name']).map({True: 'Yes', False: 'No'}),
+        'Account (as given)': df['Account Name: Account Name'],
+        'Master Account': df['Master Account'],
+        'Fees (converted)': df['Estimated Fees (converted)'],
+        'Est. Close Date': df['Est. Close Date'],
+        'Start Date': df['Start Date'],
+        'Stage': df['Stage'],
+        'Pursuit Team': df['Pursuit Team'],
+    })
+
+won_fact = won_to_fact(won, 'Won Opps 2026 (7/13 export)')
+won25_fact = won_to_fact(won25, 'Won Opps 2025 (7/13 export)')
 pipe_fact = pd.DataFrame({
     'Record Source': 'RevOps Pipeline (6/9 snapshot)',
     'Status': 'Open Pipeline',
@@ -333,12 +352,14 @@ pipe_fact = pd.DataFrame({
 # carry useful pipeline-only fields
 for col in ['Probability (%)', 'Practice', 'Offering', 'Capabilities / Services', 'Managed By', 'Business Developer']:
     won_fact[col] = np.nan
+    won25_fact[col] = np.nan
     pipe_fact[col] = pipe[col].values
 
-fact = pd.concat([won_fact, pipe_fact], ignore_index=True)
+fact = pd.concat([won25_fact, won_fact, pipe_fact], ignore_index=True)
 
 # flag pipeline opps that later appear as won (converted since the 6/9 snapshot)
-won_names_norm = set(won['_norm_name']) | set(won['_norm_orig'].dropna())
+_w26 = won_all[won_all['FY'] == '2026']
+won_names_norm = set(_w26['_norm_name']) | set(_w26['_norm_orig'].dropna())
 fact['_n'] = fact['Opportunity Name'].map(norm)
 fact['Converted Since Snapshot'] = np.where(
     (fact['Status'] == 'Open Pipeline') & fact['_n'].isin(won_names_norm), 'Yes', '')
@@ -357,6 +378,9 @@ fact = fact.merge(acct_attrs, left_on='Master Account', right_on='Account Name',
 won_by_acct = won_fact.groupby('Master Account').agg(
     won_opps_2026=('Opportunity Name', 'count'),
     won_fees_2026=('Fees (converted)', 'sum')).reset_index()
+won25_by_acct = won25_fact.groupby('Master Account').agg(
+    won_opps_2025=('Opportunity Name', 'count'),
+    won_fees_2025=('Fees (converted)', 'sum')).reset_index()
 ai_by_acct = (ai_evidence.dropna(subset=['Master Account'])
               .groupby('Master Account')
               .agg(ai_evidence_rows=('Evidence Source', 'count'),
@@ -367,7 +391,8 @@ pipe_by_acct = pipe_fact.groupby('Master Account').agg(
     open_pipeline_fees=('Fees (converted)', 'sum')).reset_index()
 
 # supplemental rows: accounts seen in won/pipeline/AI evidence but absent from the 6/9 Master DB
-seen_accounts = (set(won['Master Account'].dropna()) | set(pipe['Master Account'].dropna())
+seen_accounts = (set(won['Master Account'].dropna()) | set(won25['Master Account'].dropna())
+                 | set(pipe['Master Account'].dropna())
                  | set(ai_evidence['Master Account'].dropna()))
 extra = sorted(seen_accounts - set(master['Account Name']))
 master['In 6-9 Master DB'] = 'Yes'
@@ -377,12 +402,14 @@ dim_base = pd.concat([master, extra_df], ignore_index=True)
 
 dim = (dim_base
        .merge(won_by_acct, left_on='Account Name', right_on='Master Account', how='left').drop(columns='Master Account')
+       .merge(won25_by_acct, left_on='Account Name', right_on='Master Account', how='left').drop(columns='Master Account')
        .merge(pipe_by_acct, left_on='Account Name', right_on='Master Account', how='left').drop(columns='Master Account')
        .merge(ai_by_acct, left_on='Account Name', right_on='Master Account', how='left').drop(columns='Master Account'))
-for c in ['won_opps_2026', 'open_pipeline_opps', 'ai_evidence_rows', 'ai_high_confidence_rows']:
+for c in ['won_opps_2026', 'won_opps_2025', 'open_pipeline_opps', 'ai_evidence_rows', 'ai_high_confidence_rows']:
     dim[c] = dim[c].fillna(0).astype(int)
 dim = dim.rename(columns={
     'won_opps_2026': 'Won Opps 2026 (count)', 'won_fees_2026': 'Won Fees 2026 (integrated)',
+    'won_opps_2025': 'Won Opps 2025 (count)', 'won_fees_2025': 'Won Fees 2025 (integrated)',
     'open_pipeline_opps': 'Open Pipeline Opps (6/9)', 'open_pipeline_fees': 'Open Pipeline Fees (6/9)',
     'ai_evidence_rows': 'AI Evidence Rows', 'ai_high_confidence_rows': 'AI Evidence Rows (High Confidence)'})
 dim['Has AI-Leveraged Work'] = np.where(dim['AI Evidence Rows'] > 0, 'Yes', '')
@@ -395,11 +422,11 @@ for _, r in alias_df[alias_df['Method'].isin(['unresolved', 'fuzzy', 'containmen
                    'Current Resolution': r['Resolved Master Account'] if pd.notna(r['Resolved Master Account']) else 'NOT LINKED',
                    'Action Needed': 'Confirm or correct the account mapping'})
 for _, r in rtb[rtb['Matched Won Opp'].isna()].iterrows():
-    review.append({'Issue Type': 'RTB opp not in Won Opps 2026 export', 'Source': 'RTB tab',
+    review.append({'Issue Type': 'RTB opp not matched to a won opp', 'Source': 'RTB tab',
                    'Item': r['Opportunity Name'],
                    'Current Resolution': f"Account-level link only ({r['Master Account'] if pd.notna(r['Master Account']) else 'no account link'})",
                    'Action Needed': 'Closed ' + (r['Close Date'].strftime('%Y-%m-%d') if pd.notna(r['Close Date']) else '?')
-                                    + ' — pull a 2025 won-opps export to link at opp level'})
+                                    + ' — not found in either FY export; verify name/record type'})
 for _, r in rtb[rtb['Opp Match Method'].isin(['account+fuzzy-name', 'prefix+close-date', 'name-containment'])].iterrows():
     review.append({'Issue Type': 'RTB opp matched non-exactly', 'Source': 'RTB tab',
                    'Item': r['Opportunity Name'],
@@ -419,21 +446,21 @@ review_df = pd.DataFrame(review)
 
 # ------------------------------------------------------------------ 9. README
 readme = pd.DataFrame({'Integrated Account / Opportunity / AI Dataset': [
-    'Built 2026-07-13 from: Won_Opps_2026 (Salesforce export 7/13), RevOps Account & Opportunity Database (6/9 snapshot), AI_Work_SOWs_and_RTBs.',
+     'Built 2026-07-13 from: Won Opps FY2026 + FY2025 (Salesforce exports 7/13), RevOps Account & Opportunity Database (6/9 snapshot), AI_Work_SOWs_and_RTBs.',
     '',
     'SHEETS',
     'Accounts — one row per account. Base: Master Account Database (deduped: duplicate names removed, preferring active-Client rows with a real Account Director), plus supplemental rows (In 6-9 Master DB = No) for accounts seen only in won opps / pipeline / AI evidence. Adds rollups: FY2026 won fees/opps, open pipeline (6/9), AI-evidence counts, Has AI-Leveraged Work flag.',
-    'Opportunities — union fact table: won opps (FY2026, 7/13 export) + open pipeline opps (6/9 snapshot). Linked to Accounts via Master Account. Includes Is Change Order, Converted Since Snapshot (pipeline opp later appears as won), and AI flags.',
+    'Opportunities — union fact table: won opps (FY2025 + FY2026, 7/13 exports) + open pipeline opps (6/9 snapshot). Linked to Accounts via Master Account. Includes Is Change Order, Converted Since Snapshot (pipeline opp later appears as won), and AI flags.',
     'AI Evidence — all 95 AI rows (33 RTB + 62 AI_SOWs) with account links and, where possible, the matched opportunity. Match Method records how each link was made; treat non-exact methods as provisional until confirmed via the Review Queue.',
     'Alias Map — every non-exact account-name resolution (method + score). Exact matches are not listed.',
     'Review Queue — items needing a human decision: unresolved accounts, fuzzy/inferred matches to confirm, RTB opps outside the FY2026 export, unlinked AI_SOWs rows.',
     '',
     'MATCHING WATERFALL (accounts): exact normalized name → manual alias → suffix-stripped name → containment → fuzzy (cutoff 0.87). Unresolved names are kept as-is and flagged In 6-9 Master DB = No.',
-    'MATCHING WATERFALL (RTB opp → won opp): exact name → name containment within account → account-code prefix + close date (±45d) → fuzzy within account.',
+    'MATCHING WATERFALL (RTB opp → won opp, searched across FY2025+FY2026 exports): exact name → name containment within account → account-code prefix + close date (±45d) → fuzzy within account.',
     'MATCHING WATERFALL (AI_SOWs, which has no key column): SOW doc title ↔ opportunity-name containment → account-code prefix in title (e.g. GALLO, PALO) → distinctive account-name word in title. PALO/PANW were manually mapped to Palo Alto Networks.',
     '',
     'KNOWN LIMITATIONS',
-    '- Most RTB rows closed in FY2025 and cannot link to the FY2026-only won export; they carry account-level links only. Pull a 2025 won-opps export to complete them.',
+    '- RTB opp matching now covers both FY2025 and FY2026 won exports.',
     '- AI_SOWs tab has no key column; account links were inferred from SOW document titles and are marked with their method. Regenerating that extract with Salesforce Opportunity ID is the durable fix.',
     '- RevOps pipeline is a June 9 snapshot vs a July 13 won export; treat pipeline-vs-won comparisons as ~5 weeks apart.',
     '- Fees are as-exported ("converted" currency fields); no restatement applied.',
@@ -451,13 +478,13 @@ with pd.ExcelWriter(OUT, engine='openpyxl') as xw:
 # ------------------------------------------------------------------ summary
 print('=== BUILD SUMMARY ===')
 print(f'Accounts: {len(dim)} (deduped from {1054})')
-print(f'Opportunities: {len(fact)} = {len(won_fact)} won + {len(pipe_fact)} pipeline')
+print(f'Opportunities: {len(fact)} = {len(won25_fact)} won-2025 + {len(won_fact)} won-2026 + {len(pipe_fact)} pipeline')
 print(f'  Won opps linked to master account: {won_fact["Master Account"].notna().sum()}/{len(won_fact)}')
 print(f'  Pipeline opps linked: {pipe_fact["Master Account"].notna().sum()}/{len(pipe_fact)}')
 print(f'  Converted since snapshot: {(fact["Converted Since Snapshot"]=="Yes").sum()}')
 print(f'AI evidence rows: {len(ai_evidence)}')
 print(f'  RTB with account link: {rtb["Master Account"].notna().sum()}/{len(rtb)}')
-print(f'  RTB matched to a FY2026 won opp: {rtb["Matched Won Opp"].notna().sum()}/{len(rtb)}')
+print(f'  RTB matched to a won opp: {rtb["Matched Won Opp"].notna().sum()}/{len(rtb)} (FY split: {rtb["Matched FY"].value_counts().to_dict()})')
 print('  RTB match methods:', rtb['Opp Match Method'].value_counts().to_dict())
 print(f'  AI_SOWs with account guess: {ai_sows["Guessed Master Account"].notna().sum()}/{len(ai_sows)}')
 print(f'Alias map rows: {len(alias_df)} | methods: {alias_df["Method"].value_counts().to_dict()}')
