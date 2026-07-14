@@ -314,6 +314,27 @@ MANUAL_SOW_MAP = [
          'CSRC - CareSource Data & Reporting GenAI Advisory CO 1-4', 'Medium'),
     (61, 'Lakehouse Build Fraud Modeling CO2', 'ConnexPay',
          'CO 2 - CONX - Lakehouse Build (exact CO number and scope)', 'High'),
+    # --- round 2: matches found in logged opps per user direction ("all already logged") ---
+    (10, 'Insurance AI Assessment', 'Inflexion',
+         'INFLX - AI Opportunity and Risk Diligence Assessment (only PE-portfolio AI-diligence opp); "Insurance" likely the WM practice or a portfolio co', 'Medium'),
+    (11, 'Agentic Transformation SOW', 'Anaqua',
+         'ANQU - Agentic Transformation (exact opp name); alt: CRC Insurance Services (TIHI - KV Agentic Transformation Strategy)', 'Medium'),
+    (12, 'AI Advisory SOW', 'Vizient, Inc.',
+         'VHA - AI Advisory (exact opp name)', 'High'),
+    (14, 'AI Platform SOW', 'Knox Lane LP',
+         'KNXL - AI Platform (exact opp name)', 'High'),
+    (16, 'EDA Use Case Delivery', 'Consolidated Edison Company (ConEd)',
+         'CNED - EDA (Enterprise Data & Analytics) program + GCP Platform Foundation & AI Use Case Delivery CO1', 'High'),
+    (23, 'EDA AI Workstreams', 'Consolidated Edison Company (ConEd)',
+         'CNED - EDA (Enterprise Data & Analytics) AI workstreams; EDA confirmed as a ConEd program code', 'High'),
+    (26, '02139753', 'Exelon Business Services Company, LLC',
+         'EXE - AI Governance Planning (generic file title; AI-governance offering); alt: ConEd Data & AI Governance Optimization', 'Low'),
+    (29, '202510_CP_Signed', 'ABC Fitness Solutions',
+         'Intellio Evolve used on ABCF Service Transformation; SOW signed Oct 2025; alt: Nextech/Surescripts/Aven Evolve pilots', 'Low'),
+    (33, 'Nigel', "Shearer's",
+         "SHEAS - Data Platform Build; RTB cites the 'Nigel' AI-SQL tool for Shearer's; alt: Arthur J. Gallagher", 'Medium'),
+    (58, 'generic: sign.pdf', 'Health Care Service Corporation',
+         'CO 1 - HCS - MA Contact Center - Driving Efficiency with Gen AI (offering "GenAI contact center / efficiency" matches verbatim)', 'High'),
 ]
 for idx, snippet, acct, basis, conf in MANUAL_SOW_MAP:
     _guard = (str(ai_sows.iloc[idx]['SOW validation evidence']) + ' '
@@ -324,19 +345,8 @@ for idx, snippet, acct, basis, conf in MANUAL_SOW_MAP:
     else:
         print(f'WARNING: manual map row {idx} snippet mismatch, skipped: {snippet}')
 
-# Candidate notes for rows that stay ambiguous — carried into the Review Queue.
-SOW_CANDIDATES = {
-    10: 'PE insurance-portfolio AI diligence; no matching opp found — identify client from SOW body',
-    11: 'Candidates: Anaqua (ANQU - Agentic Transformation) or CRC Insurance Services (TIHI - KV Agentic Transformation Strategy)',
-    12: 'Candidates: University of Virginia Darden (UVA-D GenAI Advisory Services) or Invenergy (NRGY - AI Strategy & Governance Workshops)',
-    14: 'Candidates: IMA Financial, ConEd (Data & AI Platform Build), Galloway — multiple AI-platform opps',
-    16: "Code 'EDA' not found in any export — identify the EDA engagement client",
-    23: "Code 'EDA' not found in any export — same client as the other EDA row",
-    26: 'Candidates: Exelon (EXE - AI Governance Planning), ConEd (Data & AI Governance Optimization), Invenergy',
-    29: 'Intellio Evolve pilots: ABC Fitness, Nextech Systems, Surescripts, or Aven Hospitality',
-    33: 'Candidates: Galloway (CO 1 - GALLO - AI platform build) or ConEd (CNED - Data & AI Platform Build & Run)',
-    58: 'GenAI contact-center: 21 contact-center opps across 12 accounts — needs the SOW body to pin down',
-}
+# All previously-ambiguous rows are now mapped above; none remain candidate-only.
+SOW_CANDIDATES = {}
 
 # resolve inferred accounts to master
 ai_sows['Guessed Master Account'] = [resolve_account(a, 'AI_SOWs')[0] if pd.notna(a) else np.nan
