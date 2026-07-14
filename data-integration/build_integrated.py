@@ -274,6 +274,70 @@ def match_ai_sow_row(text):
 _res = ai_sows.apply(lambda r: pd.Series(match_ai_sow_row(str(r['SOW validation evidence']))), axis=1)
 ai_sows[['Account (inferred)', 'Matched Opp Name', 'Account Match Method']] = _res
 
+# Curated manual mappings for rows the automated waterfall can't resolve.
+# Keyed by row index with an evidence snippet as a guard against source reordering.
+# basis = the opportunity-name evidence the mapping rests on.
+MANUAL_SOW_MAP = [
+    (1,  'Ian Smith AI Retainer', 'Audax Management Company',
+         'CO 1 - ADX - AI Retainer (Change Order 01 aligns; Audax AI Retainer family)', 'Medium'),
+    (3,  'OCFO_AI_Use_Case_Enablement', 'Gallagher Benefit Services',
+         'GBN - OCFO AI Use Case Enablement (exact phrase)', 'High'),
+    (4,  'AI in BEM', 'Southern California Edison',
+         'SCE - AI in BEM Program Development - Phase I (exact phrase)', 'High'),
+    (13, 'Intelligent Automation Strategy and Design', 'J.D. Power and Associates',
+         'JDP - DataOps Intelligent Automation Strategy; RTB cites Intellio Agent POC', 'Medium'),
+    (15, 'Cyber_Data_AI_SOW', 'Emory University',
+         'EMORY - Cyber, Data, and AI Assessments and Roadmap', 'High'),
+    (25, 'Fund Admin & Accounting Copilot Training', 'The Riverside Company',
+         'RC - Copilot Training for Accounting & Fund Admin (exact phrase)', 'High'),
+    (28, 'Intellio Policy', 'Walmart US',
+         'WMTUS - Energy - Intellio Policy AI (RTB describes Intellio Policy build)', 'High'),
+    (32, 'GenAI Advisory', 'Caresource',
+         'CSRC - CareSource Data & Reporting GenAI Advisory CO 1-4 (report conversion matches)', 'Medium'),
+    (37, 'AI Workshop', 'Mariani Landscape',
+         'CO 2 - MARIL SSA - AI Workshop (only AI Workshop opp)', 'Medium'),
+    (38, 'SOW title generic in connector output', 'Capital One',
+         'CAPO - CO 1 - DFS - Payment Services CRM Analytics + AI Knowledgebase Assessment (offering matches exactly)', 'High'),
+    (39, 'SOW title generic', 'Travis Credit Union',
+         'TRVCU - AI Accelerated Process Mapping (only AI process-mapping opp)', 'Medium'),
+    (41, 'Change_Order_to_AI_Program_Support', 'Kymanox LLC',
+         'KYNOX - AI Program Support (this row is its change order)', 'Medium'),
+    (44, 'Fraud Alerting & Data Science Enablement', 'ConnexPay',
+         'CONX - Fraud Alerting Build & AI Finalization family', 'High'),
+    (45, 'GenAI Advisory', 'Caresource',
+         'CSRC - CareSource Data & Reporting GenAI Advisory CO 1-4', 'Medium'),
+    (46, 'GenAI Advisory', 'Caresource',
+         'CSRC - CareSource Data & Reporting GenAI Advisory CO 1-4', 'Medium'),
+    (47, 'AISprint', 'Palo Alto Networks',
+         'PANW/PALO quarterly AISprint pattern (other AISprint rows are Palo Alto)', 'Medium'),
+    (55, 'GenAI Advisory', 'Caresource',
+         'CSRC - CareSource Data & Reporting GenAI Advisory CO 1-4', 'Medium'),
+    (61, 'Lakehouse Build Fraud Modeling CO2', 'ConnexPay',
+         'CO 2 - CONX - Lakehouse Build (exact CO number and scope)', 'High'),
+]
+for idx, snippet, acct, basis, conf in MANUAL_SOW_MAP:
+    _guard = (str(ai_sows.iloc[idx]['SOW validation evidence']) + ' '
+              + str(ai_sows.iloc[idx]['Relevant Ring the Bell evidence'])).lower()
+    if snippet.lower() in _guard:
+        ai_sows.iloc[idx, ai_sows.columns.get_loc('Account (inferred)')] = acct
+        ai_sows.iloc[idx, ai_sows.columns.get_loc('Account Match Method')] = f'manual ({conf} confidence): {basis}'
+    else:
+        print(f'WARNING: manual map row {idx} snippet mismatch, skipped: {snippet}')
+
+# Candidate notes for rows that stay ambiguous — carried into the Review Queue.
+SOW_CANDIDATES = {
+    10: 'PE insurance-portfolio AI diligence; no matching opp found — identify client from SOW body',
+    11: 'Candidates: Anaqua (ANQU - Agentic Transformation) or CRC Insurance Services (TIHI - KV Agentic Transformation Strategy)',
+    12: 'Candidates: University of Virginia Darden (UVA-D GenAI Advisory Services) or Invenergy (NRGY - AI Strategy & Governance Workshops)',
+    14: 'Candidates: IMA Financial, ConEd (Data & AI Platform Build), Galloway — multiple AI-platform opps',
+    16: "Code 'EDA' not found in any export — identify the EDA engagement client",
+    23: "Code 'EDA' not found in any export — same client as the other EDA row",
+    26: 'Candidates: Exelon (EXE - AI Governance Planning), ConEd (Data & AI Governance Optimization), Invenergy',
+    29: 'Intellio Evolve pilots: ABC Fitness, Nextech Systems, Surescripts, or Aven Hospitality',
+    33: 'Candidates: Galloway (CO 1 - GALLO - AI platform build) or ConEd (CNED - Data & AI Platform Build & Run)',
+    58: 'GenAI contact-center: 21 contact-center opps across 12 accounts — needs the SOW body to pin down',
+}
+
 # resolve inferred accounts to master
 ai_sows['Guessed Master Account'] = [resolve_account(a, 'AI_SOWs')[0] if pd.notna(a) else np.nan
                                      for a in ai_sows['Account (inferred)']]
@@ -432,11 +496,12 @@ for _, r in rtb[rtb['Opp Match Method'].isin(['account+fuzzy-name', 'prefix+clos
                    'Item': r['Opportunity Name'],
                    'Current Resolution': f"→ {r['Matched Won Opp']} ({r['Opp Match Method']})",
                    'Action Needed': 'Confirm the opportunity match'})
-for _, r in ai_sows[ai_sows['Guessed Master Account'].isna()].iterrows():
+for idx, r in ai_sows[ai_sows['Guessed Master Account'].isna()].iterrows():
     review.append({'Issue Type': 'AI_SOWs row has no account link', 'Source': 'AI_SOWs tab',
                    'Item': str(r['SOW validation evidence'])[:120],
                    'Current Resolution': 'NOT LINKED',
-                   'Action Needed': 'Identify client from SOW title / regenerate extract with Opportunity ID'})
+                   'Action Needed': SOW_CANDIDATES.get(idx,
+                       'Identify client from SOW title / regenerate extract with Opportunity ID')})
 for _, r in ai_sows[ai_sows['Guessed Master Account'].notna()].iterrows():
     review.append({'Issue Type': 'AI_SOWs account inferred from doc title', 'Source': 'AI_SOWs tab',
                    'Item': str(r['SOW validation evidence'])[:120],
