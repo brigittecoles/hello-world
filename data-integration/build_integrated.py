@@ -509,6 +509,131 @@ for _, r in ai_sows[ai_sows['Guessed Master Account'].notna()].iterrows():
                    'Action Needed': 'Confirm the inferred account (AI_SOWs has no key column, all links are inferred)'})
 review_df = pd.DataFrame(review)
 
+# ------------------------------------------------------ 8b. crosswalk sheet
+# One row per review-queue theme, enriched with people and ranked account candidates.
+from collections import Counter as _Counter
+
+ad_by_acct = dict(zip(master['Account Name'], master['Account Director'].fillna('')))
+am_by_acct = dict(zip(master['Account Name'], master['Account Manager'].fillna('')))
+
+def acct_people(acct):
+    bits = []
+    if ad_by_acct.get(acct):
+        bits.append(f"AD: {ad_by_acct[acct]}")
+    if am_by_acct.get(acct):
+        bits.append(f"AM: {am_by_acct[acct]}")
+    return '; '.join(bits)
+
+def top_people(series_of_lists, n=4):
+    """Most frequent names from ';'-separated people fields."""
+    c = _Counter()
+    for v in series_of_lists.dropna():
+        for name in str(v).split(';'):
+            name = name.strip()
+            if name and name != '-' and 'INVALID' not in name:
+                c[name] += 1
+    return '; '.join(f'{k}' for k, _ in c.most_common(n))
+
+def candidate_accounts(raw, n=3):
+    """Ranked master-account suggestions below the auto-match threshold."""
+    nn = norm(raw)
+    out, seen = [], set()
+    for k, m in master_by_norm.items():
+        if len(nn) >= 5 and len(k) >= 5 and (nn in k or k in nn) and m not in seen:
+            out.append(f'{m} (containment)'); seen.add(m)
+    for c in difflib.get_close_matches(nn, list(master_by_norm.keys()), n=n, cutoff=0.55):
+        m = master_by_norm[c]
+        if m not in seen:
+            score = difflib.SequenceMatcher(None, nn, c).ratio()
+            out.append(f'{m} ({score:.2f})'); seen.add(m)
+    return '; '.join(out[:n]) if out else 'none close — likely new/absent from 6/9 Master DB'
+
+cross = []
+# --- unresolved account names, enriched per source
+for _, a in alias_df[alias_df['Method'] == 'unresolved'].iterrows():
+    raw, src = a['Raw Account Name'], a['Source']
+    fees, people, extra = 0.0, '', ''
+    if src in ('Won Opps 2026', 'Won Opps 2025'):
+        d = (won if src == 'Won Opps 2026' else won25)
+        sub = d[d['Account Name: Account Name'] == raw]
+        fees = sub['Estimated Fees (converted)'].sum()
+        people = top_people(sub['Pursuit Team'])
+        dates = pd.to_datetime(sub['Est. Close Date'])
+        extra = f"{len(sub)} won opp(s), closes {dates.min():%b %Y}–{dates.max():%b %Y}"
+    elif src == 'RevOps Pipeline':
+        sub = pipe[pipe['Account Name'] == raw]
+        fees = sub['Estimated Fees (converted).amount'].sum()
+        ppl = pd.concat([sub['Managed By'], sub['Business Developer'], sub['Pursuit Team']])
+        people = top_people(ppl)
+        extra = f"{len(sub)} open pipeline opp(s)"
+    elif src == 'RTB tab':
+        sub = rtb[rtb['Account / Client'] == raw]
+        extra = f"{len(sub)} AI evidence row(s)"
+    cross.append({
+        'Item': raw, 'Issue Type': 'Account not in 6/9 Master DB', 'Source': src,
+        'Summary': extra, 'Fees Involved': round(fees) if fees else None,
+        'People': people, 'Likely Account Candidates': candidate_accounts(raw),
+        'Suggested Action': 'Confirm whether this is a new account or an alias of a Master DB account'})
+
+# --- non-exact account resolutions to confirm
+for _, a in alias_df[alias_df['Method'].isin(['fuzzy', 'containment', 'suffix-normalized'])].iterrows():
+    res = a['Resolved Master Account']
+    cross.append({
+        'Item': a['Raw Account Name'], 'Issue Type': 'Account mapping to confirm', 'Source': a['Source'],
+        'Summary': f"Auto-resolved by {a['Method']} (score {a['Score']})", 'Fees Involved': None,
+        'People': acct_people(res), 'Likely Account Candidates': res,
+        'Suggested Action': 'Confirm or correct this mapping'})
+
+# --- RTB opp matches made non-exactly
+for _, r in rtb[~rtb['Opp Match Method'].isin(['exact-name'])].iterrows():
+    if pd.isna(r['Matched Won Opp']):
+        continue
+    acct = r['Master Account']
+    sub = won_all[won_all['Opportunity Name'] == r['Matched Won Opp']]
+    cross.append({
+        'Item': r['Opportunity Name'], 'Issue Type': 'RTB opp match to confirm', 'Source': 'RTB tab',
+        'Summary': f"Matched to '{r['Matched Won Opp']}' (FY{r['Matched FY']}) via {r['Opp Match Method']}",
+        'Fees Involved': round(sub['Estimated Fees (converted)'].sum()) if len(sub) else None,
+        'People': '; '.join(filter(None, [acct_people(acct), top_people(sub['Pursuit Team'], 3)])),
+        'Likely Account Candidates': acct,
+        'Suggested Action': 'Confirm the opportunity match'})
+
+# --- AI_SOWs rows: unresolved get candidates; inferred/manual get a confirm row
+for idx, r in ai_sows.iterrows():
+    title = str(r['SOW validation evidence']).replace('Attached document title: ', '')[:90]
+    offering = str(r['AI-related Offering, Service, or Capability'])[:70]
+    acct = r['Guessed Master Account']
+    if pd.isna(acct):
+        cross.append({
+            'Item': title, 'Issue Type': 'AI SOW unmapped', 'Source': 'AI_SOWs tab',
+            'Summary': f"Offering: {offering} · Confidence: {r['Confidence level']}", 'Fees Involved': None,
+            'People': '',
+            'Likely Account Candidates': SOW_CANDIDATES.get(idx, 'no candidates identified'),
+            'Suggested Action': 'Identify client from the SOW document or a regenerated extract with Opportunity ID'})
+    else:
+        method = str(r['Account Match Method'])
+        cross.append({
+            'Item': title, 'Issue Type': 'AI SOW mapping to confirm', 'Source': 'AI_SOWs tab',
+            'Summary': f"Offering: {offering} · via {method[:90]}", 'Fees Involved': None,
+            'People': acct_people(acct), 'Likely Account Candidates': acct,
+            'Suggested Action': 'Confirm the inferred account'})
+
+crosswalk_df = pd.DataFrame(cross)
+_order = {'AI SOW unmapped': 0, 'AI SOW mapping to confirm': 1, 'RTB opp match to confirm': 2,
+          'Account mapping to confirm': 3, 'Account not in 6/9 Master DB': 4}
+crosswalk_df['_o'] = crosswalk_df['Issue Type'].map(_order)
+crosswalk_df = (crosswalk_df.sort_values(['_o', 'Fees Involved'], ascending=[True, False])
+                            .drop(columns='_o').reset_index(drop=True))
+crosswalk_df.insert(1, 'Confirmed Account Name (fill in)', '')
+CROSSWALK_OUT = OUT.replace('Integrated_Account_Opportunity_AI_Dataset.xlsx', 'Review_Queue_Crosswalk.xlsx')
+with pd.ExcelWriter(CROSSWALK_OUT, engine='openpyxl') as cw:
+    crosswalk_df.to_excel(cw, sheet_name='Crosswalk', index=False)
+    ws = cw.sheets['Crosswalk']
+    widths = {'A': 44, 'B': 30, 'C': 26, 'D': 16, 'E': 52, 'F': 14, 'G': 40, 'H': 52, 'I': 40}
+    for col, w in widths.items():
+        ws.column_dimensions[col].width = w
+    ws.freeze_panes = 'A2'
+
 # ------------------------------------------------------------------ 9. README
 readme = pd.DataFrame({'Integrated Account / Opportunity / AI Dataset': [
      'Built 2026-07-13 from: Won Opps FY2026 + FY2025 (Salesforce exports 7/13), RevOps Account & Opportunity Database (6/9 snapshot), AI_Work_SOWs_and_RTBs.',
@@ -518,7 +643,7 @@ readme = pd.DataFrame({'Integrated Account / Opportunity / AI Dataset': [
     'Opportunities — union fact table: won opps (FY2025 + FY2026, 7/13 exports) + open pipeline opps (6/9 snapshot). Linked to Accounts via Master Account. Includes Is Change Order, Converted Since Snapshot (pipeline opp later appears as won), and AI flags.',
     'AI Evidence — all 95 AI rows (33 RTB + 62 AI_SOWs) with account links and, where possible, the matched opportunity. Match Method records how each link was made; treat non-exact methods as provisional until confirmed via the Review Queue.',
     'Alias Map — every non-exact account-name resolution (method + score). Exact matches are not listed.',
-    'Review Queue — items needing a human decision: unresolved accounts, fuzzy/inferred matches to confirm, RTB opps outside the FY2026 export, unlinked AI_SOWs rows.',
+    'Review Queue — items needing a human decision: unresolved accounts, fuzzy/inferred matches to confirm, unlinked AI_SOWs rows.',
     '',
     'MATCHING WATERFALL (accounts): exact normalized name → manual alias → suffix-stripped name → containment → fuzzy (cutoff 0.87). Unresolved names are kept as-is and flagged In 6-9 Master DB = No.',
     'MATCHING WATERFALL (RTB opp → won opp, searched across FY2025+FY2026 exports): exact name → name containment within account → account-code prefix + close date (±45d) → fuzzy within account.',
@@ -553,7 +678,7 @@ print(f'  RTB matched to a won opp: {rtb["Matched Won Opp"].notna().sum()}/{len(
 print('  RTB match methods:', rtb['Opp Match Method'].value_counts().to_dict())
 print(f'  AI_SOWs with account guess: {ai_sows["Guessed Master Account"].notna().sum()}/{len(ai_sows)}')
 print(f'Alias map rows: {len(alias_df)} | methods: {alias_df["Method"].value_counts().to_dict()}')
-print(f'Review queue: {len(review_df)}')
+print(f'Review queue: {len(review_df)} | Crosswalk rows: {len(crosswalk_df)}')
 print(f'Accounts flagged AI-leveraged: {(dim["Has AI-Leveraged Work"]=="Yes").sum()}')
 won_ai_fees = fact.loc[(fact['Status']=='Won') & (fact['AI-Leveraged (opp evidence)']=='Yes'), 'Fees (converted)'].sum()
 won_acct_ai_fees = fact.loc[(fact['Status']=='Won') & (fact['Account Has AI Evidence']=='Yes'), 'Fees (converted)'].sum()
