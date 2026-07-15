@@ -654,6 +654,8 @@ readme = pd.DataFrame({'Integrated Account / Opportunity / AI Dataset': [
     'AI Evidence — all 95 AI rows (33 RTB + 62 AI_SOWs) with account links and, where possible, the matched opportunity. Match Method records how each link was made; treat non-exact methods as provisional until confirmed via the Review Queue.',
     'Alias Map — every non-exact account-name resolution (method + score). Exact matches are not listed.',
     'Review Queue — items needing a human decision: unresolved accounts, fuzzy/inferred matches to confirm, unlinked AI_SOWs rows.',
+    'Capital - People / Opportunity / Account / Practice — the production-function capital term K = labor + tokens, priced (labor = rate x utilization x 40h; tokens = credits x $0.05) and attributed. APPROXIMATE mode: a person\'s weekly capital is spread across the opportunities they staff (Pursuit Team -> roster join), fee-weighted. Flips to EXACT when the token feed carries a charge_code/project_id (set env WM_TOKEN_FEED to the full Codex export). Token layer today is the top-5-per-week leaderboard from four exec summaries (5/24-6/20/2026) — treat person-level dollars as illustrative; practice AI census is the full roster.',
+    'Rate Card Ref — grade (roster HierarchyLevel) -> $/hr mapping used to price labor (from the WM rate card; practice does not change the rate in the card, so grade is the sole per-person key).',
     '',
     'MATCHING WATERFALL (accounts): exact normalized name → manual alias → suffix-stripped name → containment → fuzzy (cutoff 0.87). Unresolved names are kept as-is and flagged In 6-9 Master DB = No.',
     'MATCHING WATERFALL (RTB opp → won opp, searched across FY2025+FY2026 exports): exact name → name containment within account → account-code prefix + close date (±45d) → fuzzy within account.',
@@ -666,14 +668,248 @@ readme = pd.DataFrame({'Integrated Account / Opportunity / AI Dataset': [
     '- Fees are as-exported ("converted" currency fields); no restatement applied.',
 ]})
 
+# ================================================= 9b. capital attribution (K)
+# Prices the production-function capital term  K = labor + tokens  and attributes
+# it to people, opportunities, accounts, and practices.
+#
+#   labor $ = rate(grade) x utilization x weekly_capacity_hours   (util x capacity
+#             is the hours proxy, per direction — replace with hours actuals later)
+#   token $ = credits x credit_price
+#
+# ATTRIBUTION runs in APPROXIMATE mode today: a person's weekly capital is spread
+# across the opportunities they staff (via Pursuit Team -> roster join), fee-weighted.
+# It flips to EXACT automatically when the token feed carries a charge_code / project_id
+# that joins straight to an opportunity (see load_token_feed()).
+import os
+
+CREDIT_PRICE = 0.05     # $/credit, blended from the four exec-summary overage figures
+CAPACITY_HRS = 40       # standard weekly billable capacity; labor hours = util x capacity
+DEFAULT_UTIL = 1.0      # assumed when a token-feed row lacks utilization
+DEFAULT_RATE = 250      # used when grade is unknown (e.g. contractors)
+# grade (roster HierarchyLevel) -> $/hr, from the WM rate card IC/Manager ladder
+# (Junior 174 / Base 205 / Senior 257 / Expert 325 / Principal 405; Mgr & MD bands to 493).
+# Practice does not change the rate in the provided card, so grade is the sole per-person key.
+GRADE_TO_RATE = {0: 174, 1: 174, 2: 205, 3: 257, 4: 325, 5: 405, 6: 405, 7: 436, 8: 436, 9: 493, 10: 493}
+
+ROSTER_CSV = os.environ.get('WM_ROSTER_CSV',
+    '/tmp/claude-0/-home-user-hello-world/94fd7f02-ada3-55ab-8e58-2936eee13e0f/scratchpad/'
+    'poweruser/All people with power user status - monthly/Power Users - July 12.csv')
+TOKEN_FEED_CSV = os.environ.get('WM_TOKEN_FEED', '')   # full Codex export; blank -> sample below
+
+# Top-5-per-week leaderboard from the four exec summaries (5/24-6/20/2026).
+# Replace by pointing WM_TOKEN_FEED at the full export (all users x credits x utilization,
+# ideally + charge_code). Columns beyond name/credits/utilization are optional.
+TOKEN_FEED_SAMPLE = [
+    {'name': 'Mark Davisson',       'credits': 209500, 'utilization': 0.00},
+    {'name': 'Andy Reising',        'credits':  90100, 'utilization': 1.88},
+    {'name': 'Ryan MacCarthy',      'credits':  54700, 'utilization': 1.02},
+    {'name': 'Aaron Blanchard',     'credits':  52600, 'utilization': 1.06},
+    {'name': 'Nate Lipp',           'credits':  43100, 'utilization': 1.00},
+    {'name': 'Sam Atkinson',        'credits':  60000, 'utilization': None},
+    {'name': 'Kevin Dolan',         'credits':  50000, 'utilization': None},
+    {'name': 'Nate Bunnyfield',     'credits':  33000, 'utilization': None},
+    {'name': 'Taimoor Qureshi',     'credits':  29000, 'utilization': None},
+    {'name': 'Chris Webb',          'credits':  43000, 'utilization': None},
+    {'name': 'Yeh-Sun Lee',         'credits':  50000, 'utilization': None},
+    {'name': 'Herve Jean-Baptiste', 'credits':  33000, 'utilization': None},
+    {'name': 'Jonnathan Carpentier','credits':  56000, 'utilization': None},
+]
+
+def _name_key(s):
+    """Order-independent person key: sorted alpha tokens (handles 'Last, First')."""
+    toks = [t for t in re.findall(r'[a-z]+', str(s).lower()) if len(t) > 1]
+    return ' '.join(sorted(toks))
+
+def rate_for_grade(g):
+    try:
+        return GRADE_TO_RATE.get(int(float(g)), DEFAULT_RATE)
+    except (ValueError, TypeError):
+        return DEFAULT_RATE
+
+def load_token_feed():
+    """Return (DataFrame, mode). mode='exact' when a per-opportunity key is present."""
+    if TOKEN_FEED_CSV and os.path.exists(TOKEN_FEED_CSV):
+        tf = pd.read_csv(TOKEN_FEED_CSV)
+        keycols = {'charge_code', 'project_id', 'opportunity_id', 'opp_id'}
+        mode = 'exact' if {c.lower() for c in tf.columns} & keycols else 'approx'
+        return tf, mode
+    return pd.DataFrame(TOKEN_FEED_SAMPLE), 'approx'
+
+def load_roster(path):
+    try:
+        r = pd.read_csv(path)
+    except Exception as e:                       # roster is optional; base build still runs
+        print(f'NOTE: roster not loaded ({e}); capital practice rollup skipped.')
+        return pd.DataFrame()
+    r['_key'] = r['FullName'].map(_name_key)
+    for c in ['total_interactions', 'total_hours_saved']:
+        if c in r.columns:
+            r[c] = pd.to_numeric(r[c], errors='coerce').fillna(0)
+    return r
+
+token_feed, ATTR_MODE = load_token_feed()
+roster = load_roster(ROSTER_CSV)
+roster_by_key = {}
+for _, rr in roster.iterrows():
+    roster_by_key.setdefault(rr['_key'], rr)
+_rkeys = list(roster_by_key)
+
+# person keys present on each opportunity's pursuit team
+def _pt_keys(pt):
+    keys = set()
+    if pd.notna(pt):
+        for part in re.split(r'[;,/|]| and ', str(pt)):
+            k = _name_key(part)
+            if len(k.split()) >= 2:
+                keys.add(k)
+    return keys
+fact['_pt'] = fact['Pursuit Team'].map(_pt_keys)
+_all_pt = set().union(*fact['_pt']) if len(fact) else set()
+
+def match_pt_key(k):
+    """Resolve a token-feed person to a pursuit-team key (exact then fuzzy)."""
+    if k in _all_pt:
+        return k
+    m = difflib.get_close_matches(k, list(_all_pt), n=1, cutoff=0.90)
+    return m[0] if m else None
+
+def match_roster(k):
+    if k in roster_by_key:
+        return roster_by_key[k]
+    m = difflib.get_close_matches(k, _rkeys, n=1, cutoff=0.90)
+    return roster_by_key[m[0]] if m else None
+
+# --- per-person capital + portfolio (grain: token-feed person) -----------------
+_fees = pd.to_numeric(fact['Fees (converted)'], errors='coerce').fillna(0)
+people_rows, opp_alloc = [], {}     # opp_alloc: fact index -> [labor$, token$]
+for row in token_feed.to_dict('records'):
+    name = row.get('name') or row.get('FullName') or row.get('email') or ''
+    credits = float(row.get('credits') or row.get('total_credits') or 0)
+    util = row.get('utilization')
+    util = DEFAULT_UTIL if util is None or (isinstance(util, float) and pd.isna(util)) else float(util)
+    k = _name_key(name)
+    rinfo = match_roster(k)
+    grade = rinfo['HierarchyLevel'] if rinfo is not None else None
+    practice = rinfo['PracticeName_Clean'] if rinfo is not None else None
+    rate = rate_for_grade(grade)
+    labor = rate * util * CAPACITY_HRS
+    token = credits * CREDIT_PRICE
+    total = labor + token
+    # portfolio via pursuit team
+    pk = match_pt_key(k)
+    port_mask = fact['_pt'].map(lambda s: pk in s) if pk else pd.Series(False, index=fact.index)
+    port = fact[port_mask]
+    port_fees = _fees[port_mask]
+    n_opp = int(len(port))
+    mode = 'formation' if (n_opp == 0 or util == 0) else 'deployment'
+    # spread this week's capital across the portfolio, fee-weighted (equal if no fees)
+    if ATTR_MODE == 'exact' and row.get('charge_code'):
+        hit = fact.index[fact['Opportunity Name'].map(norm) == norm(row.get('charge_code'))]
+        for i in hit:
+            a = opp_alloc.setdefault(i, [0.0, 0.0]); a[0] += labor; a[1] += token
+    elif n_opp:
+        w = port_fees / port_fees.sum() if port_fees.sum() > 0 else pd.Series(1 / n_opp, index=port.index)
+        for i in port.index:
+            a = opp_alloc.setdefault(i, [0.0, 0.0]); a[0] += labor * w[i]; a[1] += token * w[i]
+    people_rows.append({
+        'Person': name, 'Grade': grade, 'Practice': practice, 'Rate ($/hr)': rate,
+        'Weekly Credits': int(credits), 'Utilization': util,
+        'Labor Capital ($/wk)': round(labor), 'Token Capital ($/wk)': round(token),
+        'Total Capital ($/wk)': round(total), 'Token Share': round(token / total, 3) if total else None,
+        'Mode': mode, 'Portfolio Opps': n_opp, 'Portfolio Accounts': int(port['Master Account'].nunique()),
+        'Portfolio Fees': round(port_fees.sum()),
+        'AI-Leveraged Opps': int((port['AI-Leveraged (opp evidence)'] == 'Yes').sum()),
+        'GTM $ per Capital $': round(port_fees.sum() / total, 1) if total else None})
+cap_people = pd.DataFrame(people_rows).sort_values('Total Capital ($/wk)', ascending=False).reset_index(drop=True)
+
+# --- per-opportunity allocated capital (portfolio-spread) ----------------------
+if opp_alloc:
+    ao = pd.DataFrame([{'_i': i, 'Allocated Labor ($/wk)': round(v[0]),
+                        'Allocated Token ($/wk)': round(v[1]),
+                        'Allocated Capital ($/wk)': round(v[0] + v[1])} for i, v in opp_alloc.items()])
+    cap_opp = (fact.loc[ao['_i'], ['Opportunity Name', 'Master Account', 'Status', 'Practice',
+                                   'Fees (converted)', 'AI-Leveraged (opp evidence)']]
+               .reset_index(drop=True).join(ao.drop(columns='_i').reset_index(drop=True)))
+    cap_opp['Attribution Mode'] = ATTR_MODE
+    cap_opp = cap_opp.sort_values('Allocated Capital ($/wk)', ascending=False).reset_index(drop=True)
+else:
+    cap_opp = pd.DataFrame()
+
+# --- per-account allocated capital vs growth -----------------------------------
+if opp_alloc:
+    tmp = fact.loc[list(opp_alloc), ['Master Account']].copy()
+    tmp['cap'] = [opp_alloc[i][0] + opp_alloc[i][1] for i in tmp.index]
+    acct_cap = tmp.groupby('Master Account', as_index=False)['cap'].sum().rename(
+        columns={'cap': 'Allocated Capital ($/wk)'})
+    g = master[['Account Name', '2026 YTD Net Gen Revenue', '2025 Net Gen Fees',
+                'Total 2026 Open Pipeline']].copy()
+    for c in g.columns[1:]:
+        g[c] = pd.to_numeric(g[c], errors='coerce')
+    g['Net-Gen Growth ($)'] = g['2026 YTD Net Gen Revenue'].fillna(0) - g['2025 Net Gen Fees'].fillna(0)
+    cap_account = (acct_cap.merge(g, left_on='Master Account', right_on='Account Name', how='left')
+                   .drop(columns='Account Name'))
+    cap_account['Capital / 2026 Pipeline'] = (cap_account['Allocated Capital ($/wk)']
+                                              / cap_account['Total 2026 Open Pipeline']).round(5)
+    cap_account['Allocated Capital ($/wk)'] = cap_account['Allocated Capital ($/wk)'].round()
+    cap_account = cap_account.sort_values('Allocated Capital ($/wk)', ascending=False).reset_index(drop=True)
+else:
+    cap_account = pd.DataFrame()
+
+# --- per-practice: AI census + capital vs pipeline GTM -------------------------
+if len(roster):
+    pv = roster.copy()
+    pv['_rate'] = pv['HierarchyLevel'].map(rate_for_grade)
+    pv['_labcap'] = pv['_rate'] * CAPACITY_HRS      # full-week labor-capacity proxy
+    grp = pv.groupby('PracticeName_Clean').agg(
+        power_users=('_key', 'count'),
+        interactions=('total_interactions', 'sum') if 'total_interactions' in pv else ('_key', 'size'),
+        hours_saved=('total_hours_saved', 'sum') if 'total_hours_saved' in pv else ('_key', 'size'),
+        labor_capacity_wk=('_labcap', 'sum')).reset_index()
+    # token capital placed into each practice (from the token feed, via roster practice)
+    tok_by_prac = (cap_people.dropna(subset=['Practice'])
+                   .groupby('Practice')['Token Capital ($/wk)'].sum().rename('token_capital_wk'))
+    # pipeline GTM by practice (only pipeline opps carry Practice today)
+    _pf = pipe_fact.copy()
+    _pf['_f'] = pd.to_numeric(_pf['Fees (converted)'], errors='coerce').fillna(0)
+    pipe_by_prac = _pf.groupby('Practice')['_f'].sum().rename('pipeline_gtm')
+    cap_practice = (grp.merge(tok_by_prac, left_on='PracticeName_Clean', right_index=True, how='left')
+                       .merge(pipe_by_prac, left_on='PracticeName_Clean', right_index=True, how='left'))
+    cap_practice[['token_capital_wk', 'pipeline_gtm']] = cap_practice[['token_capital_wk', 'pipeline_gtm']].fillna(0)
+    cap_practice['pipeline_per_power_user'] = (cap_practice['pipeline_gtm']
+                                               / cap_practice['power_users'].replace(0, np.nan)).round()
+    cap_practice['pipeline_per_labor_$'] = (cap_practice['pipeline_gtm']
+                                            / cap_practice['labor_capacity_wk'].replace(0, np.nan)).round(2)
+    for c in ['interactions', 'hours_saved', 'labor_capacity_wk', 'token_capital_wk', 'pipeline_gtm']:
+        cap_practice[c] = cap_practice[c].round().astype('Int64')
+    cap_practice = cap_practice.rename(columns={
+        'PracticeName_Clean': 'Practice', 'power_users': 'AI Power Users', 'interactions': 'Interactions',
+        'hours_saved': 'Hours Saved', 'labor_capacity_wk': 'Labor Capacity ($/wk)',
+        'token_capital_wk': 'Token Capital ($/wk)', 'pipeline_gtm': 'Pipeline GTM ($)',
+        'pipeline_per_power_user': 'Pipeline $ / Power User', 'pipeline_per_labor_$': 'Pipeline $ / Labor $'
+    }).sort_values('AI Power Users', ascending=False).reset_index(drop=True)
+else:
+    cap_practice = pd.DataFrame()
+
+rate_card_ref = pd.DataFrame({
+    'Grade (HierarchyLevel)': list(GRADE_TO_RATE), 'Rate ($/hr)': list(GRADE_TO_RATE.values()),
+    'Rate-card band': ['Junior', 'Junior', 'Base', 'Senior', 'Expert', 'Principal/Mgr', 'Principal',
+                       'Mgr/MD', 'Mgr/MD', 'MD', 'MD']})
+
 # ------------------------------------------------------------------ 10. write
+fact_out = fact.drop(columns='_pt')            # drop internal pursuit-key helper
 with pd.ExcelWriter(OUT, engine='openpyxl') as xw:
     readme.to_excel(xw, sheet_name='README', index=False)
     dim.to_excel(xw, sheet_name='Accounts', index=False)
-    fact.to_excel(xw, sheet_name='Opportunities', index=False)
+    fact_out.to_excel(xw, sheet_name='Opportunities', index=False)
     ai_evidence.to_excel(xw, sheet_name='AI Evidence', index=False)
     alias_df.to_excel(xw, sheet_name='Alias Map', index=False)
     review_df.to_excel(xw, sheet_name='Review Queue', index=False)
+    # capital attribution sheets (skip any that are empty for lack of input data)
+    for df_cap, sheet in [(cap_people, 'Capital - People'), (cap_opp, 'Capital - Opportunity'),
+                          (cap_account, 'Capital - Account'), (cap_practice, 'Capital - Practice'),
+                          (rate_card_ref, 'Rate Card Ref')]:
+        if len(df_cap):
+            df_cap.to_excel(xw, sheet_name=sheet, index=False)
 
 # ------------------------------------------------------------------ summary
 print('=== BUILD SUMMARY ===')
@@ -694,3 +930,17 @@ won_ai_fees = fact.loc[(fact['Status']=='Won') & (fact['AI-Leveraged (opp eviden
 won_acct_ai_fees = fact.loc[(fact['Status']=='Won') & (fact['Account Has AI Evidence']=='Yes'), 'Fees (converted)'].sum()
 print(f'FY2026 won fees on AI-matched opps: ${won_ai_fees:,.0f}')
 print(f'FY2026 won fees at accounts with AI evidence: ${won_acct_ai_fees:,.0f} of ${fact.loc[fact["Status"]=="Won","Fees (converted)"].sum():,.0f}')
+print('--- capital attribution ---')
+print(f'Attribution mode: {ATTR_MODE.upper()} (token feed: '
+      f'{"full export "+TOKEN_FEED_CSV if TOKEN_FEED_CSV else "leaderboard sample, "+str(len(token_feed))+" people"})')
+if len(cap_people):
+    _dep = cap_people[cap_people['Mode'] == 'deployment']['Total Capital ($/wk)'].sum()
+    _form = cap_people[cap_people['Mode'] == 'formation']['Total Capital ($/wk)'].sum()
+    _tot = _dep + _form
+    print(f'  People priced: {len(cap_people)} | roster-matched grade: '
+          f'{cap_people["Grade"].notna().sum()}/{len(cap_people)}')
+    print(f'  Capital split: formation ${_form:,.0f}/wk ({_form/_tot*100:.0f}%) vs '
+          f'deployment ${_dep:,.0f}/wk | token share {cap_people["Token Capital ($/wk)"].sum()/_tot*100:.0f}%')
+    print(f'  People mapped to >=1 opp: {(cap_people["Portfolio Opps"]>0).sum()}/{len(cap_people)}')
+print(f'  Opportunities allocated capital: {len(cap_opp)} | accounts: {len(cap_account)} | '
+      f'practices rolled up: {len(cap_practice)}')
