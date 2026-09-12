@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Prana Mandala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Deliberately single visual world: an immersive luminous void.
+   Every color is painted explicitly so the page never borrows the host ground. */
+:root{
+  color-scheme: dark;
+  --void:#070912;
+  --ink:#ECE9FF;
+  --muted:#9AA0CC;
+  --faint:#6E74A0;
+  --panel:rgba(15,17,38,0.42);
+  --panel-strong:rgba(15,17,38,0.72);
+  --edge:rgba(150,160,255,0.16);
+  --edge-lit:rgba(180,190,255,0.34);
+  --gold:#FFC873;
+  --focus:#8FE9FF;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--ink);
+  font-family:"Jost",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-weight:300;
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  overscroll-behavior:none;
+}
+#stage{position:fixed;inset:0;z-index:0}
+#stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#stage canvas:active{cursor:grabbing}
+
+/* soft edge vignette to seat the light in the void */
+#vignette{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 120% at 50% 46%,transparent 44%,rgba(3,4,10,0.55) 82%,rgba(2,2,7,0.9) 100%);
+  mix-blend-mode:multiply;
+}
+
+.overlay{position:fixed;z-index:2}
+
+/* ---- title lockup ---- */
+#title{top:max(20px,env(safe-area-inset-top));left:24px;max-width:min(66vw,420px);pointer-events:none}
+#title .eyebrow{
+  font-size:11px;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);
+  font-weight:400;margin:0 0 10px;opacity:0.9;
+}
+#title h1{
+  font-family:"Marcellus",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,5.4vw,52px);line-height:0.98;margin:0;
+  letter-spacing:0.01em;text-wrap:balance;
+  text-shadow:0 0 26px rgba(120,110,220,0.45),0 2px 30px rgba(0,0,0,0.6);
+}
+#title p{
+  margin:12px 0 0;color:var(--muted);font-size:14px;line-height:1.5;
+  max-width:34ch;font-weight:300;
+}
+
+/* ---- control cluster ---- */
+#panel{
+  left:24px;bottom:max(22px,env(safe-area-inset-bottom));
+  width:min(320px,calc(100vw - 48px));
+  padding:16px 16px 18px;border-radius:16px;
+  background:var(--panel);border:1px solid var(--edge);
+  backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);
+  box-shadow:0 18px 50px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:opacity .35s ease,transform .35s ease;
+}
+#panel.hidden{opacity:0;transform:translateY(14px) scale(.98);pointer-events:none}
+.group{margin-top:15px}
+.group:first-child{margin-top:0}
+.label{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:10.5px;letter-spacing:0.24em;text-transform:uppercase;color:var(--faint);
+  margin:0 0 9px;font-weight:400;
+}
+.label .val{color:var(--muted);letter-spacing:0.08em;font-variant-numeric:tabular-nums}
+
+.swatches{display:flex;gap:8px}
+.swatch{
+  flex:1;height:38px;border-radius:11px;border:1px solid var(--edge);
+  cursor:pointer;position:relative;overflow:hidden;padding:0;
+  background:transparent;transition:transform .18s ease,border-color .18s ease;
+}
+.swatch:hover{transform:translateY(-2px)}
+.swatch .fill{position:absolute;inset:0}
+.swatch .name{
+  position:absolute;left:0;right:0;bottom:4px;text-align:center;
+  font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#fff;
+  text-shadow:0 1px 5px rgba(0,0,0,0.7);opacity:0;transition:opacity .18s ease;font-weight:400;
+}
+.swatch:hover .name,.swatch[aria-pressed="true"] .name{opacity:0.95}
+.swatch[aria-pressed="true"]{border-color:var(--edge-lit);box-shadow:0 0 0 1px var(--edge-lit),0 6px 18px rgba(0,0,0,.4)}
+
+.row{display:flex;gap:10px}
+.btn{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  height:40px;border-radius:11px;cursor:pointer;
+  background:rgba(255,255,255,0.03);border:1px solid var(--edge);color:var(--ink);
+  font-family:inherit;font-size:12.5px;font-weight:400;letter-spacing:0.03em;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn:hover{background:rgba(255,255,255,0.07);border-color:var(--edge-lit)}
+.btn[aria-pressed="true"]{background:rgba(143,233,255,0.12);border-color:rgba(143,233,255,0.4);color:#CFF6FF}
+.btn svg{width:15px;height:15px;flex:none}
+
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;cursor:pointer;margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),rgba(150,160,255,0.25))}
+input[type=range]::-moz-range-track{height:3px;border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),rgba(150,160,255,0.25))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;margin-top:-6.5px;background:#fff;
+  box-shadow:0 0 12px rgba(255,200,115,0.9),0 2px 6px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:#fff;
+  box-shadow:0 0 12px rgba(255,200,115,0.9),0 2px 6px rgba(0,0,0,.5)}
+
+/* focus visibility */
+.swatch:focus-visible,.btn:focus-visible,input[type=range]:focus-visible,#uiToggle:focus-visible{
+  outline:2px solid var(--focus);outline-offset:2px;
+}
+
+/* ---- hint ---- */
+#hint{
+  left:50%;bottom:max(26px,env(safe-area-inset-bottom));transform:translateX(-50%);
+  color:var(--muted);font-size:12.5px;letter-spacing:0.06em;text-align:center;
+  pointer-events:none;transition:opacity 1s ease;white-space:nowrap;
+  text-shadow:0 1px 10px rgba(0,0,0,0.8);
+}
+#hint b{color:var(--ink);font-weight:400}
+#hint.gone{opacity:0}
+
+/* ---- UI toggle (show/hide chrome) ---- */
+#uiToggle{
+  right:20px;top:max(20px,env(safe-area-inset-top));
+  width:42px;height:42px;border-radius:12px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--panel);border:1px solid var(--edge);color:var(--muted);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:color .18s ease,border-color .18s ease;
+}
+#uiToggle:hover{color:var(--ink);border-color:var(--edge-lit)}
+#uiToggle svg{width:19px;height:19px}
+
+#fallback{position:fixed;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
+  padding:32px;text-align:center;color:var(--muted);font-size:15px;line-height:1.6}
+
+@media (max-width:560px){
+  #title{left:16px;right:16px;max-width:none}
+  #panel{left:16px;right:16px;width:auto;bottom:max(16px,env(safe-area-inset-bottom))}
+  #hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  #panel,.swatch,.btn,#hint{transition:none}
+}
+</style>
+</head>
+<body>
+<div id="stage" aria-label="Interactive 3D mandala of glowing energy orbs"></div>
+<div id="vignette"></div>
+
+<header id="title" class="overlay">
+  <p class="eyebrow">Sacred Geometry · Living Light</p>
+  <h1>Prana Mandala</h1>
+  <p>A coloring-page mandala reborn as breathing orbs of energy. Drag to orbit the void, scroll to draw near, and send a pulse of light through its rings.</p>
+</header>
+
+<button id="uiToggle" class="overlay" aria-label="Hide controls" title="Hide / show controls">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+</button>
+
+<section id="panel" class="overlay" aria-label="Mandala controls">
+  <div class="group">
+    <div class="label">Pigment</div>
+    <div class="swatches" id="swatches" role="group" aria-label="Colour palette">
+      <button class="swatch" data-theme="sand" aria-pressed="true"><span class="fill"></span><span class="name">Sand</span></button>
+      <button class="swatch" data-theme="aurora" aria-pressed="false"><span class="fill"></span><span class="name">Aurora</span></button>
+      <button class="swatch" data-theme="ember" aria-pressed="false"><span class="fill"></span><span class="name">Ember</span></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="label"><span>Glow</span><span class="val" id="glowVal">100%</span></div>
+    <input type="range" id="glow" min="45" max="180" value="100" aria-label="Glow intensity">
+  </div>
+
+  <div class="group">
+    <div class="row">
+      <button class="btn" id="spinBtn" aria-pressed="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v4h-4"/></svg>
+        <span id="spinLabel">Rotation</span>
+      </button>
+      <button class="btn" id="pulseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l2-6 4 12 2-6h7"/></svg>
+        <span>Pulse</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div id="hint" class="overlay"><b>Drag</b> to orbit · <b>Scroll</b> to zoom · <b>Click</b> to pulse</div>
+
+<div id="fallback">This piece needs WebGL to breathe. Try opening it in a current desktop or mobile browser with hardware acceleration enabled.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  if(!window.THREE){document.getElementById("fallback").style.display="flex";return;}
+
+  var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var MAXPULSE = 6;
+  var R_MAX = 10.4;           // outermost radius for phase normalisation
+  var FOV = 46;
+
+  /* ---------- palettes (mineral-pigment hues, rendered as light) ---------- */
+  var PALETTES = {
+    sand:   ["#FFCF6A","#FF6A4D","#4C7DFF","#2FE0A8","#B57BFF","#FFC24B","#FF7CA8","#7FB4FF"],
+    aurora: ["#CFFFEA","#33E0B0","#2FB6FF","#6C7CFF","#B07BFF","#37E0C6","#59D0FF","#9BF0D8"],
+    ember:  ["#FFE7A8","#FFB24C","#FF6A3D","#FF3D6E","#FF7CA8","#FFC24B","#FF5A4D","#FFD98A"]
+  };
+  var AURA = {
+    sand:   ["#241a4a","#3a1240"],
+    aurora: ["#08343a","#1a1450"],
+    ember:  ["#3a1a08","#3a0a20"]
+  };
+  var themeName = "sand";
+
+  /* ---------- ring structure of the mandala ---------- */
+  // pi = palette index; petal = draw lotus petals to the ring inside it
+  var RINGS = [
+    {r:0.0,  n:1,  size:1.05, pi:0},
+    {r:1.7,  n:8,  size:0.34, pi:1, ring:true},
+    {r:3.0,  n:8,  size:0.52, pi:2, petal:true},
+    {r:4.5,  n:16, size:0.30, pi:3, ring:true},
+    {r:6.0,  n:16, size:0.46, pi:4, petal:true},
+    {r:7.4,  n:24, size:0.24, pi:5, ring:true},
+    {r:8.8,  n:24, size:0.42, pi:6, petal:true},
+    {r:9.9,  n:48, size:0.15, pi:7, ring:true}
+  ];
+  var SPOKES = 8;
+
+  function dome(r){ return 2.35 * Math.cos((r/R_MAX)*Math.PI*0.5); } // gentle 3D dome, centre forward
+
+  /* ---------- build node (orb) data ---------- */
+  var nodePos=[], nodeSize=[], nodeRad=[], nodeSeed=[], nodePi=[];
+  for(var ri=0; ri<RINGS.length; ri++){
+    var R=RINGS[ri];
+    var off = R.petal ? (Math.PI/R.n) : 0; // interleave petal tips
+    for(var k=0;k<R.n;k++){
+      var a = (k/R.n)*Math.PI*2 + off;
+      var x = Math.cos(a)*R.r, y = Math.sin(a)*R.r, z = dome(R.r);
+      nodePos.push(x,y,z);
+      nodeSize.push(R.size);
+      nodeRad.push(R.r);
+      nodeSeed.push(Math.random());
+      nodePi.push(R.pi);
+    }
+  }
+  var NODES = nodeSize.length;
+
+  /* ---------- build linework (rings, spokes, petals) ---------- */
+  var linePos=[], lineRad=[], linePi=[];
+  function seg(x1,y1,z1,r1,p1, x2,y2,z2,r2,p2){
+    linePos.push(x1,y1,z1, x2,y2,z2);
+    lineRad.push(r1,r2);
+    linePi.push(p1,p2);
+  }
+  function polyline(pts, pi){ // pts: [[x,y,z,r],...]
+    for(var i=0;i<pts.length-1;i++){
+      var a=pts[i], b=pts[i+1];
+      seg(a[0],a[1],a[2],a[3],pi, b[0],b[1],b[2],b[3],pi);
+    }
+  }
+  // concentric ring circles
+  for(var ri2=0; ri2<RINGS.length; ri2++){
+    var Rr=RINGS[ri2];
+    if(!Rr.ring || Rr.r<=0) continue;
+    var segN=96, cpts=[];
+    for(var s=0;s<=segN;s++){
+      var an=(s/segN)*Math.PI*2;
+      cpts.push([Math.cos(an)*Rr.r, Math.sin(an)*Rr.r, dome(Rr.r), Rr.r]);
+    }
+    polyline(cpts, Rr.pi);
+  }
+  // radial spokes from centre out to the outermost ring
+  var spokeMax=RINGS[RINGS.length-1].r;
+  for(var sp=0; sp<SPOKES; sp++){
+    var ang=(sp/SPOKES)*Math.PI*2;
+    var spts=[];
+    for(var t=0;t<=24;t++){
+      var rr=(t/24)*spokeMax;
+      spts.push([Math.cos(ang)*rr, Math.sin(ang)*rr, dome(rr), rr]);
+    }
+    polyline(spts, 5);
+  }
+  // lotus petals: for each petal ring, curves splaying from the ring inside up to each tip
+  for(var pr=0; pr<RINGS.length; pr++){
+    var PR=RINGS[pr];
+    if(!PR.petal) continue;
+    var baseR = RINGS[pr-1] ? RINGS[pr-1].r : PR.r*0.55;
+    var half = (Math.PI/PR.n)*0.92;                 // angular half-width of a petal
+    var off2 = Math.PI/PR.n;                         // petal tips are interleaved
+    for(var p=0;p<PR.n;p++){
+      var th=(p/PR.n)*Math.PI*2 + off2;
+      var tip=[Math.cos(th)*PR.r, Math.sin(th)*PR.r, dome(PR.r), PR.r];
+      // two bowed sides via quadratic bezier
+      for(var side=-1; side<=1; side+=2){
+        var ba=th+half*side;
+        var base=[Math.cos(ba)*baseR, Math.sin(ba)*baseR, dome(baseR), baseR];
+        var ca=th+half*0.42*side;
+        var cr=(baseR+PR.r)*0.5*1.14;
+        var ctrl=[Math.cos(ca)*cr, Math.sin(ca)*cr, dome(cr), cr];
+        var pts=[];
+        for(var q=0;q<=9;q++){
+          var u=q/9, iu=1-u;
+          var bx=iu*iu*base[0]+2*iu*u*ctrl[0]+u*u*tip[0];
+          var by=iu*iu*base[1]+2*iu*u*ctrl[1]+u*u*tip[1];
+          var br=iu*iu*base[3]+2*iu*u*ctrl[3]+u*u*tip[3];
+          pts.push([bx,by,dome(br),br]);
+        }
+        polyline(pts, PR.pi);
+      }
+    }
+  }
+  var LINEVERTS = lineRad.length;
+
+  /* ---------- three.js scene ---------- */
+  var stage=document.getElementById("stage");
+  var renderer;
+  try{
+    renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});
+  }catch(e){ document.getElementById("fallback").style.display="flex"; return; }
+  renderer.setClearColor(0x070912,1);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  stage.appendChild(renderer.domElement);
+
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(FOV,1,0.1,200);
+
+  var mandala=new THREE.Group();       // holds everything that spins
+  scene.add(mandala);
+
+  /* ----- shared shader chunks ----- */
+  var PULSE_UNIFORMS = {
+    uTime:{value:0}, uEnergy:{value:1.0},
+    uPulseCount:{value:0},
+    uPulseFront:{value:new Float32Array(MAXPULSE)},
+    uPulseAmp:{value:new Float32Array(MAXPULSE)}
+  };
+
+  /* ----- orbs as animated points (core + corona in-shader) ----- */
+  var orbGeo=new THREE.BufferGeometry();
+  orbGeo.setAttribute("position",new THREE.Float32BufferAttribute(nodePos,3));
+  orbGeo.setAttribute("aSize",new THREE.Float32BufferAttribute(nodeSize.slice(),1));
+  orbGeo.setAttribute("aRadius",new THREE.Float32BufferAttribute(nodeRad,1));
+  orbGeo.setAttribute("aSeed",new THREE.Float32BufferAttribute(nodeSeed,1));
+  var orbCol=new Float32Array(NODES*3);
+  orbGeo.setAttribute("aColor",new THREE.BufferAttribute(orbCol,3));
+
+  var orbVert=[
+    "attribute float aSize; attribute vec3 aColor; attribute float aRadius; attribute float aSeed;",
+    "uniform float uTime,uPixScale,uEnergy,uBreath,uSizeMul,uIntensityMul;",
+    "uniform int uPulseCount; uniform float uPulseFront["+MAXPULSE+"]; uniform float uPulseAmp["+MAXPULSE+"];",
+    "varying vec3 vColor; varying float vGlow;",
+    "void main(){",
+    "  vColor=aColor;",
+    "  float breathe=1.0+uBreath*0.34*sin(uTime*1.5 - aRadius*0.85 + aSeed*6.2831);",
+    "  float glow=1.0; float boost=1.0;",
+    "  for(int i=0;i<"+MAXPULSE+";i++){ if(i>=uPulseCount) break;",
+    "    float d=aRadius-uPulseFront[i]; float g=exp(-d*d*3.4)*uPulseAmp[i];",
+    "    glow+=g*2.4; boost+=g*1.15; }",
+    "  vGlow=glow*uEnergy*uIntensityMul;",
+    "  vec4 mv=modelViewMatrix*vec4(position,1.0);",
+    "  float sz=aSize*breathe*boost*uSizeMul*(0.7+0.3*uEnergy);",
+    "  gl_PointSize=clamp(sz*uPixScale/max(0.001,-mv.z),1.0,330.0);",
+    "  gl_Position=projectionMatrix*mv;",
+    "}"
+  ].join("\n");
+  var orbFrag=[
+    "precision highp float;",
+    "varying vec3 vColor; varying float vGlow;",
+    "void main(){",
+    "  vec2 p=gl_PointCoord-0.5; float d=length(p)*2.0;",
+    "  if(d>1.0) discard;",
+    "  float corona=pow(1.0-d,2.5);",
+    "  float core=pow(max(0.0,1.0-d*2.1),3.0);",
+    "  vec3 col=vColor*corona + vec3(1.0)*core*0.9;",
+    "  gl_FragColor=vec4(col*vGlow, corona);",
+    "}"
+  ].join("\n");
+
+  function orbUniforms(sizeMul,intMul,breath){
+    return THREE.UniformsUtils.merge([PULSE_UNIFORMS,{
+      uPixScale:{value:1000}, uBreath:{value:breath},
+      uSizeMul:{value:sizeMul}, uIntensityMul:{value:intMul}
+    }]);
+  }
+  function makeOrbMat(sizeMul,intMul,breath){
+    return new THREE.ShaderMaterial({
+      uniforms:orbUniforms(sizeMul,intMul,breath),
+      vertexShader:orbVert, fragmentShader:orbFrag,
+      transparent:true, blending:THREE.AdditiveBlending, depthTest:true, depthWrite:false
+    });
+  }
+  var haloMat=makeOrbMat(2.35,0.34, REDUCED?0:1);
+  var coreMat=makeOrbMat(1.0,1.0, REDUCED?0:1);
+  var orbHalo=new THREE.Points(orbGeo,haloMat); orbHalo.renderOrder=2;
+  var orbCore=new THREE.Points(orbGeo,coreMat); orbCore.renderOrder=3;
+  mandala.add(orbHalo); mandala.add(orbCore);
+
+  /* ----- linework ----- */
+  var lineGeo=new THREE.BufferGeometry();
+  lineGeo.setAttribute("position",new THREE.Float32BufferAttribute(linePos,3));
+  lineGeo.setAttribute("aRadius",new THREE.Float32BufferAttribute(lineRad,1));
+  var lineCol=new Float32Array(LINEVERTS*3);
+  lineGeo.setAttribute("aColor",new THREE.BufferAttribute(lineCol,3));
+  var lineVert=[
+    "attribute vec3 aColor; attribute float aRadius;",
+    "uniform float uTime,uEnergy; uniform int uPulseCount;",
+    "uniform float uPulseFront["+MAXPULSE+"]; uniform float uPulseAmp["+MAXPULSE+"];",
+    "varying vec3 vColor; varying float vGlow;",
+    "void main(){ vColor=aColor;",
+    "  float glow=0.34 + 0.05*sin(uTime*1.2 - aRadius*0.8);",
+    "  for(int i=0;i<"+MAXPULSE+";i++){ if(i>=uPulseCount) break;",
+    "    float d=aRadius-uPulseFront[i]; glow+=exp(-d*d*3.0)*uPulseAmp[i]*1.7; }",
+    "  vGlow=glow*uEnergy;",
+    "  gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);",
+    "}"
+  ].join("\n");
+  var lineFrag=[
+    "precision highp float; varying vec3 vColor; varying float vGlow;",
+    "void main(){ gl_FragColor=vec4(vColor*vGlow,1.0); }"
+  ].join("\n");
+  var lineMat=new THREE.ShaderMaterial({
+    uniforms:THREE.UniformsUtils.merge([PULSE_UNIFORMS,{}]),
+    vertexShader:lineVert, fragmentShader:lineFrag,
+    transparent:true, blending:THREE.AdditiveBlending, depthTest:true, depthWrite:false
+  });
+  var lines=new THREE.LineSegments(lineGeo,lineMat); lines.renderOrder=1;
+  mandala.add(lines);
+
+  /* ----- ambient aura sprites behind the mandala ----- */
+  function radialTex(){
+    var s=128,c=document.createElement("canvas");c.width=c.height=s;
+    var g=c.getContext("2d");
+    var grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+    grd.addColorStop(0,"rgba(255,255,255,1)");
+    grd.addColorStop(0.25,"rgba(255,255,255,0.6)");
+    grd.addColorStop(0.6,"rgba(255,255,255,0.14)");
+    grd.addColorStop(1,"rgba(255,255,255,0)");
+    g.fillStyle=grd;g.fillRect(0,0,s,s);
+    return new THREE.CanvasTexture(c);
+  }
+  var glowTex=radialTex();
+  function makeAura(){
+    var m=new THREE.SpriteMaterial({map:glowTex,color:0xffffff,transparent:true,
+      blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false,opacity:0.6});
+    var s=new THREE.Sprite(m); s.position.set(0,0,-2.2); return s;
+  }
+  var aura1=makeAura(), aura2=makeAura();
+  aura1.scale.setScalar(30); aura2.scale.setScalar(18);
+  aura2.position.set(0,0,-1.4);
+  scene.add(aura1); scene.add(aura2);
+
+  /* ----- starfield ----- */
+  var starN=520, starPos=new Float32Array(starN*3), starA=new Float32Array(starN);
+  for(var i=0;i<starN;i++){
+    var rad=26+Math.random()*70, u=Math.random()*2-1, ph=Math.random()*Math.PI*2, sr=Math.sqrt(1-u*u);
+    starPos[i*3]=Math.cos(ph)*sr*rad; starPos[i*3+1]=Math.sin(ph)*sr*rad; starPos[i*3+2]=u*rad - 12;
+    starA[i]=0.25+Math.random()*0.75;
+  }
+  var starGeo=new THREE.BufferGeometry();
+  starGeo.setAttribute("position",new THREE.BufferAttribute(starPos,3));
+  starGeo.setAttribute("aA",new THREE.BufferAttribute(starA,1));
+  var starMat=new THREE.ShaderMaterial({
+    uniforms:{uTime:{value:0},uPix:{value:renderer.getPixelRatio()}},
+    vertexShader:[
+      "attribute float aA; uniform float uTime,uPix; varying float vA;",
+      "void main(){ vA=aA*(0.55+0.45*sin(uTime*0.8+aA*30.0));",
+      " vec4 mv=modelViewMatrix*vec4(position,1.0);",
+      " gl_PointSize=(1.4+aA*1.6)*uPix; gl_Position=projectionMatrix*mv; }"
+    ].join("\n"),
+    fragmentShader:[
+      "precision mediump float; varying float vA;",
+      "void main(){ vec2 p=gl_PointCoord-0.5; float d=length(p)*2.0; if(d>1.0) discard;",
+      " float a=pow(1.0-d,1.8)*vA; gl_FragColor=vec4(vec3(0.8,0.86,1.0)*a,a); }"
+    ].join("\n"),
+    transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, depthTest:false
+  });
+  var stars=new THREE.Points(starGeo,starMat);
+  scene.add(stars);
+
+  /* ---------- colour application ---------- */
+  var _c=new THREE.Color();
+  function applyTheme(name){
+    themeName=name;
+    var pal=PALETTES[name];
+    for(var i=0;i<NODES;i++){
+      _c.set(pal[nodePi[i]]);
+      orbCol[i*3]=_c.r; orbCol[i*3+1]=_c.g; orbCol[i*3+2]=_c.b;
+    }
+    orbGeo.attributes.aColor.needsUpdate=true;
+    for(var j=0;j<LINEVERTS;j++){
+      _c.set(pal[linePi[j]]);
+      // dim the linework so orbs stay the stars of the show
+      lineCol[j*3]=_c.r*0.85; lineCol[j*3+1]=_c.g*0.85; lineCol[j*3+2]=_c.b*0.85;
+    }
+    lineGeo.attributes.aColor.needsUpdate=true;
+    var au=AURA[name];
+    aura1.material.color.set(au[0]); aura2.material.color.set(au[1]);
+    // reflect in swatches
+    var btns=document.querySelectorAll(".swatch");
+    btns.forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.theme===name ? "true":"false"); });
+  }
+  // paint swatch previews (independent of active theme)
+  document.querySelectorAll(".swatch").forEach(function(b){
+    var pal=PALETTES[b.dataset.theme];
+    b.querySelector(".fill").style.background=
+      "radial-gradient(circle at 30% 30%,"+pal[0]+",transparent 55%),"+
+      "linear-gradient(120deg,"+pal[2]+","+pal[4]+" 55%,"+pal[6]+")";
+  });
+  applyTheme("sand");
+
+  /* ---------- camera orbit (custom, inertial) ---------- */
+  var cam={theta:0.34, phi:1.06, radius:30, target:new THREE.Vector3(0,0,0.6)};
+  var camDefault={theta:0.34, phi:1.06, radius:30};
+  var vel={theta:0, phi:0}, dragging=false, resetT=-1;
+  var fitRadius=30;
+
+  function fit(){
+    var aspect=camera.aspect;
+    var t=Math.tan(THREE.MathUtils.degToRad(FOV)/2);
+    fitRadius=(R_MAX+0.6)*1.16/(t*Math.min(1,aspect));
+    fitRadius=Math.max(14,fitRadius);
+  }
+  function clampPhi(p){ return Math.max(0.34,Math.min(2.72,p)); }
+  function updateCamera(){
+    cam.phi=clampPhi(cam.phi);
+    var sp=Math.sin(cam.phi);
+    camera.position.set(
+      cam.target.x+cam.radius*sp*Math.sin(cam.theta),
+      cam.target.y+cam.radius*Math.cos(cam.phi),
+      cam.target.z+cam.radius*sp*Math.cos(cam.theta)
+    );
+    camera.lookAt(cam.target);
+  }
+
+  /* ---------- pulses ---------- */
+  var PULSE_LIFE=2.6, PULSE_SPEED=(R_MAX+2.2)/2.6, pulses=[];
+  function emitPulse(strength){
+    pulses.push({start:clockT, amp:strength||1.0});
+    if(pulses.length>MAXPULSE) pulses.shift();
+  }
+
+  /* ---------- resize ---------- */
+  function resize(){
+    var w=stage.clientWidth||window.innerWidth, h=stage.clientHeight||window.innerHeight;
+    renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix();
+    fit();
+    if(resetT<0 && !userZoomed){ cam.radius=fitRadius; camDefault.radius=fitRadius; }
+    var pr=renderer.getPixelRatio();
+    var pix=(h*pr)/(2*Math.tan(THREE.MathUtils.degToRad(FOV)/2));
+    haloMat.uniforms.uPixScale.value=pix;
+    coreMat.uniforms.uPixScale.value=pix;
+    starMat.uniforms.uPix.value=pr;
+  }
+  var userZoomed=false;
+
+  /* ---------- interaction ---------- */
+  var pointers=new Map(), downInfo=null, pinchPrev=0, hintEl=document.getElementById("hint");
+  function markInteract(){ if(hintEl && !hintEl.classList.contains("gone")){ hintEl.classList.add("gone"); } }
+
+  var canvas=renderer.domElement;
+  canvas.addEventListener("pointerdown",function(e){
+    canvas.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size===1){
+      dragging=true; resetT=-1;
+      downInfo={x:e.clientX,y:e.clientY,t:performance.now(),moved:0};
+      vel.theta=0; vel.phi=0;
+    }else if(pointers.size===2){
+      var p=Array.from(pointers.values());
+      pinchPrev=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
+    }
+  });
+  canvas.addEventListener("pointermove",function(e){
+    var pt=pointers.get(e.pointerId); if(!pt) return;
+    var dx=e.clientX-pt.x, dy=e.clientY-pt.y;
+    pt.x=e.clientX; pt.y=e.clientY;
+    if(pointers.size===2){
+      var p=Array.from(pointers.values());
+      var dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
+      if(pinchPrev>0){ zoomBy((pinchPrev-dist)*0.010); }
+      pinchPrev=dist; return;
+    }
+    if(dragging){
+      if(downInfo) downInfo.moved+=Math.abs(dx)+Math.abs(dy);
+      vel.theta=-dx*0.0052; vel.phi=-dy*0.0052;
+      cam.theta+=vel.theta; cam.phi+=vel.phi;
+      markInteract();
+    }
+  });
+  function endPointer(e){
+    if(pointers.has(e.pointerId)) pointers.delete(e.pointerId);
+    if(pointers.size<2) pinchPrev=0;
+    if(pointers.size===0){
+      dragging=false;
+      if(downInfo && downInfo.moved<7 && (performance.now()-downInfo.t)<450){
+        emitPulse(1.0); markInteract();
+      }
+      downInfo=null;
+    }
+  }
+  canvas.addEventListener("pointerup",endPointer);
+  canvas.addEventListener("pointercancel",endPointer);
+  canvas.addEventListener("lostpointercapture",endPointer);
+
+  function zoomBy(f){
+    userZoomed=true; resetT=-1;
+    cam.radius*=(1+f);
+    cam.radius=Math.max(fitRadius*0.42,Math.min(fitRadius*2.1,cam.radius));
+  }
+  canvas.addEventListener("wheel",function(e){ e.preventDefault(); zoomBy(e.deltaY*0.0011); markInteract(); },{passive:false});
+
+  /* ---------- UI wiring ---------- */
+  document.getElementById("swatches").addEventListener("click",function(e){
+    var b=e.target.closest(".swatch"); if(!b) return; applyTheme(b.dataset.theme);
+  });
+  var glow=document.getElementById("glow"), glowVal=document.getElementById("glowVal");
+  glow.addEventListener("input",function(){
+    var v=parseInt(glow.value,10)/100;
+    haloMat.uniforms.uEnergy.value=v; coreMat.uniforms.uEnergy.value=v; lineMat.uniforms.uEnergy.value=v;
+    glowVal.textContent=glow.value+"%";
+  });
+  var spinning = !REDUCED;
+  var spinBtn=document.getElementById("spinBtn");
+  spinBtn.setAttribute("aria-pressed", spinning?"true":"false");
+  spinBtn.addEventListener("click",function(){
+    spinning=!spinning; spinBtn.setAttribute("aria-pressed",spinning?"true":"false");
+  });
+  document.getElementById("pulseBtn").addEventListener("click",function(){ emitPulse(1.15); });
+
+  var panel=document.getElementById("panel"), uiToggle=document.getElementById("uiToggle");
+  var titleEl=document.getElementById("title"), uiHidden=false;
+  uiToggle.addEventListener("click",function(){
+    uiHidden=!uiHidden;
+    panel.classList.toggle("hidden",uiHidden);
+    titleEl.style.transition="opacity .35s ease";
+    titleEl.style.opacity=uiHidden?"0":"1";
+    uiToggle.setAttribute("aria-label",uiHidden?"Show controls":"Hide controls");
+  });
+
+  /* ---------- animation loop ---------- */
+  var clock=new THREE.Clock(), clockT=0, autoPulseT=REDUCED?1e9:4.5;
+  function frame(){
+    requestAnimationFrame(frame);
+    var dt=Math.min(clock.getDelta(),0.05); clockT+=dt;
+
+    // spin
+    if(spinning) mandala.rotation.z += dt*0.05;
+
+    // camera inertia / reset
+    if(resetT>=0){
+      resetT+=dt; var k=Math.min(1,resetT/0.8), e=1-Math.pow(1-k,3);
+      cam.theta+=(camDefault.theta-cam.theta)*e*0.25;
+      cam.phi+=(camDefault.phi-cam.phi)*e*0.25;
+      cam.radius+=(camDefault.radius-cam.radius)*e*0.25;
+      if(k>=1) resetT=-1;
+    }else if(!dragging){
+      cam.theta+=vel.theta; cam.phi+=vel.phi;
+      vel.theta*=0.92; vel.phi*=0.92;
+    }
+    updateCamera();
+
+    // pulses -> uniforms
+    var count=0, fronts=haloMat.uniforms.uPulseFront.value, amps=haloMat.uniforms.uPulseAmp.value;
+    for(var i=0;i<pulses.length;i++){
+      var age=clockT-pulses[i].start;
+      if(age>PULSE_LIFE){ pulses.splice(i,1); i--; continue; }
+      if(count<MAXPULSE){
+        fronts[count]=age*PULSE_SPEED;
+        amps[count]=pulses[i].amp*Math.pow(1-age/PULSE_LIFE,1.5);
+        count++;
+      }
+    }
+    // push the active pulse fronts into every pulse-aware material
+    setPulse(haloMat,count,fronts,amps);
+    setPulse(coreMat,count,fronts,amps);
+    setPulse(lineMat,count,fronts,amps);
+
+    var breath=REDUCED?0:1;
+    haloMat.uniforms.uTime.value=clockT; coreMat.uniforms.uTime.value=clockT; lineMat.uniforms.uTime.value=clockT;
+    starMat.uniforms.uTime.value=clockT;
+
+    // ambient auto-pulse keeps the idle piece breathing
+    autoPulseT-=dt;
+    if(autoPulseT<=0){ emitPulse(0.7); autoPulseT=6.5+Math.random()*2.5; }
+
+    // gentle aura pulse
+    var ap=0.5+0.12*Math.sin(clockT*0.7);
+    aura1.material.opacity=ap*(0.9); aura2.material.opacity=ap*0.7;
+
+    renderer.render(scene,camera);
+  }
+  function setPulse(mat,count,fronts,amps){
+    mat.uniforms.uPulseCount.value=count;
+    var f=mat.uniforms.uPulseFront.value, a=mat.uniforms.uPulseAmp.value;
+    for(var i=0;i<MAXPULSE;i++){ f[i]=fronts[i]; a[i]=amps[i]; }
+  }
+
+  // reset view on double-tap of the eye toggle? keep simple: expose via keyboard "r"
+  window.addEventListener("keydown",function(e){
+    if(e.key==="r"||e.key==="R"){ resetT=0; userZoomed=false; }
+    if(e.key===" "){ e.preventDefault(); emitPulse(1.15); }
+  });
+
+  window.addEventListener("resize",resize);
+  resize();
+  updateCamera();
+  emitPulse(1.0);            // ignite on load
+  frame();
+
+  // fade the hint after a while even without interaction
+  setTimeout(function(){ if(hintEl) hintEl.classList.add("gone"); },7000);
+})();
+</script>
+</body>
+</html>
