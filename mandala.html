@@ -240,18 +240,18 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
   /* ---------- ring structure of the mandala ---------- */
   // pi = palette index; petal = draw lotus petals to the ring inside it
   var RINGS = [
-    {r:0.0,  n:1,  size:1.05, pi:0},
-    {r:1.7,  n:8,  size:0.34, pi:1, ring:true},
-    {r:3.0,  n:8,  size:0.52, pi:2, petal:true},
-    {r:4.5,  n:16, size:0.30, pi:3, ring:true},
-    {r:6.0,  n:16, size:0.46, pi:4, petal:true},
-    {r:7.4,  n:24, size:0.24, pi:5, ring:true},
-    {r:8.8,  n:24, size:0.42, pi:6, petal:true},
-    {r:9.9,  n:48, size:0.15, pi:7, ring:true}
+    {r:0.0,  n:1,  size:1.15, pi:0},
+    {r:1.7,  n:8,  size:0.36, pi:1, ring:true},
+    {r:3.0,  n:8,  size:0.58, pi:2, petal:true},
+    {r:4.5,  n:16, size:0.32, pi:3, ring:true},
+    {r:6.0,  n:16, size:0.52, pi:4, petal:true},
+    {r:7.4,  n:24, size:0.26, pi:5, ring:true},
+    {r:8.8,  n:24, size:0.48, pi:6, petal:true},
+    {r:9.9,  n:48, size:0.17, pi:7, ring:true}
   ];
   var SPOKES = 8;
 
-  function dome(r){ return 2.35 * Math.cos((r/R_MAX)*Math.PI*0.5); } // gentle 3D dome, centre forward
+  function dome(r){ return 2.95 * Math.cos((r/R_MAX)*Math.PI*0.5); } // 3D dome, centre lifted toward viewer
 
   /* ---------- build node (orb) data ---------- */
   var nodePos=[], nodeSize=[], nodeRad=[], nodeSeed=[], nodePi=[];
@@ -396,7 +396,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
     "  if(d>1.0) discard;",
     "  float corona=pow(1.0-d,2.5);",
     "  float core=pow(max(0.0,1.0-d*2.1),3.0);",
-    "  vec3 col=vColor*corona + vec3(1.0)*core*0.9;",
+    "  vec3 col=vColor*corona + vec3(1.0)*core*1.0;",
     "  gl_FragColor=vec4(col*vGlow, corona);",
     "}"
   ].join("\n");
@@ -414,11 +414,13 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
       transparent:true, blending:THREE.AdditiveBlending, depthTest:true, depthWrite:false
     });
   }
+  var bloomMat=makeOrbMat(4.4,0.12, REDUCED?0:1);   // soft outer haze — the "energy" bleed
   var haloMat=makeOrbMat(2.35,0.34, REDUCED?0:1);
   var coreMat=makeOrbMat(1.0,1.0, REDUCED?0:1);
+  var orbBloom=new THREE.Points(orbGeo,bloomMat); orbBloom.renderOrder=1.5;
   var orbHalo=new THREE.Points(orbGeo,haloMat); orbHalo.renderOrder=2;
   var orbCore=new THREE.Points(orbGeo,coreMat); orbCore.renderOrder=3;
-  mandala.add(orbHalo); mandala.add(orbCore);
+  mandala.add(orbBloom); mandala.add(orbHalo); mandala.add(orbCore);
 
   /* ----- linework ----- */
   var lineGeo=new THREE.BufferGeometry();
@@ -428,11 +430,12 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
   lineGeo.setAttribute("aColor",new THREE.BufferAttribute(lineCol,3));
   var lineVert=[
     "attribute vec3 aColor; attribute float aRadius;",
-    "uniform float uTime,uEnergy; uniform int uPulseCount;",
+    "uniform float uTime,uEnergy,uFlow; uniform int uPulseCount;",
     "uniform float uPulseFront["+MAXPULSE+"]; uniform float uPulseAmp["+MAXPULSE+"];",
     "varying vec3 vColor; varying float vGlow;",
     "void main(){ vColor=aColor;",
-    "  float glow=0.34 + 0.05*sin(uTime*1.2 - aRadius*0.8);",
+    "  float glow=0.32 + 0.05*sin(uTime*1.2 - aRadius*0.8);",
+    "  glow += pow(0.5+0.5*sin(uTime*1.7 - aRadius*1.5),5.0)*uFlow;", // energy flowing outward
     "  for(int i=0;i<"+MAXPULSE+";i++){ if(i>=uPulseCount) break;",
     "    float d=aRadius-uPulseFront[i]; glow+=exp(-d*d*3.0)*uPulseAmp[i]*1.7; }",
     "  vGlow=glow*uEnergy;",
@@ -444,7 +447,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
     "void main(){ gl_FragColor=vec4(vColor*vGlow,1.0); }"
   ].join("\n");
   var lineMat=new THREE.ShaderMaterial({
-    uniforms:THREE.UniformsUtils.merge([PULSE_UNIFORMS,{}]),
+    uniforms:THREE.UniformsUtils.merge([PULSE_UNIFORMS,{uFlow:{value:REDUCED?0.0:0.42}}]),
     vertexShader:lineVert, fragmentShader:lineFrag,
     transparent:true, blending:THREE.AdditiveBlending, depthTest:true, depthWrite:false
   });
@@ -642,7 +645,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
   var glow=document.getElementById("glow"), glowVal=document.getElementById("glowVal");
   glow.addEventListener("input",function(){
     var v=parseInt(glow.value,10)/100;
-    haloMat.uniforms.uEnergy.value=v; coreMat.uniforms.uEnergy.value=v; lineMat.uniforms.uEnergy.value=v;
+    haloMat.uniforms.uEnergy.value=v; coreMat.uniforms.uEnergy.value=v;
+    bloomMat.uniforms.uEnergy.value=v; lineMat.uniforms.uEnergy.value=v;
     glowVal.textContent=glow.value+"%";
   });
   var spinning = !REDUCED;
@@ -699,10 +703,11 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-ra
     // push the active pulse fronts into every pulse-aware material
     setPulse(haloMat,count,fronts,amps);
     setPulse(coreMat,count,fronts,amps);
+    setPulse(bloomMat,count,fronts,amps);
     setPulse(lineMat,count,fronts,amps);
 
-    var breath=REDUCED?0:1;
-    haloMat.uniforms.uTime.value=clockT; coreMat.uniforms.uTime.value=clockT; lineMat.uniforms.uTime.value=clockT;
+    haloMat.uniforms.uTime.value=clockT; coreMat.uniforms.uTime.value=clockT;
+    bloomMat.uniforms.uTime.value=clockT; lineMat.uniforms.uTime.value=clockT;
     starMat.uniforms.uTime.value=clockT;
 
     // ambient auto-pulse keeps the idle piece breathing
