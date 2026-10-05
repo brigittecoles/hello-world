@@ -1,0 +1,49 @@
+{
+  "_comment": "Single source of truth for every count and name that appears across the Tensor site, the Sovereign AI Standard site, the Hallmark visual system and the V-Seal guide. Edit here first; run standard/check-consistency.py to find documents that disagree.",
+  "standard": {
+    "name": "Sovereign AI Standard",
+    "version": "1.0",
+    "status": "draft for consultation",
+    "cite_as": "Sovereign AI Standard v1.0"
+  },
+  "dimensions": [
+    {"code": "S1", "name": "Model sovereignty",          "question": "Can you name it?",      "tests": "Supply-chain disclosure · version pinning · substitution notice · fallback capability"},
+    {"code": "S2", "name": "Data sovereignty",           "question": "Can you move it?",      "tests": "Processing residency · sub-processor disclosure · cross-border transfer basis · government-access exposure"},
+    {"code": "S3", "name": "Provenance sovereignty",     "question": "Can you defend it?",    "tests": "Training-corpus rights · retrieval source disclosure · output ownership · IP indemnity scope"},
+    {"code": "S4", "name": "Operational sovereignty",    "question": "Can you steer it?",     "tests": "Change notice · evaluation rights · rollback · decision logging · human-review controls"},
+    {"code": "S5", "name": "Infrastructure sovereignty", "question": "Can you run it elsewhere?", "tests": "Hosting and inference topology · provider concentration · customer-controlled deployment option · continuity on provider failure"},
+    {"code": "S6", "name": "Exit sovereignty",           "question": "Can you leave it?",     "tests": "Portability of data, prompts and tuning · transition assistance · escrow · post-termination rights"},
+    {"code": "S7", "name": "Evaluation sovereignty",     "question": "Can you evaluate it?",  "tests": "Evaluation transparency · independent evaluation rights · subgroup and bias evaluation · reproducible, independently verified results"}
+  ],
+  "counts": {
+    "dimensions": 7,
+    "tracks": 2,
+    "levels": 3,
+    "criteria_per_dimension": 4,
+    "criteria_per_track": 28,
+    "criteria_total": 56,
+    "procurement_questionnaire_items": 28,
+    "track_a_required_by_level": {"1": 9,  "2": 22, "3": 28},
+    "track_b_required_by_level": {"1": 11, "2": 22, "3": 28}
+  },
+  "tracks": [
+    {"code": "A", "name": "Application layer", "who": "SaaS vendors, agents and copilots, vertical AI applications, systems integrators embedding third-party models"},
+    {"code": "B", "name": "Model providers",   "who": "Foundation-model developers, providers of general-purpose AI models, organisations publishing open-weight models commercially"}
+  ],
+  "levels": [
+    {"number": 1, "name": "Disclosed",  "claim": "The buyer can see the whole picture."},
+    {"number": 2, "name": "Controlled", "claim": "The protections are in the contract, not the sales deck."},
+    {"number": 3, "name": "Sovereign",  "claim": "The customer could operate independently of any single provider."}
+  ],
+  "tensor_clause_library": {
+    "_comment": "Tensor's own AI contract clause library. It is a Tensor product, not part of the Standard, so its count is independent of criteria_per_track. 'Thirty findings / thirty clauses' is correct wherever it refers to this library; 'twenty-eight' is correct wherever it refers to the Standard's criteria or questionnaire.",
+    "findings": 30,
+    "clauses": 30,
+    "groups": ["Model supply chain", "Cost & pricing durability", "Data rights & IP", "Change control & performance", "Privacy, security & regulation", "Exit, continuity & governance"]
+  },
+  "stale_phrases": [
+    "six dimensions", "Six dimensions", "all six dimensions", "one of six", "tests all six", "All six do", "Why six dimensions",
+    "48 criteria", "Forty-eight criteria", "forty-eight criteria",
+    "twenty-four criteria", "all twenty-four", "other five dimensions"
+  ]
+}

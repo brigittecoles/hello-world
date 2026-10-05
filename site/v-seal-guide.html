@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The V-Seal — Methodology & Implementation Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+ --mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;
+ --disp:'Fraunces',Georgia,serif;--insc:'Cinzel',Georgia,serif;
+ --bg:#0B0C0F;--bg2:#0E1015;--panel:#111419;--panel2:#141821;--ink:#D7DCE3;--ink2:#9BA2AE;--dim:#6B7280;--faint:#474e58;
+ --edge:#242a33;--edge2:#333b45;--hi:#AEB8C4;--hi2:#E8EDF3;--ok:#8FE3B0;--bad:#E38F97;--champ:#CBAE76;
+ --silver:linear-gradient(135deg,#FFFFFF,#C0C8D2 40%,#FFFFFF 55%,#A6AEBA 100%);
+ --measure:70ch;
+}
+*{margin:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(90% 60% at 50% 0%,#15171d,#0b0c0f 60%,#08090b);color:var(--ink);
+ font-family:var(--sans);font-size:16.5px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-bottom:90px}
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--silver);z-index:50}
+.wrap{max-width:840px;margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+a{color:var(--hi);text-decoration:none;border-bottom:1px solid var(--edge2)}
+a:hover{color:#fff}
+
+/* header */
+.doc-header{padding:64px 0 26px;border-bottom:1px solid var(--edge);margin-bottom:8px}
+.brandline{display:flex;align-items:center;gap:10px;margin-bottom:30px}
+.brandline .gl{color:var(--hi)}.brandline b{font-family:var(--insc);font-weight:600;letter-spacing:.14em;font-size:13px;color:var(--hi2)}
+.doc-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+h1.doc-title{font-family:var(--disp);font-weight:600;font-size:clamp(34px,5.4vw,58px);line-height:1.04;letter-spacing:-.02em;
+ background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:16px}
+.doc-deck{font-family:var(--disp);font-weight:400;font-size:clamp(17px,2.4vw,21px);color:var(--ink2);max-width:60ch;line-height:1.5}
+.doc-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
+.doc-meta span{position:relative}.doc-meta span+span::before{content:"·";position:absolute;left:-13px;color:var(--faint)}
+
+/* contents */
+.toc{border:1px solid var(--edge);background:var(--panel);border-radius:5px;padding:20px 24px;margin:34px 0 10px}
+.toc h4{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.toc ol{list-style:none;counter-reset:t;display:grid;grid-template-columns:1fr 1fr;gap:2px 26px}
+@media(max-width:640px){.toc ol{grid-template-columns:1fr}}
+.toc li{counter-increment:t;font-size:14px;padding:5px 0;border-top:1px solid var(--edge);display:flex;gap:12px}
+.toc li::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);color:var(--hi);font-size:11px;padding-top:3px}
+.toc a{border:0;color:var(--ink)}.toc a:hover{color:#fff}
+
+/* body */
+.lead{font-family:var(--disp);font-size:20px;line-height:1.55;color:var(--ink2);margin:30px 0}
+p{margin:0 0 1.25em;max-width:var(--measure)}
+strong{color:var(--hi2);font-weight:600}
+em{color:var(--ink)}
+h2.section-h2{font-family:var(--disp);font-weight:600;font-size:27px;letter-spacing:-.01em;color:var(--hi2);margin:66px 0 6px;display:flex;align-items:baseline;gap:16px;scroll-margin-top:24px}
+.section-num{font-family:var(--mono);font-size:13px;color:var(--hi);font-weight:500;letter-spacing:.1em}
+.section-sub{color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 22px 40px}
+h3{font-family:var(--sans);font-weight:600;font-size:16.5px;color:var(--hi2);margin:34px 0 8px;letter-spacing:.01em}
+ul.clean{max-width:var(--measure);margin:0 0 1.3em;padding-left:0;list-style:none}
+ul.clean li{position:relative;padding-left:22px;margin-bottom:9px}
+ul.clean li::before{content:"◈";position:absolute;left:0;color:var(--hi);font-size:10px;top:4px}
+
+/* components */
+.pull-quote{font-family:var(--disp);font-size:23px;line-height:1.42;color:var(--hi2);font-style:italic;
+ border-left:2px solid var(--edge2);padding:6px 0 6px 26px;margin:34px 0;max-width:64ch}
+.sidebar-note{border:1px solid var(--edge2);background:var(--panel);border-radius:5px;padding:16px 20px;margin:26px 0}
+.sn-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--hi);margin-bottom:8px}
+.sidebar-note p{margin:0;font-size:14.5px;color:var(--ink2);max-width:none}
+.framework-box{border:1px solid var(--edge2);background:linear-gradient(180deg,var(--panel),var(--bg2));border-radius:6px;padding:22px 24px;margin:28px 0}
+.fb-title{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--hi);margin-bottom:16px}
+.fb-item{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--edge)}
+.fb-item:first-of-type{border-top:0}
+.fb-num{font-family:var(--disp);font-size:20px;background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fb-item div strong{display:block;margin-bottom:2px}
+.fb-item .d{font-size:14px;color:var(--ink2)}
+.callout{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;border:1px solid var(--edge2);border-left:2px solid var(--hi);
+ background:var(--panel);border-radius:5px;padding:16px 22px;margin:26px 0}
+.callout .stat{font-family:var(--disp);font-size:40px;font-weight:600;line-height:1;background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.callout .lab{font-size:13.5px;color:var(--ink2)}
+
+/* code */
+pre{background:#0a0c10;border:1px solid var(--edge2);border-radius:6px;padding:16px 18px;overflow-x:auto;margin:20px 0;
+ font-family:var(--mono);font-size:12.7px;line-height:1.7;color:var(--ink2)}
+pre .c{color:var(--dim)} pre .k{color:var(--hi)} pre .s{color:var(--champ)} pre b{color:var(--hi2);font-weight:600}
+code{font-family:var(--mono);font-size:.9em;background:#0a0c10;border:1px solid var(--edge);border-radius:3px;padding:1px 5px;color:var(--hi2)}
+.codecap{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:22px 0 -8px}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;margin:22px 0;font-size:13.5px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--edge);vertical-align:top}
+.tbl th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border-bottom-color:var(--edge2)}
+.tbl td code{background:none;border:0;padding:0;color:var(--hi2)}
+.tbl .ok{color:var(--ok)}.tbl .bad{color:var(--bad)}
+.tbl tr:last-child td{border-bottom:0}
+.scroll{overflow-x:auto}
+
+/* diagram */
+.figure{margin:30px 0}
+.figure svg{width:100%;height:auto;display:block;border:1px solid var(--edge);border-radius:6px;background:#0a0c10}
+.figcap{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);margin-top:10px;text-align:center}
+
+hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
+.foot{margin-top:60px;border-top:1px solid var(--edge);padding-top:22px;font-size:12.5px;color:var(--dim)}
+.foot b{color:var(--ink2)}
+.disclaimer{border:1px dashed var(--edge2);border-radius:5px;padding:16px 20px;margin-top:26px;font-size:12.5px;color:var(--dim);line-height:1.7}
+
+@media print{
+ body{background:#fff;color:#15171d}#progress{display:none}
+ h1.doc-title,.fb-num,.callout .stat{-webkit-text-fill-color:#15171d;color:#15171d;background:none}
+ pre,.figure svg{background:#f5f6f8}
+ a{color:#15171d}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="wrap">
+
+<header class="doc-header">
+  <div class="brandline"><span class="gl">◈</span><b>SOVEREIGN AI STANDARD</b></div>
+  <div class="doc-eyebrow">Methodology & Implementation Guide · Rev 1</div>
+  <h1 class="doc-title">The V-Seal</h1>
+  <p class="doc-deck">A stigmergic key — one mark that is a glyph, a cryptographic seed, and its own verification rule — hidden in the artwork of a credential and its certificate.</p>
+  <div class="doc-meta"><span>Sovereign AI Standard</span><span>August 2026</span><span>~15 min read</span><span>scheme vseal-1 · vseal-cert-1</span></div>
+</header>
+
+<nav class="toc">
+  <h4>Contents</h4>
+  <ol>
+    <li><a href="#s1">What the V-Seal is</a></li>
+    <li><a href="#s2">Why stigmergy</a></li>
+    <li><a href="#s3">Architecture at a glance</a></li>
+    <li><a href="#s4">The cryptographic construction</a></li>
+    <li><a href="#s5">Carriers &amp; embedding</a></li>
+    <li><a href="#s6">The verification rule</a></li>
+    <li><a href="#s7">Security model &amp; threats</a></li>
+    <li><a href="#s8">Robustness &amp; tuning</a></li>
+    <li><a href="#s9">Instructions (step by step)</a></li>
+    <li><a href="#s10">Parameter &amp; file reference</a></li>
+    <li><a href="#s11">Key management &amp; operations</a></li>
+    <li><a href="#s12">Caveats</a></li>
+  </ol>
+</nav>
+
+<p class="lead">The V-Seal welds provenance into the mark itself. Instead of stapling a signature onto a file, it scatters a secret across hundreds of sub-pixel traces in the artwork — invisible until an agent re-walks the field with the right seed, at which point a <strong>V</strong> emerges and the mark proves it is authentic and unaltered. This guide documents the method and gives exact instructions to reproduce, verify, and operate it.</p>
+
+<!-- 01 -->
+<h2 class="section-h2" id="s1"><span class="section-num">01</span>What the V-Seal is</h2>
+<p class="section-sub">One object · three roles</p>
+<p>The V-Seal is a single construct that plays three roles simultaneously. It is not three features bolted together — the same 256-bit value drives all three, so they cannot disagree.</p>
+
+<div class="framework-box">
+  <div class="fb-title">The three roles of one seal</div>
+  <div class="fb-item"><span class="fb-num">1</span><div><strong>Glyph</strong><span class="d">A <em>V</em> that is never drawn on the face. It emerges from the existing dot-field only when the mark is read with the correct seed — a covert constellation.</span></div></div>
+  <div class="fb-item"><span class="fb-num">2</span><div><strong>Seed / vector</strong><span class="d">A 256-bit key that deterministically generates both the V's exact geometry and a fractional-pixel nudge on every dot. The V you eventually see is, in effect, a visual hash of the seed.</span></div></div>
+  <div class="fb-item"><span class="fb-num">3</span><div><strong>Verification rule</strong><span class="d">Regenerate the whole field and the V from the seed and compare to what is in the file. The glyph is an <em>executable</em> authenticity check, not decoration.</span></div></div>
+</div>
+
+<p>Two profiles share the method. The <strong>coin credential</strong> (<code>vseal-1</code>) binds the seal to the registry number and the artwork. The <strong>certificate</strong> — the Bill of Assessment (<code>vseal-cert-1</code>) — additionally binds it to the <em>finding</em>, so altering any printed score breaks the seal.</p>
+
+<!-- 02 -->
+<h2 class="section-h2" id="s2"><span class="section-num">02</span>Why stigmergy</h2>
+<p class="section-sub">Coordination through traces in a shared medium</p>
+<p>Stigmergy is how ants coordinate without messaging each other: each deposits and reads pheromone in the environment, and the environment itself carries the memory. A <em>stigmergic key</em> applies that idea to a mark. The key is never stored as one value anywhere. It is deposited as hundreds of faint traces — tiny per-dot offsets — spread across the whole artwork, densest along the V. An agent reassembles the key only by re-walking the field with the seed.</p>
+
+<blockquote class="pull-quote">Disturb the medium — move, add, or drop a single dot — and the traces desynchronise. The key is therefore also the tamper-evidence.</blockquote>
+
+<p>This is why the coin and the certificate are ideal hosts. The coin is already a field of hundreds of ASCII dots; the certificate is given a guilloché microprint field that reads as genuine security printing. In both, the "pheromone substrate" is native to the design, so the key hides in plain sight.</p>
+
+<!-- 03 -->
+<h2 class="section-h2" id="s3"><span class="section-num">03</span>Architecture at a glance</h2>
+<p class="section-sub">From master secret to a self-verifying mark</p>
+<p>The pipeline is deterministic end to end. The same inputs always produce the same seal, and verification is simply the pipeline run forward again and compared.</p>
+
+<div class="figure">
+<svg viewBox="0 0 980 380" role="img" aria-label="V-Seal pipeline diagram">
+  <defs>
+    <linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EDF1F6"/><stop offset="1" stop-color="#9AA3AE"/></linearGradient>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6 Z" fill="#6B7280"/></marker>
+  </defs>
+  <style>
+    .bx{fill:#111419;stroke:#333b45;stroke-width:1}
+    .bxk{fill:#12161d;stroke:#4a5566;stroke-width:1.2}
+    .t{fill:#D7DCE3;font-family:'IBM Plex Mono',monospace;font-size:12px}
+    .tk{fill:#EAF0F6;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600}
+    .ts{fill:#7E8894;font-family:'IBM Plex Mono',monospace;font-size:10px}
+    .ln{stroke:#4a5566;stroke-width:1.2;fill:none;marker-end:url(#ar)}
+  </style>
+  <!-- inputs -->
+  <rect class="bx" x="20" y="40" width="150" height="46" rx="5"/>
+  <text class="t" x="34" y="60">master secret</text><text class="ts" x="34" y="76">issuer-held</text>
+  <rect class="bx" x="20" y="104" width="150" height="46" rx="5"/>
+  <text class="t" x="34" y="124">registry no.</text><text class="ts" x="34" y="140">per token</text>
+  <!-- K -->
+  <rect class="bxk" x="228" y="72" width="150" height="46" rx="5"/>
+  <text class="tk" x="248" y="92">K = HMAC</text><text class="ts" x="248" y="108">per-token seed</text>
+  <line class="ln" x1="170" y1="63" x2="226" y2="88"/>
+  <line class="ln" x1="170" y1="127" x2="226" y2="102"/>
+  <!-- finding -->
+  <rect class="bx" x="20" y="188" width="150" height="46" rx="5"/>
+  <text class="t" x="34" y="208">the finding</text><text class="ts" x="34" y="224">S1–S7, subject…</text>
+  <rect class="bx" x="20" y="252" width="150" height="46" rx="5"/>
+  <text class="t" x="34" y="272">content_hash</text><text class="ts" x="34" y="288">SHA-256</text>
+  <line class="ln" x1="170" y1="211" x2="226" y2="238"/>
+  <!-- Kf -->
+  <rect class="bxk" x="228" y="216" width="150" height="46" rx="5"/>
+  <text class="tk" x="248" y="236">Kf = HMAC</text><text class="ts" x="248" y="252">K ⊕ finding</text>
+  <line class="ln" x1="170" y1="275" x2="226" y2="252"/>
+  <line class="ln" x1="303" y1="118" x2="303" y2="214"/>
+  <text class="ts" x="310" y="170">cert only</text>
+  <!-- key -> three outputs -->
+  <rect class="bx" x="446" y="30" width="180" height="42" rx="5"/>
+  <text class="t" x="462" y="50">per-dot offsets</text><text class="ts" x="462" y="65">the field / traces</text>
+  <rect class="bx" x="446" y="132" width="180" height="42" rx="5"/>
+  <text class="t" x="462" y="152">V geometry</text><text class="ts" x="462" y="167">SHA(key‖"VGLYPH")</text>
+  <rect class="bx" x="446" y="234" width="180" height="42" rx="5"/>
+  <text class="t" x="462" y="254">commitment C</text><text class="ts" x="462" y="269">SHA-256(key)</text>
+  <line class="ln" x1="378" y1="95" x2="444" y2="55"/>
+  <line class="ln" x1="378" y1="150" x2="444" y2="153"/>
+  <line class="ln" x1="378" y1="239" x2="444" y2="252"/>
+  <text class="ts" x="388" y="120">key = K (coin) / Kf (cert)</text>
+  <!-- embed -->
+  <rect class="bxk" x="686" y="80" width="150" height="80" rx="5"/>
+  <text class="tk" x="705" y="112">SEALED SVG</text><text class="ts" x="705" y="130">dot field +</text><text class="ts" x="705" y="144">metadata (C)</text>
+  <line class="ln" x1="626" y1="51" x2="684" y2="100"/>
+  <line class="ln" x1="626" y1="153" x2="684" y2="120"/>
+  <line class="ln" x1="626" y1="255" x2="684" y2="140"/>
+  <!-- verify -->
+  <rect class="bx" x="686" y="210" width="272" height="120" rx="5"/>
+  <text class="tk" x="705" y="234">VERIFY  (rerun + compare)</text>
+  <text class="t" x="705" y="258">1 · all traces reproduce</text>
+  <text class="t" x="705" y="278">2 · SHA-256(key) = C</text>
+  <text class="t" x="705" y="298">3 · printed = sealed (cert)</text>
+  <text class="ts" x="705" y="318">→ PASS · V reveals · medallion lights</text>
+  <line class="ln" x1="761" y1="160" x2="761" y2="208"/>
+</svg>
+  <div class="figcap">Deterministic pipeline. The coin stops at K; the certificate folds the finding in to make Kf.</div>
+</div>
+
+<!-- 04 -->
+<h2 class="section-h2" id="s4"><span class="section-num">04</span>The cryptographic construction</h2>
+<p class="section-sub">Definitions and derivations</p>
+<p>Everything below uses SHA-256 and HMAC-SHA-256 only, so it is reproducible in any language (the reference build uses Python <code>hashlib</code>/<code>hmac</code> for encoding and browser <code>WebCrypto</code> for verification).</p>
+
+<div class="scroll"><table class="tbl">
+<tr><th>Symbol</th><th>Definition</th><th>Notes</th></tr>
+<tr><td><code>master</code></td><td>Issuer master secret (bytes)</td><td>Never leaves the issuer; not in the file</td></tr>
+<tr><td><code>registry</code></td><td>Per-token registry number</td><td>e.g. <code>SAS-2026-0007</code></td></tr>
+<tr><td><code>K</code></td><td><code>HMAC-SHA256(master, "SAS|" + registry)</code></td><td>Per-token seed (coin uses this as the key)</td></tr>
+<tr><td><code>content_hash</code></td><td><code>SHA-256(canonical(finding))</code></td><td>Certificate only</td></tr>
+<tr><td><code>Kf</code></td><td><code>HMAC-SHA256(K, content_hash)</code></td><td>Certificate field key — binds seed ⊕ finding</td></tr>
+<tr><td><code>i</code></td><td>Stable dot index, row-major</td><td>Identical order in encoder and verifier</td></tr>
+<tr><td><code>offset&#8341;</code></td><td>2 bits of <code>SHA-256(key ‖ u32le(i))[0]</code> → sign of x,y nudge × <code>DELTA</code></td><td><code>key</code> = K (coin) or Kf (cert)</td></tr>
+<tr><td><code>C</code></td><td><code>SHA-256(key)</code></td><td>Public commitment; also recorded on-chain</td></tr>
+<tr><td>V geom</td><td><code>SHA-256(key ‖ "VGLYPH")</code></td><td>Seeds apex jitter &amp; arm span</td></tr>
+</table></div>
+
+<p>The <strong>canonical finding string</strong> is a fixed-order, pipe-joined serialization so it reproduces byte-for-byte across languages (avoid locale- or key-order-dependent JSON):</p>
+<pre><span class="c"># canonical(finding) — certificate</span>
+subject|version|operator|jurisdiction|registry|assessed|standard|
+assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:2|S7:3</pre>
+
+<div class="sidebar-note"><div class="sn-label">Why HMAC twice</div>
+<p><code>K</code> gives every token an independent seed from one master. Folding <code>content_hash</code> into <code>Kf</code> means the physical dot-field is a function of both the seed <em>and</em> the assessment — so a changed score doesn't just fail a text check, it desynchronises every trace.</p></div>
+
+<!-- 05 -->
+<h2 class="section-h2" id="s5"><span class="section-num">05</span>Carriers &amp; embedding</h2>
+<p class="section-sub">Where the key lives, and how</p>
+<p>The key is embedded as a <strong>sub-pixel offset</strong> on each dot: two bits of the keystream choose the sign of a <code>±DELTA</code> (0.09&nbsp;px) nudge in x and y. At 0.09&nbsp;px the shift is invisible at any zoom, but written at three-decimal precision it reads back exactly. Two carriers:</p>
+<ul class="clean">
+<li><strong>Coin credential</strong> — the mark's own ASCII dot-field (≈385 circles) is the substrate. No extra ornament is added; the key rides the art you already approved.</li>
+<li><strong>Certificate</strong> — a dedicated <strong>guilloché microprint field</strong> (≈913 microdots on a fine grid) plus a microtext hairline, placed at the foot of the Bill. It reads as genuine anti-forgery printing, gives ample capacity, and is where the V emerges; the assay medallion is set into its right end and lights on a pass.</li>
+</ul>
+
+<div class="callout"><div class="stat">0.09px</div><div class="lab">The per-dot nudge. Invisible on screen and in print, exact on read-back at three decimals — the whole key is a field of these.</div></div>
+
+<p>Both marks are drawn from <strong>vector shapes</strong>, never fonts, so they render identically in any wallet, browser, or print pipeline — a hard lesson from an earlier font-dependent version that collapsed when fonts were substituted. The commitment and, for the certificate, the full finding are embedded in a <code>&lt;metadata&gt;</code> block the verifier reads:</p>
+<pre class="codecap">metadata block (certificate)</pre>
+<pre>&lt;metadata id="vseal"&gt;{
+  <span class="k">"scheme"</span>:<span class="s">"vseal-cert-1"</span>, <span class="k">"registry"</span>:<span class="s">"SAS-2026-0007"</span>,
+  <span class="k">"content_hash"</span>:<span class="s">"e16764c1…"</span>, <span class="k">"commit"</span>:<span class="s">"5310f561…"</span>,
+  <span class="k">"dots"</span>:913, <span class="k">"delta"</span>:0.09,
+  <span class="k">"grid"</span>:{…}, <span class="k">"vbase"</span>:{…}, <span class="k">"finding"</span>:{…}
+}&lt;/metadata&gt;</pre>
+
+<!-- 06 -->
+<h2 class="section-h2" id="s6"><span class="section-num">06</span>The verification rule</h2>
+<p class="section-sub">Three checks, all must hold</p>
+<p>Verification re-derives the key from the seed inputs and runs the pipeline forward, comparing against the file. It is <strong>exact-offset</strong>: each dot's measured offset must equal the expected <code>±DELTA</code> within a tight epsilon (0.03&nbsp;px), so any move — not just a sign flip — fails.</p>
+<ul class="clean">
+<li><strong>Field</strong> — every trace reproduces from the key (coin: 385/385; certificate: 913/913).</li>
+<li><strong>Commitment</strong> — <code>SHA-256(key)</code> equals the committed <code>C</code> (in the file, and ideally on-chain).</li>
+<li><strong>Content</strong> (certificate) — every printed level matches the sealed finding, catching a forger who edits only the visible text.</li>
+</ul>
+
+<div class="scroll"><table class="tbl">
+<tr><th>Scenario</th><th>Field</th><th>Commitment</th><th>Printed = sealed</th><th>Verdict</th></tr>
+<tr><td>Authentic</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">PASS · V reveals</td></tr>
+<tr><td>One microdot moved</td><td class="bad">912 / 913 ✗</td><td class="ok">✓</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
+<tr><td>Printed score edited</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="bad">✗ (S5)</td><td class="bad">FAIL</td></tr>
+<tr><td>Sealed finding altered</td><td class="bad">234 / 913 ✗</td><td class="bad">✗</td><td class="bad">✗</td><td class="bad">FAIL</td></tr>
+<tr><td>Wrong seed</td><td class="bad">225 / 913 ✗</td><td class="bad">✗</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
+</table></div>
+<p>These rows are the actual self-test outcomes for the certificate. On a pass, the verifier lights the V along its stigmergic trail and activates the medallion; on a fail, it flashes the desynced dots.</p>
+
+<!-- 07 -->
+<h2 class="section-h2" id="s7"><span class="section-num">07</span>Security model &amp; threats</h2>
+<p class="section-sub">What it guarantees, and what it does not</p>
+<ul class="clean">
+<li><strong>Keyed, not obscure.</strong> Security rests on the 256-bit seed, not on hiding the method. Without the key you cannot reproduce a single correct offset.</li>
+<li><strong>Tamper-evident.</strong> Any moved, added, or removed dot desynchronises the field. Content binding extends this to the printed data.</li>
+<li><strong>The commitment must be anchored externally.</strong> The <code>&lt;metadata&gt;</code> commitment only proves the file is self-consistent. A forger can mint their own key and embed a matching commitment. Trust comes from comparing <code>C</code> to the value recorded <strong>on-chain at issuance</strong> — the anchor a forger cannot forge.</li>
+<li><strong>Not encryption.</strong> This authenticates and watermarks; it does not conceal a readable message. It is a keyed steganographic MAC over the artwork.</li>
+</ul>
+<blockquote class="pull-quote">Always verify against the chain, not just the file. The seal proves the art is the one bound to a key; the chain proves the key is the one you issued.</blockquote>
+
+<!-- 08 -->
+<h2 class="section-h2" id="s8"><span class="section-num">08</span>Robustness &amp; tuning</h2>
+<p class="section-sub">Parameters and their trade-offs</p>
+<ul class="clean">
+<li><strong>DELTA (0.09&nbsp;px)</strong> — the nudge magnitude. Larger survives coarser re-encoding but risks visibility; smaller is safer visually but more fragile. Keep well below cell spacing.</li>
+<li><strong>Decimal precision (3)</strong> — coordinates must be written with enough decimals to preserve DELTA on read-back. Two decimals is the floor; one decimal destroys the signal.</li>
+<li><strong>Dot count</strong> — more dots = more capacity and a crisper V. Coin ≈385, certificate ≈913.</li>
+<li><strong>SVGO / optimizers</strong> — aggressive coordinate rounding to one decimal erases the field, which correctly reads as "seal broken." Keep ≥2-decimal precision in the pipeline, or treat the on-chain commitment as the durable proof and the field as the bound-to-art layer.</li>
+<li><strong>Optional hardening</strong> — add Reed–Solomon/repetition coding across the field to tolerate light re-encoding, or raise DELTA to ~0.2&nbsp;px where print tolerances demand it.</li>
+</ul>
+
+<!-- 09 -->
+<h2 class="section-h2" id="s9"><span class="section-num">09</span>Instructions (step by step)</h2>
+<p class="section-sub">Encode · verify · self-test · anchor · customise</p>
+
+<h3>A · Seal a coin credential</h3>
+<pre><span class="c"># master secret + registry no.  → writes sas-coin-silver-keyed.svg</span>
+python3 vseal.py encode <span class="s">"AINIA-master-demo"</span> <span class="s">"SAS-2026-0007"</span>
+<span class="c"># prints: seedK, commitment C, dot count, glyph-V count</span></pre>
+
+<h3>B · Seal a certificate (Bill of Assessment)</h3>
+<pre><span class="c"># edit the finding F at the top of vseal_cert.py, then:</span>
+python3 vseal_cert.py encode <span class="s">"AINIA-master-demo"</span>   <span class="c"># → sas-bill-sealed.svg</span>
+<span class="c"># prints: K, Kf, commit, content_hash, dots</span></pre>
+
+<h3>C · Verify</h3>
+<pre><span class="c"># command line</span>
+python3 vseal.py       verify sas-coin-silver-keyed.svg &lt;seedK-hex&gt;
+python3 vseal_cert.py  verify sas-bill-sealed.svg <span class="s">"AINIA-master-demo"</span>
+
+<span class="c"># in a browser (offline, WebCrypto) — open and enter the passphrase:</span>
+sas-vseal-verifier.html      <span class="c"># coin: V emerges, 385/385</span>
+sas-cert-verifier.html       <span class="c"># certificate: 3 checks, V + medallion</span></pre>
+
+<h3>D · Self-test (proves the guarantees)</h3>
+<pre>python3 vseal.py      selftest   <span class="c"># authentic PASS · tamper FAIL · wrong-seed FAIL</span>
+python3 vseal_cert.py selftest   <span class="c"># + edited-score FAIL · altered-finding FAIL</span></pre>
+
+<h3>E · Anchor on-chain</h3>
+<ul class="clean">
+<li>At mint, record the commitment <code>C</code> (and, for a certificate, <code>content_hash</code>) in the token's <code>tokenURI</code> or a registry mapping keyed by registry number.</li>
+<li>To verify later, recompute <code>C</code> from the seed and compare it to the <em>on-chain</em> value — not only to the copy inside the file.</li>
+<li>Store the artwork on-chain via SSTORE2 chunks for a fully self-contained register, or anchor the <code>keccak-256</code> hash on-chain with the SVG on Arweave/IPFS to cut mint gas.</li>
+</ul>
+
+<h3>F · Swap in the real AINIA V</h3>
+<p>The reference build uses a seed-derived placeholder V. To bind your actual glyph, change the geometry function in one place per profile:</p>
+<pre><span class="c"># coin: vseal.py → v_geometry() / VBASE</span>
+<span class="c"># cert: vseal_cert.py → v_geometry() / VBASE  (apexx, apexy, topy, span)</span></pre>
+<ul class="clean">
+<li>For a line-based V, set the two stroke segments' endpoints from your glyph and keep the seed jitter (or drop it for a fixed shape).</li>
+<li>For an arbitrary glyph, replace the "distance-to-segments" membership test with a point-in-path test against your SVG path; the field mechanics are unchanged.</li>
+<li>Keep the same geometry in the browser verifier's <code>vgeom()</code> so the reveal matches the encoder.</li>
+</ul>
+
+<!-- 10 -->
+<h2 class="section-h2" id="s10"><span class="section-num">10</span>Parameter &amp; file reference</h2>
+<p class="section-sub">The moving parts</p>
+<div class="scroll"><table class="tbl">
+<tr><th>File</th><th>Role</th></tr>
+<tr><td><code>vseal.py</code></td><td>Coin encoder + verifier + self-test</td></tr>
+<tr><td><code>vseal_cert.py</code></td><td>Certificate encoder + verifier + self-test (content-bound)</td></tr>
+<tr><td><code>sas-coin-silver-keyed.svg</code></td><td>Sealed coin credential (visually identical to the plain coin)</td></tr>
+<tr><td><code>sas-bill-sealed.svg</code></td><td>Sealed certificate with the guilloché security field</td></tr>
+<tr><td><code>sas-vseal-verifier.html</code></td><td>Offline browser verifier — coin</td></tr>
+<tr><td><code>sas-cert-verifier.html</code></td><td>Offline browser verifier — certificate</td></tr>
+<tr><td><code>V-SEAL-spec.md</code></td><td>Terse technical spec (companion to this guide)</td></tr>
+</table></div>
+<div class="scroll"><table class="tbl">
+<tr><th>Parameter</th><th>Value</th><th>Where</th></tr>
+<tr><td>DELTA</td><td>0.09 px</td><td>both encoders</td></tr>
+<tr><td>coordinate decimals</td><td>3</td><td>both encoders</td></tr>
+<tr><td>exact-offset epsilon</td><td>0.03 px</td><td>both verifiers</td></tr>
+<tr><td>dots</td><td>385 (coin) · 913 (cert)</td><td>derived from art / grid</td></tr>
+<tr><td>hash / MAC</td><td>SHA-256 · HMAC-SHA-256</td><td>everywhere</td></tr>
+</table></div>
+
+<!-- 11 -->
+<h2 class="section-h2" id="s11"><span class="section-num">11</span>Key management &amp; operations</h2>
+<p class="section-sub">Running it safely</p>
+<ul class="clean">
+<li><strong>Master secret custody.</strong> The master secret is the root of every seal. Hold it in an HSM or secrets manager; the seals in files never contain it.</li>
+<li><strong>Per-token seeds.</strong> <code>K</code> (and <code>Kf</code>) are derived, not stored — regenerate them on demand from the master + registry (+ finding).</li>
+<li><strong>Public verification.</strong> To let third parties verify without the master, publish the per-token seed <code>K</code>/<code>Kf</code> as a "verification vector," or run verification as a service; the on-chain <code>C</code> stays the anchor either way.</li>
+<li><strong>Revocation.</strong> Because the credential is soulbound and <em>is</em> the registry entry, revocation is a burn or an on-chain flag by the issuer — the seal itself does not expire.</li>
+<li><strong>Re-issuance.</strong> A corrected finding is a new certificate with a new <code>content_hash</code> → new <code>Kf</code> → new seal, linked to the prior one by registry number.</li>
+</ul>
+
+<!-- 12 -->
+<h2 class="section-h2" id="s12"><span class="section-num">12</span>Caveats</h2>
+<p class="section-sub">Read before production</p>
+<div class="disclaimer">This is a design and provenance prototype for watermarking your own artwork — not a substitute for a smart-contract audit or a formal cryptographic review before production use. The scheme authenticates and binds; it does not encrypt. Its guarantees hold only when the commitment is anchored outside the file (on-chain) and the master secret is kept secret. Coordinate-rounding optimizers will invalidate a seal by design; keep the artwork on a controlled pipeline or rely on the on-chain commitment as the durable proof.</div>
+
+<div class="foot">
+  <p><b>Sovereign AI Standard — The V-Seal.</b> Methodology &amp; Implementation Guide, Rev 1. Schemes <code>vseal-1</code> (coin) and <code>vseal-cert-1</code> (certificate). Companion files: <code>vseal.py</code>, <code>vseal_cert.py</code>, the sealed SVGs, and the two browser verifiers.</p>
+</div>
+
+</div>
+<script>
+addEventListener('scroll',()=>{const h=document.documentElement;const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById('progress').style.width=pct+'%';},{passive:true});
+</script>
+</body>
+</html>

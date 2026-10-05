@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tensor Wealth — segment preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --bg-1:#F4F3F8; --panel:#F8F7FB; --panel-2:#EFEDF5;
+  --ink:#172027; --ink-2:#25343F; --ink-3:#4F6F87; --ink-4:#85A2B7;
+  --line:rgba(37,52,63,.14); --line-2:rgba(37,52,63,.22); --line-3:rgba(37,52,63,.34);
+  --flare:#FF9B51; --flare-ink:#C25200; --plum:#3A1C36; --grey:#25343F;
+  --vega:#C25200; --var:#3A1C36; --val:#25343F;
+  --grad:linear-gradient(115deg,#C25200 0%,#3A1C36 100%);
+  --disp:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+html[data-theme="dark"]{
+  --bg:#000000; --bg-1:#080610; --panel:#0C0913; --panel-2:#110D1A;
+  --ink:#FFFFFF; --ink-2:#A5BACA; --ink-3:#6589A4; --ink-4:#48657A;
+  --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.24); --line-3:rgba(255,255,255,.40);
+  --flare:#FF9B51; --flare-ink:#FF9B51; --plum:#C587BD; --grey:#82A0B5;
+  --vega:#FF9B51; --var:#C587BD; --val:#82A0B5;
+  --grad:linear-gradient(115deg,#FF9B51 0%,#C587BD 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--flare-ink)}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(31px,4.5vw,53px);line-height:1.05;letter-spacing:-.009em;margin:16px 0 20px}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(23px,3vw,34px);line-height:1.1;letter-spacing:-.006em;margin:10px 0 12px}
+h3{font-family:var(--disp);font-weight:600}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--ink-2);font-size:17px;line-height:1.64;max-width:72ch}
+.lead b{color:var(--ink);font-weight:600}
+p{color:var(--ink-2)}
+
+.optbar{background:#0B0913;color:#fff}
+.optbar .in{max-width:1080px;margin:0 auto;padding:9px clamp(20px,4vw,44px);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.optbar .tag{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#0B0913;background:linear-gradient(115deg,#FF9B51,#C587BD);padding:5px 9px}
+.optbar .txt{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:#8A8F99}
+.optbar .txt b{color:#fff;font-weight:500}
+.optbar .tt{margin-left:auto;display:flex;border:1px solid rgba(255,255,255,.22)}
+.optbar .tt button{width:30px;height:24px;background:transparent;border:none;color:#8A8F99;cursor:pointer;font-size:11px}
+.optbar .tt button.on{background:rgba(255,255,255,.14);color:#fff}
+
+/* deal-side selector mock (placement context) */
+.segbar{background:var(--panel);border-bottom:1px solid var(--line)}
+.segbar .in{max-width:1080px;margin:0 auto;padding:12px clamp(20px,4vw,44px);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.segbar .seglabel{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4)}
+.segs{display:flex;gap:6px;flex-wrap:wrap}
+.seg{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--ink-3);padding:6px 13px;border:1px solid var(--line);border-radius:999px}
+.seg.ph{opacity:.55}
+.seg.on{color:#0B0913;background:var(--flare);border-color:var(--flare);font-weight:600}
+
+/* audience toggle (the fifth-segment sub-selector) */
+.audbar{background:var(--bg);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.audbar .in{max-width:1080px;margin:0 auto;padding:12px clamp(20px,4vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.audbar .al{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4)}
+.audtoggle{display:flex;border:1px solid var(--line-2)}
+.audtoggle button{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);background:transparent;border:none;border-right:1px solid var(--line);padding:9px 18px;cursor:pointer;transition:all .16s}
+.audtoggle button:last-child{border-right:none}
+.audtoggle button:hover{color:var(--ink)}
+.audtoggle button.on{background:var(--flare-ink);color:var(--bg);font-weight:600}
+
+/* audience panels */
+.aud{display:none}
+.aud.on{display:block}
+
+/* wealth home / overview */
+.whatis{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);margin-top:18px}
+.whatis .w{padding:20px;border-right:1px solid var(--line);border-top:3px solid var(--c)}
+.whatis .w:last-child{border-right:none}
+.whatis .w .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+.whatis .w h3{font-size:18px;letter-spacing:-.005em;margin-bottom:5px}
+.whatis .w p{font-size:12.5px;line-height:1.55}
+@media(max-width:800px){.whatis{grid-template-columns:1fr}.whatis .w{border-right:none;border-bottom:1px solid var(--line)}}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+@media(max-width:760px){.doors{grid-template-columns:1fr}}
+.door{border:1px solid var(--line-2);border-top:3px solid var(--c);padding:26px 24px;display:flex;flex-direction:column;background:var(--panel)}
+.door .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:10px}
+.door h3{font-size:23px;letter-spacing:-.006em;margin-bottom:6px}
+.door .who{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.door p{font-size:13.5px;line-height:1.58;flex:1;margin-bottom:16px}
+.door p b{color:var(--ink);font-weight:600}
+.door .go{align-self:flex-start;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--flare-ink);border:none;padding:11px 18px;cursor:pointer;transition:opacity .15s}
+.door .go:hover{opacity:.85}
+
+.hero{padding:64px 0 10px}
+.sec{padding:60px 0 0}
+.sh{max-width:810px;margin-bottom:24px}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-3);margin-top:12px;max-width:72ch;line-height:1.7}
+.kick b{color:var(--ink-2);font-weight:600}
+
+/* three truths */
+.truths{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);margin-top:16px}
+.truth{padding:24px 22px;border-right:1px solid var(--line);border-top:3px solid var(--c)}
+.truth:last-child{border-right:none}
+.truth .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:10px}
+.truth h3{font-size:19px;letter-spacing:-.005em;margin-bottom:8px}
+.truth p{font-size:13.5px;line-height:1.58}
+@media(max-width:800px){.truths{grid-template-columns:1fr}.truth{border-right:none;border-bottom:1px solid var(--line)}}
+.closing{font-size:15px;line-height:1.62;color:var(--ink-2);margin-top:18px;max-width:80ch}
+.closing b{color:var(--ink);font-weight:600}
+
+/* three questions */
+.qs{margin-top:16px;border:1px solid var(--line-2)}
+.q{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:22px;border-bottom:1px solid var(--line);border-left:3px solid var(--c);align-items:baseline}
+.q:last-child{border-bottom:none}
+.q .ql{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.q .ql b{display:block;font-family:var(--disp);font-size:21px;font-weight:600;color:var(--ink);letter-spacing:-.006em;text-transform:none;margin-top:6px}
+.q .qt{font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+.q .qt .ask{font-family:var(--disp);font-size:18px;color:var(--ink);font-weight:600;letter-spacing:-.005em;display:block;margin-bottom:6px}
+.q .qt b{color:var(--ink);font-weight:600}
+@media(max-width:680px){.q{grid-template-columns:1fr;gap:10px}}
+
+/* sample report */
+.intro{font-size:15px;line-height:1.62;color:var(--ink-2);max-width:78ch;margin-bottom:6px}
+.report{border:1px solid var(--line-2);margin-top:16px;background:var(--panel)}
+.rtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:18px 22px;border-bottom:1px solid var(--line);background:var(--bg)}
+.rtop .rt{font-family:var(--disp);font-size:19px;font-weight:600;letter-spacing:-.005em}
+.rtop .rs{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3)}
+.rtop .nav{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.rtop .nav b{color:var(--ink);font-weight:600}
+.sel{display:flex;border-bottom:1px solid var(--line);background:var(--bg)}
+.sel button{flex:1;padding:11px 8px;background:transparent;border:none;border-right:1px solid var(--line);cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);transition:all .16s;border-bottom:2px solid transparent}
+.sel button:last-child{border-right:none}
+.sel button:hover{color:var(--ink)}
+.report.lens-all .sel [data-l="all"]{border-bottom-color:var(--flare-ink);color:var(--ink);background:var(--panel)}
+.report.lens-vega .sel [data-l="vega"]{border-bottom-color:var(--vega);color:var(--ink);background:var(--panel)}
+.report.lens-var .sel [data-l="var"]{border-bottom-color:var(--var);color:var(--ink);background:var(--panel)}
+.report.lens-val .sel [data-l="val"]{border-bottom-color:var(--val);color:var(--ink);background:var(--panel)}
+.rbody{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.rbody{grid-template-columns:1fr}}
+.book{border-right:1px solid var(--line)}
+@media(max-width:800px){.book{border-right:none;border-bottom:1px solid var(--line)}}
+.book table{width:100%;border-collapse:collapse}
+.book th{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);text-align:left;padding:11px 22px;font-weight:500;border-bottom:1px solid var(--line)}
+.book th.r,.book td.r{text-align:right}
+.book td{padding:11px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-2);vertical-align:top;transition:opacity .18s}
+.book tr:last-child td{border-bottom:none}
+.book .nm{color:var(--ink);font-weight:500}
+.book .sub{display:block;font-family:var(--mono);font-size:9px;color:var(--ink-4);margin-top:2px;letter-spacing:.02em}
+.book td.r{font-family:var(--mono);font-size:12px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:5px;vertical-align:middle}
+.dot.v0{background:var(--vega)} .dot.v1{background:var(--var)} .dot.v2{background:var(--val)}
+.report.lens-vega .book tr:not(.f-vega) td{opacity:.3}
+.report.lens-var  .book tr:not(.f-var) td{opacity:.3}
+.report.lens-val  .book tr:not(.f-val) td{opacity:.3}
+.reads{padding:0}
+.readout{display:none;padding:20px 22px}
+.report.lens-all .readout.rv-all{display:block}
+.report.lens-vega .readout.rv-vega{display:block}
+.report.lens-var .readout.rv-var{display:block}
+.report.lens-val .readout.rv-val{display:block}
+.readout .rk{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.rv-all .rk{color:var(--flare-ink)} .rv-vega .rk{color:var(--vega)} .rv-var .rk{color:var(--var)} .rv-val .rk{color:var(--val)}
+.stat .fv{font-family:var(--disp);font-weight:600;font-size:30px;line-height:1;letter-spacing:-.01em;color:var(--ink)}
+.stat .fv small{font-size:15px;color:var(--ink-3);font-weight:400;font-family:var(--sans)}
+.stat .fl{font-size:12.5px;line-height:1.5;color:var(--ink-2);margin-top:6px;max-width:44ch}
+.stat .fl b{color:var(--ink);font-weight:600}
+.bars{margin:12px 0 2px}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+.bar .bl{width:108px;flex:none;color:var(--ink-2)}
+.bar .track{flex:1;height:7px;background:var(--panel-2);position:relative;overflow:hidden}
+html[data-theme="dark"] .bar .track{background:rgba(255,255,255,.06)}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--c)}
+.bar .bv{width:40px;flex:none;text-align:right;color:var(--ink-2)}
+.readout .fine{font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--ink-4);margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.note{font-size:14.5px;line-height:1.62;color:var(--ink-2);border-left:2px solid var(--plum);padding-left:18px;margin-top:22px;max-width:84ch}
+.note b{color:var(--ink);font-weight:600}
+
+/* how it works (family office) */
+.steps{margin-top:16px;border:1px solid var(--line-2)}
+.step{display:grid;grid-template-columns:52px 1fr;gap:0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:none}
+.step .n{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--flare-ink);background:var(--panel);border-right:1px solid var(--line)}
+.step .t{padding:16px 20px;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.step .t b{color:var(--ink);font-weight:600}
+.discretion{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px solid var(--line-2);border-left:3px solid var(--flare-ink);background:var(--panel);padding:18px 22px;margin-top:14px}
+.discretion .big{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--ink);letter-spacing:-.005em;flex:none}
+.discretion .tx{flex:1;min-width:260px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+
+/* defensibility pillars (cio) */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+@media(max-width:800px){.pillars{grid-template-columns:1fr}}
+.pillar{border:1px solid var(--line-2);border-top:3px solid var(--c);padding:22px}
+.pillar .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:9px}
+.pillar h3{font-size:18px;letter-spacing:-.005em;margin-bottom:7px}
+.pillar p{font-size:13px;line-height:1.56}
+.pillar p b{color:var(--ink);font-weight:600}
+
+/* how it works — phased (cio) */
+.phases{margin-top:16px;border:1px solid var(--line-2)}
+.ph{display:grid;grid-template-columns:150px 1fr 150px;gap:0;border-bottom:1px solid var(--line)}
+.ph:last-child{border-bottom:none}
+.ph .pn{padding:18px 20px;border-right:1px solid var(--line);background:var(--panel)}
+.ph .pn .s{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--flare-ink);margin-bottom:6px}
+.ph .pn .t{font-family:var(--disp);font-size:18px;font-weight:600;letter-spacing:-.005em;color:var(--ink);line-height:1.15}
+.ph .pd{padding:18px 20px;font-size:13.5px;line-height:1.56;color:var(--ink-2)}
+.ph .pd b{color:var(--ink);font-weight:600}
+.ph .pm{padding:18px 20px;border-left:1px solid var(--line);font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--ink-3)}
+.ph .pm b{display:block;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;font-weight:600}
+@media(max-width:820px){.ph{grid-template-columns:1fr}.ph .pn{border-right:none;border-bottom:1px solid var(--line)}.ph .pm{border-left:none;border-top:1px solid var(--line)}}
+.integ{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink-3);margin-top:14px;background:var(--panel);border:1px solid var(--line);padding:14px 16px}
+.integ b{color:var(--ink);font-weight:600}
+
+/* the line */
+.band{position:relative;background:var(--panel);border:1px solid var(--line);padding:26px 28px;margin-top:14px}
+.band::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;background:var(--grad)}
+.band h3{font-size:21px;margin-bottom:10px;letter-spacing:-.006em}
+.band p{font-size:14.5px;line-height:1.62;max-width:84ch}
+.band p+p{margin-top:10px}
+.band b{color:var(--ink);font-weight:600}
+
+/* why not */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:680px){.cols{grid-template-columns:1fr}}
+.col{border:1px solid var(--line-2);padding:22px}
+.col .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px}
+.col h3{font-size:17px;margin-bottom:7px;letter-spacing:-.005em}
+.col p{font-size:13.5px;line-height:1.58}
+
+.cta{background:#0B0913;color:#fff;margin-top:64px;padding:56px 0 60px;position:relative}
+.cta::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(115deg,#FF9B51,#C587BD)}
+.cta h2{color:#fff;font-size:clamp(26px,3.4vw,38px)}
+.cta .g{background:linear-gradient(115deg,#FF9B51,#C587BD);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta p{color:#A5BACA;max-width:66ch;margin:10px 0 22px;font-size:15.5px;line-height:1.62}
+.cta .act{display:inline-flex;gap:10px;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#0B0913;background:linear-gradient(115deg,#FF9B51,#C587BD);padding:13px 22px}
+.cta .sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:#6589A4;margin-top:16px}
+.foot{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink-4);padding:24px 0 60px}
+</style></head>
+<body>
+
+<div class="optbar"><div class="in">
+  <span class="tag">Preview · fifth segment</span>
+  <span class="txt"><b>Tensor Wealth</b> — the Wealth segment: an overview home, then two audience pitches. Deal-side pills are placeholders showing where it slots in.</span>
+  <span class="tt" id="tt"><button data-t="light" class="on">☀</button><button data-t="dark">☾</button></span>
+</div></div>
+
+<div class="segbar"><div class="in">
+  <span class="seglabel">Deal-side</span>
+  <nav class="segs">
+    <span class="seg ph">Buy-side</span>
+    <span class="seg ph">Sell-side</span>
+    <span class="seg ph">Lenders</span>
+    <span class="seg ph">Portfolio</span>
+    <span class="seg on">Wealth</span>
+  </nav>
+</div></div>
+
+<div class="audbar"><div class="in">
+  <span class="al">Tensor Wealth</span>
+  <div class="audtoggle" id="aud">
+    <button data-a="home" class="on">Overview</button>
+    <button data-a="fo">Family office</button>
+    <button data-a="cio">Chief Investment Office</button>
+  </div>
+</div></div>
+
+<!-- ============================ OVERVIEW / HOME ============================ -->
+<section class="aud on" data-aud="home">
+
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Tensor Wealth · ⟨V⟩</span>
+  <h1>The AI layer underneath <span class="grad-text">the money you steward.</span></h1>
+  <p class="lead">Wealth now carries a layer of AI exposure no portfolio system was built to price — how much of a book rides on an AI story, how correlated those bets quietly are, and what survives if the story reprices. <b>⟨V⟩ is one independent read on exactly that,</b> for the people responsible for other people's capital. One engine; who's asking decides what it's pointed at.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">The engine</span>
+    <h2>⟨V⟩ — the expectation over <span class="grad-text">vega, variance and value.</span></h2>
+    <p class="lead">Three questions, asked of the AI beneath a book rather than its price history. The brackets are an expectation, not a forecast: ⟨V⟩ says what you're exposed to, never what to do about it.</p>
+  </div>
+  <div class="whatis">
+    <div class="w" style="--c:var(--vega)"><div class="k">Vega</div><h3>Exposure</h3><p>How much of the book's value rests on an AI narrative rather than diligenced fundamentals — and what a repricing would cost.</p></div>
+    <div class="w" style="--c:var(--var)"><div class="k">Variance</div><h3>Correlation</h3><p>Whether positions held as separate in fact share one model, one cloud, one chip — so a single vendor event moves them together.</p></div>
+    <div class="w" style="--c:var(--val)"><div class="k">Value</div><h3>Floor</h3><p>The diligenced worth beneath the exposed positions, and how much is removable AI-narrative premium.</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">Who it's for</span>
+    <h2>Two ways in. <span class="grad-text">Same engine, your scale.</span></h2>
+    <p class="lead">The read is identical in kind; what changes is whether you're looking at one book in depth or a whole client base at once.</p>
+  </div>
+  <div class="doors">
+    <div class="door" style="--c:var(--flare-ink)">
+      <div class="k">Family office</div>
+      <h3>Your own book, in depth</h3>
+      <div class="who">single &amp; multi-family offices · principal-led</div>
+      <p>Concentrated legacy stock, direct deals, co-investments. <b>The AI exposure under one complex book</b> — including the private positions a factor model can't see through — delivered as an independent read under NDA.</p>
+      <button class="go" data-go="fo">See the family-office read →</button>
+    </div>
+    <div class="door" style="--c:var(--grey)">
+      <div class="k">Chief Investment Office</div>
+      <h3>The whole client base at once</h3>
+      <div class="who">private banks &amp; global wealth managers</div>
+      <p>Thousands of books, one house view. <b>The AI exposure across the franchise</b> — systemic correlation, suitability evidence, and a "did we see it?" answer for the board — proven on a segment, then run at scale.</p>
+      <button class="go" data-go="cio">See the franchise read →</button>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="band">
+    <h3>Independent, and bounded on purpose.</h3>
+    <p>Tensor manages no money, sells no products, and holds no positions — the only thing we produce is the read, which is what lets it be trusted at your table. And ⟨V⟩ stops at the line every time: it reports exposure and hands over evidence, but the allocation call stays with you and your advisors. <b>An expectation, not advice.</b></p>
+  </div>
+</div></section>
+
+</section>
+
+<!-- ============================ FAMILY OFFICE ============================ -->
+<section class="aud" data-aud="fo">
+
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Tensor Wealth · ⟨V⟩</span>
+  <h1>The one layer of your book <span class="grad-text">you can't see.</span></h1>
+  <p class="lead">You know every position. You diligenced every deal. But underneath the book sits an AI layer — how much of the family's wealth now rides on an AI story, how correlated those bets quietly are, and what survives if the story reprices — that no custodian statement or portfolio system was built to show you. <b>⟨V⟩ is one independent read on exactly that, and nothing else.</b></p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">01 — Why it's invisible</span>
+    <h2>Three things about a book like yours <span class="grad-text">hide the AI underneath it.</span></h2>
+  </div>
+  <div class="truths">
+    <div class="truth" style="--c:var(--vega)">
+      <div class="k">Concentration</div><h3>It began with one company</h3>
+      <p>The wealth often started with a single business — and the position, or the stock you took when you sold it, may now trade on an AI story you never underwrote.</p>
+    </div>
+    <div class="truth" style="--c:var(--plum)">
+      <div class="k">Direct deals</div><h3>You back companies yourself</h3>
+      <p>No bank sits between you and the risk. The AI claims in the data room are yours to test — and the ones you've already backed were tested against a market that has since moved.</p>
+    </div>
+    <div class="truth" style="--c:var(--grey)">
+      <div class="k">Opacity</div><h3>Private positions don't resolve</h3>
+      <p>Your illiquid, co-invested and direct holdings never appear cleanly in a factor model. The exposure is real; the measurement simply isn't there.</p>
+    </div>
+  </div>
+  <p class="closing"><b>Addepar shows you what you own and how it has performed.</b> It was never built to price the AI underneath it — and that layer is now where a growing share of the risk lives.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">02 — What ⟨V⟩ answers</span>
+    <h2>Three questions. <span class="grad-text">One read.</span></h2>
+    <p class="lead">⟨V⟩ is an expectation taken over the three things that move a modern book — put plainly, three questions you'd want answered before anyone else raises them.</p>
+  </div>
+  <div class="qs">
+    <div class="q" style="--c:var(--vega)">
+      <div class="ql">Vega<b>Exposure</b></div>
+      <div class="qt"><span class="ask">"How much of the book rides on the AI story?"</span>The share of wealth whose value rests on an AI narrative rather than diligenced fundamentals — and what a repricing of that story would actually cost you.</div>
+    </div>
+    <div class="q" style="--c:var(--var)">
+      <div class="ql">Variance<b>Correlation</b></div>
+      <div class="qt"><span class="ask">"Are my bets as independent as they look?"</span>Whether positions you hold as separate in fact share one model, one cloud, one chip — so a single vendor event moves them together, no matter how diversified the book looks on paper.</div>
+    </div>
+    <div class="q" style="--c:var(--val)">
+      <div class="ql">Value<b>Floor</b></div>
+      <div class="qt"><span class="ask">"What is it worth if the story breaks?"</span>The diligenced floor beneath the exposed positions, and how much of their value is removable AI-narrative premium — the part a repricing can take, and the part it can't.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">03 — A read on a book like yours</span>
+    <h2>This is what we'd hand you.</h2>
+    <p class="intro">An illustrative single-family book — concentrated legacy stock, a handful of direct deals, a VC sleeve. Switch lenses to see which positions each question flags. Figures are invented to show the shape of the read, not a real portfolio.</p>
+  </div>
+
+  <div class="report lens-all" id="report-fo">
+    <div class="rtop">
+      <span class="rt">Family book — confidential scan</span>
+      <span class="rs">illustrative</span>
+      <span class="nav">Total <b>$900M</b> · 8 sleeves</span>
+    </div>
+    <div class="sel">
+      <button data-l="all" class="on">⟨V⟩ · all</button>
+      <button data-l="vega">Vega</button>
+      <button data-l="var">Variance</button>
+      <button data-l="val">Value</button>
+    </div>
+    <div class="rbody">
+      <div class="book">
+        <table>
+          <thead><tr><th>Sleeve</th><th class="r">Value</th><th class="r">Flags</th></tr></thead>
+          <tbody>
+            <tr class="f-vega f-val">
+              <td><span class="nm">Legacy concentrated stock</span><span class="sub">public · acquirer now an AI-logistics story</span></td>
+              <td class="r">$170M</td><td class="r"><span class="dot v0"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Veril</span><span class="sub">direct · AI underwriting</span></td>
+              <td class="r">$48M</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Cobalt</span><span class="sub">direct · AI-native vertical SaaS</span></td>
+              <td class="r">$40M</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Nomic</span><span class="sub">co-invest · AI infrastructure</span></td>
+              <td class="r">$27M</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var">
+              <td><span class="nm">AI-weighted VC funds</span><span class="sub">fund commitments · thematic</span></td>
+              <td class="r">$45M</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span></td>
+            </tr>
+            <tr>
+              <td><span class="nm">Other direct deals & funds</span><span class="sub">non-AI</span></td>
+              <td class="r">$120M</td><td class="r" style="color:var(--ink-4)">—</td>
+            </tr>
+            <tr>
+              <td><span class="nm">Public equities / SMAs</span><span class="sub">low AI-vega</span></td>
+              <td class="r">$185M</td><td class="r" style="color:var(--ink-4)">—</td>
+            </tr>
+            <tr>
+              <td><span class="nm">Real assets, credit & cash</span><span class="sub">ballast · ~0 AI-vega</span></td>
+              <td class="r">$265M</td><td class="r" style="color:var(--ink-4)">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reads">
+        <div class="readout rv-all">
+          <div class="rk">⟨V⟩ · the read</div>
+          <div class="stat"><div class="fv">$190M <small>· 21%</small></div>
+            <div class="fl">of the family's wealth rests on an <b>un-diligenced AI story.</b> <b>$130M</b> of it is correlated through one model provider and one cloud; a <b>30% narrative repricing</b> would cost <b>~$32M (3.5% of total)</b>, and the diligenced floor holds only <b>~46%</b> of the exposed sleeve.</div></div>
+          <div class="fine">One read, three parts below. It says what you're exposed to — never what to do about it.</div>
+        </div>
+        <div class="readout rv-vega" style="--c:var(--vega)">
+          <div class="rk">Vega — how much rides on the story</div>
+          <div class="stat"><div class="fv">$190M <small>· 21%</small></div>
+            <div class="fl"><b>AI-narrative-exposed wealth</b> across four sleeves and the legacy position's AI premium.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Legacy stock</span><span class="track"><span class="fill" style="width:40%"></span></span><span class="bv">med</span></div>
+            <div class="bar"><span class="bl">Veril</span><span class="track"><span class="fill" style="width:78%"></span></span><span class="bv">high</span></div>
+            <div class="bar"><span class="bl">Cobalt</span><span class="track"><span class="fill" style="width:90%"></span></span><span class="bv">high</span></div>
+            <div class="bar"><span class="bl">AI VC</span><span class="track"><span class="fill" style="width:72%"></span></span><span class="bv">high</span></div>
+          </div>
+          <div class="fine">Stress: a 30% compression in AI-narrative multiples → <b style="color:var(--ink)">~$32M</b>, 3.5% of total wealth.</div>
+        </div>
+        <div class="readout rv-var" style="--c:var(--var)">
+          <div class="rk">Variance — the hidden correlation</div>
+          <div class="stat"><div class="fv">$130M <small>· one node</small></div>
+            <div class="fl">moves on a <b>single vendor event.</b> Veril, Cobalt, Nomic and the VC sleeve's lead holding all rest on the <b>same foundation-model provider</b>; three share one cloud.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Screened ρ</span><span class="track"><span class="fill" style="width:20%"></span></span><span class="bv">0.2</span></div>
+            <div class="bar"><span class="bl">True AI ρ</span><span class="track"><span class="fill" style="width:75%"></span></span><span class="bv">~0.75</span></div>
+          </div>
+          <div class="fine">Four deals you hold as separate bets. On the AI layer, they are one.</div>
+        </div>
+        <div class="readout rv-val" style="--c:var(--val)">
+          <div class="rk">Value — what survives a break</div>
+          <div class="stat"><div class="fv">~46% <small>· of the sleeve</small></div>
+            <div class="fl">is <b>diligenced floor.</b> The other <b>~54%</b> is AI-narrative premium — value that exists only while the story holds.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Legacy stock</span><span class="track"><span class="fill" style="width:62%"></span></span><span class="bv">62%</span></div>
+            <div class="bar"><span class="bl">Veril</span><span class="track"><span class="fill" style="width:50%"></span></span><span class="bv">50%</span></div>
+            <div class="bar"><span class="bl">Cobalt</span><span class="track"><span class="fill" style="width:38%"></span></span><span class="bv">38%</span></div>
+            <div class="bar"><span class="bl">Nomic</span><span class="track"><span class="fill" style="width:55%"></span></span><span class="bv">55%</span></div>
+          </div>
+          <div class="fine">The floor is the number a narrative can't take from you.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note"><b>One sentence you could take to your next investment meeting:</b> <em style="font-style:normal;color:var(--ink)">"A fifth of our wealth is priced on an AI story, three-quarters of that moves on a single model and cloud, a moderate repricing costs us ~3.5%, and half the exposed sleeve has no diligenced floor beneath it."</em> Said before someone else says it for you.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">04 — How it works</span>
+    <h2>A read, not software to run.</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div class="t">We start from <b>your holdings</b> — a schedule, a custodian feed, or an Addepar export. Nothing moves and nothing is traded.</div></div>
+    <div class="step"><div class="n">2</div><div class="t">We map the AI <b>underneath</b> — into your direct deals and private positions, not just the public names a factor model can see.</div></div>
+    <div class="step"><div class="n">3</div><div class="t">You get a read you can act on and <b>bring to your advisors</b> — a document, delivered and walked through, under NDA.</div></div>
+    <div class="step"><div class="n">4</div><div class="t">First a single read; then, if it earns its place, we <b>keep it current</b> as the book and the market move.</div></div>
+  </div>
+  <div class="discretion">
+    <span class="big">Independent by construction.</span>
+    <span class="tx">Tensor manages no money, sells no products, and holds no positions. The only thing we produce is the read — which is precisely why it can be trusted at your table.</span>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">05 — Where we stop</span>
+    <h2>We tell you what you're exposed to. <span class="grad-text">We never tell you what to do about it.</span></h2>
+  </div>
+  <div class="band">
+    <h3>The allocation call is yours.</h3>
+    <p>Where the book should go is your judgment and your advisors' — a fiduciary decision, not an assessor's. ⟨V⟩ hands you the evidence and stops there. It is an <b>expectation, not advice</b>, and that restraint is deliberate.</p>
+    <p>It is also what makes the read useful to everyone at your table at once: because ⟨V⟩ makes no one's decision for it, you can put the same document in front of the family, the CIO and an outside advisor without conflict — and without handing your autonomy to a system that thinks it knows better than you do.</p>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">06 — Why not the system you already run</span>
+    <h2>The layer your reporting doesn't reach.</h2>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <div class="k">Your portfolio system</div><h3>Shows performance and factor risk</h3>
+      <p>Addepar, your custodians and the risk tools behind them aggregate what you own and how it has moved. None of them price whether the AI under a position is sound, whether a deal's AI story survives diligence, or whether the book's AI bets are quietly correlated.</p>
+    </div>
+    <div class="col">
+      <div class="k">⟨V⟩</div><h3>Prices the AI underneath</h3>
+      <p>One independent read on the layer those systems can't see — reaching into the concentrated, illiquid and direct positions a factor model never resolves. It sits on top of what you already run; it doesn't replace it.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap">
+  <h2>A first read <span class="g">on your book.</span></h2>
+  <p>Start with one assessment — no platform, no commitment, under NDA. We'll show you the layer you can't see, once. If it earns its place, we'll keep it current.</p>
+  <span class="act">Request a confidential read →</span>
+  <div class="sub">Tensor · independent AI-risk assessment · no assets managed, no products sold</div>
+</div></section>
+
+</section>
+
+<!-- ============================ CIO ============================ -->
+<section class="aud" data-aud="cio">
+
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Tensor Wealth · ⟨V⟩ · for the Chief Investment Office</span>
+  <h1>Your house view reaches every book. <span class="grad-text">Your read on their AI exposure doesn't — yet.</span></h1>
+  <p class="lead">Across the franchise, AI-narrative exposure is scattered through thematic funds on your platform, structured products, model portfolios and concentrated client positions — and no system gives the CIO a firm-wide read of it. When the story reprices, the board and the regulator will ask what you knew, and when. <b>⟨V⟩ is the franchise-level answer: one independent, consistent read on the AI underneath the entire client base.</b></p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">01 — Why it's a franchise problem, not a client one</span>
+    <h2>The exposure is real at the book level. <span class="grad-text">The risk is only visible at yours.</span></h2>
+  </div>
+  <div class="truths">
+    <div class="truth" style="--c:var(--vega)">
+      <div class="k">Distribution</div><h3>Spread across thousands of books</h3>
+      <p>No single advisor and no single suitability review sees the aggregate. The exposure is diffuse by construction — which is exactly why it goes unmeasured until it moves.</p>
+    </div>
+    <div class="truth" style="--c:var(--plum)">
+      <div class="k">Sameness</div><h3>The same story, held independently</h3>
+      <p>Thousands of books separately hold the same AI names, funds and model dependencies. A correlation no individual review can detect becomes a systemic one only the book of books reveals.</p>
+    </div>
+    <div class="truth" style="--c:var(--grey)">
+      <div class="k">Defensibility</div><h3>The question is answered at your level</h3>
+      <p>"Did we see it?" is a board and regulator question answered franchise-wide or not at all. You need evidence the exposure was measured — consistently — before the repricing, not reconstructed after.</p>
+    </div>
+  </div>
+  <p class="closing"><b>Aladdin and your CIO stack aggregate market and factor risk across the base.</b> Neither was built to price the AI layer underneath it — and that layer now cuts across every segment you oversee.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">02 — What ⟨V⟩ answers across the franchise</span>
+    <h2>Three questions. <span class="grad-text">One read of the whole book of books.</span></h2>
+    <p class="lead">The same engine behind the single-book read, aggregated to the client base — so the CIO can answer at franchise scale what no advisor can answer alone.</p>
+  </div>
+  <div class="qs">
+    <div class="q" style="--c:var(--vega)">
+      <div class="ql">Vega<b>Exposure</b></div>
+      <div class="qt"><span class="ask">"How much of client AUM rides on the AI story?"</span>The share of the base whose value rests on an AI narrative rather than diligenced fundamentals — segmented by mandate and product — and the loss a repricing would carry across the franchise.</div>
+    </div>
+    <div class="q" style="--c:var(--var)">
+      <div class="ql">Variance<b>Systemic correlation</b></div>
+      <div class="qt"><span class="ask">"How much of the base rests on the same few models?"</span>The dependency map across client books — how much AUM depends on the same foundation-model providers, clouds and chips, so a single vendor event is a <b>franchise event, not a client one.</b></div>
+    </div>
+    <div class="q" style="--c:var(--val)">
+      <div class="ql">Value<b>Floor</b></div>
+      <div class="qt"><span class="ask">"What survives a repricing, across the base?"</span>The diligenced floor beneath the exposed AUM, and how much is removable AI-narrative premium — the part the franchise would keep, and the part it wouldn't.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">03 — A read across the client base</span>
+    <h2>The book of books, <span class="grad-text">on one screen.</span></h2>
+    <p class="intro">An illustrative wealth franchise — client AUM by segment and product. Switch lenses to see which segments each question flags. Figures are invented to show the shape of the read, not a real franchise.</p>
+  </div>
+
+  <div class="report lens-all" id="report-cio">
+    <div class="rtop">
+      <span class="rt">Wealth franchise — client-base scan</span>
+      <span class="rs">illustrative</span>
+      <span class="nav">Client AUM <b>$420B</b> · ~14,000 books</span>
+    </div>
+    <div class="sel">
+      <button data-l="all" class="on">⟨V⟩ · all</button>
+      <button data-l="vega">Vega</button>
+      <button data-l="var">Variance</button>
+      <button data-l="val">Value</button>
+    </div>
+    <div class="rbody">
+      <div class="book">
+        <table>
+          <thead><tr><th>Segment / product</th><th class="r">AUM</th><th class="r">Flags</th></tr></thead>
+          <tbody>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Thematic AI &amp; tech funds</span><span class="sub">on-platform · recommended</span></td>
+              <td class="r">$46B</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var">
+              <td><span class="nm">Structured products</span><span class="sub">AI-linked underliers</span></td>
+              <td class="r">$22B</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span></td>
+            </tr>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Discretionary model portfolios</span><span class="sub">house models · AI tilt</span></td>
+              <td class="r">$58B</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-var f-val">
+              <td><span class="nm">Concentrated single-stock</span><span class="sub">client holdings</span></td>
+              <td class="r">$34B</td><td class="r"><span class="dot v0"></span><span class="dot v1"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-vega f-val">
+              <td><span class="nm">Advisory / self-directed AI</span><span class="sub">client-led positions</span></td>
+              <td class="r">$40B</td><td class="r"><span class="dot v0"></span><span class="dot v2"></span></td>
+            </tr>
+            <tr class="f-var">
+              <td><span class="nm">Alternatives &amp; private</span><span class="sub">fund &amp; co-invest exposure</span></td>
+              <td class="r">$60B</td><td class="r"><span class="dot v1"></span></td>
+            </tr>
+            <tr>
+              <td><span class="nm">Core diversified, FI &amp; cash</span><span class="sub">~0 AI-vega</span></td>
+              <td class="r">$160B</td><td class="r" style="color:var(--ink-4)">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reads">
+        <div class="readout rv-all">
+          <div class="rk">⟨V⟩ · the franchise read</div>
+          <div class="stat"><div class="fv">$92B <small>· 22%</small></div>
+            <div class="fl">of client AUM rests on an <b>un-diligenced AI story</b>, spread across ~14,000 books. <b>$61B</b> of it depends on the <b>same two foundation-model providers</b> — a single vendor event would be a franchise event, not a client one. A 30% repricing would move <b>~$15B (3.6% of AUM)</b>; the diligenced floor holds <b>~50%</b> of the exposed base.</div></div>
+          <div class="fine">One read across the whole client base — what you're exposed to, and what you can evidence you saw. Never an allocation call.</div>
+        </div>
+        <div class="readout rv-vega" style="--c:var(--vega)">
+          <div class="rk">Vega — how much rides on the story</div>
+          <div class="stat"><div class="fv">$92B <small>· 22%</small></div>
+            <div class="fl"><b>AI-narrative-exposed client AUM</b>, concentrated in on-platform funds and products you recommend.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Thematic funds</span><span class="track"><span class="fill" style="width:92%"></span></span><span class="bv">high</span></div>
+            <div class="bar"><span class="bl">Structured</span><span class="track"><span class="fill" style="width:80%"></span></span><span class="bv">high</span></div>
+            <div class="bar"><span class="bl">Model ports.</span><span class="track"><span class="fill" style="width:56%"></span></span><span class="bv">med</span></div>
+            <div class="bar"><span class="bl">Concentrated</span><span class="track"><span class="fill" style="width:52%"></span></span><span class="bv">med</span></div>
+          </div>
+          <div class="fine">Stress: a 30% compression in AI-narrative multiples → <b style="color:var(--ink)">~$15B</b>, 3.6% of client AUM.</div>
+        </div>
+        <div class="readout rv-var" style="--c:var(--var)">
+          <div class="rk">Variance — the systemic dependency</div>
+          <div class="stat"><div class="fv">$61B <small>· two providers</small></div>
+            <div class="fl">of client AUM moves on <b>two foundation-model providers.</b> Thousands of books that clear individual suitability review independently rest on the same handful of models and clouds.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Screened ρ</span><span class="track"><span class="fill" style="width:20%"></span></span><span class="bv">0.2</span></div>
+            <div class="bar"><span class="bl">True AI ρ</span><span class="track"><span class="fill" style="width:72%"></span></span><span class="bv">~0.7</span></div>
+          </div>
+          <div class="fine">No single suitability review sees this. Only the book of books does.</div>
+        </div>
+        <div class="readout rv-val" style="--c:var(--val)">
+          <div class="rk">Value — what survives a repricing</div>
+          <div class="stat"><div class="fv">~50% <small>· of exposed</small></div>
+            <div class="fl">is <b>diligenced floor</b> across the exposed base. The other <b>~50%</b> is removable AI-narrative premium.</div></div>
+          <div class="bars">
+            <div class="bar"><span class="bl">Thematic funds</span><span class="track"><span class="fill" style="width:42%"></span></span><span class="bv">42%</span></div>
+            <div class="bar"><span class="bl">Model ports.</span><span class="track"><span class="fill" style="width:60%"></span></span><span class="bv">60%</span></div>
+            <div class="bar"><span class="bl">Concentrated</span><span class="track"><span class="fill" style="width:64%"></span></span><span class="bv">64%</span></div>
+            <div class="bar"><span class="bl">Advisory</span><span class="track"><span class="fill" style="width:48%"></span></span><span class="bv">48%</span></div>
+          </div>
+          <div class="fine">The floor is the AUM a narrative repricing can't take from the base.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note"><b>The line your risk committee needs:</b> <em style="font-style:normal;color:var(--ink)">"Twenty-two percent of client AUM is priced on an AI story; two-thirds of that moves on two model providers; a moderate repricing costs the base ~3.6%, and we have it measured, segmented and dated — before the move, not after."</em></p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">04 — What it gives the house</span>
+    <h2>Evidence, consistency, <span class="grad-text">and a read on your own AI.</span></h2>
+  </div>
+  <div class="pillars">
+    <div class="pillar" style="--c:var(--vega)">
+      <div class="k">Board &amp; regulator</div><h3>You can answer "did we see it?"</h3>
+      <p>A franchise-level read you can put in front of a board or a regulator — <b>evidence the AI exposure across the client base was measured, consistently, and dated</b> before the repricing, not reconstructed after it.</p>
+    </div>
+    <div class="pillar" style="--c:var(--plum)">
+      <div class="k">Suitability &amp; the record</div><h3>One basis, every desk</h3>
+      <p>A consistent basis for the suitability record — <b>Reg BI / MiFID II</b> — behind AI-themed products and recommendations, so the answer a client gets to "how exposed am I?" is the same across every advisor, not advisor-by-advisor judgment.</p>
+    </div>
+    <div class="pillar" style="--c:var(--grey)">
+      <div class="k">Your own AI</div><h3>The engines you operate</h3>
+      <p>The advice engines, robo and research-generation the firm itself runs carry a <b>model-risk read (SR 11-7)</b> — governable, explainable, rollback-able — rather than a black box you'd have to defend without evidence.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">05 — How it works</span>
+    <h2>Prove it on a segment. <span class="grad-text">Then run it across the franchise.</span></h2>
+  </div>
+  <div class="phases">
+    <div class="ph">
+      <div class="pn"><div class="s">Phase 1</div><div class="t">Pilot</div></div>
+      <div class="pd">A bounded scan of <b>one segment, region or desk</b>, delivered by Tensor against agreed success criteria. No integration required — a holdings export is enough to produce the first franchise-shaped read.</div>
+      <div class="pm"><b>Runs on</b>a holdings export<br><b>Delivered by</b>Tensor</div>
+    </div>
+    <div class="ph">
+      <div class="pn"><div class="s">Phase 2</div><div class="t">Platform</div></div>
+      <div class="pd">Licensed and <b>embedded in the CIO and advisory workflow</b> — a standing read across the base, refreshed on your cadence, integrated with the stack you already run.</div>
+      <div class="pm"><b>Integrates</b>Aladdin · Addepar · custodian feeds<br><b>Operated by</b>your CIO office</div>
+    </div>
+    <div class="ph">
+      <div class="pn"><div class="s">Phase 3</div><div class="t">Advisor rollout</div></div>
+      <div class="pd">A <b>client-ready read</b> in the advisor's hands — the same house methodology behind every conversation, and, if you choose, a white-label version the client sees directly.</div>
+      <div class="pm"><b>Reaches</b>every relationship manager<br><b>Optional</b>white-label to clients</div>
+    </div>
+  </div>
+  <div class="integ"><b>Enterprise from the start:</b> runs alongside your existing risk stack rather than replacing it · SSO, data-residency and audit controls · a defined evidence standard and assessor independence behind every number — which is what makes the read citable to a regulator.</div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">06 — Where we stop</span>
+    <h2>Exposure and evidence. <span class="grad-text">Not an allocation call.</span></h2>
+  </div>
+  <div class="band">
+    <h3>The investment decision stays with the house.</h3>
+    <p>⟨V⟩ reports what the client base is exposed to and what you can evidence you saw. Where the money should go is your investment committee's and your advisors' fiduciary judgment — <b>not an assessor's.</b> ⟨V⟩ is an expectation, not advice, and stops at the line on purpose.</p>
+    <p>For a CIO that restraint is the point, not a limitation: a vendor that made allocation calls would create the very liability you're trying to manage. ⟨V⟩ <b>strengthens the house view and the record behind it</b> without ever substituting for either — which is what lets it sit inside a regulated process rather than beside it.</p>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh"><span class="eyebrow">07 — Why not the stack you already run</span>
+    <h2>The layer your risk systems don't price.</h2>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <div class="k">Your risk &amp; CIO stack</div><h3>Market and factor risk, aggregated</h3>
+      <p>Aladdin, MSCI and your own tooling measure factor exposure, VaR and performance across the base. None of them price whether the AI under a holding is sound, whether an on-platform AI fund's story survives diligence, or how much of the client base quietly shares one model.</p>
+    </div>
+    <div class="col">
+      <div class="k">⟨V⟩</div><h3>The AI layer, franchise-wide</h3>
+      <p>One independent read on the layer those systems can't see — aggregated to the book of books, segmented by mandate and product, and defensible to a board or regulator. It sits on top of your stack; it doesn't replace it.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap">
+  <h2>Start with <span class="g">one segment.</span></h2>
+  <p>A bounded franchise pilot — one segment or desk, agreed success criteria, delivered against a holdings export with no integration required. You see the book-of-books read on your own client base before any platform decision.</p>
+  <span class="act">Scope a franchise pilot →</span>
+  <div class="sub">Tensor · independent AI-risk assessment · runs alongside your stack · no assets managed, no products sold</div>
+</div></section>
+
+</section>
+
+<div class="wrap"><div class="foot">Preview · Tensor Wealth as the fifth deal-side segment — an overview home branching to the Family office and CIO pitches · ⟨V⟩ = expectation over {vega, variance, value} · all figures illustrative · not a live product, and not investment or legal advice.</div></div>
+
+<script>
+(function(){
+  // theme toggle
+  var tt=document.getElementById('tt');
+  tt.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){
+    document.documentElement.setAttribute('data-theme',b.getAttribute('data-t'));
+    tt.querySelectorAll('button').forEach(function(o){o.classList.toggle('on',o===b);});
+  });});
+
+  // overview / audience navigation
+  var aud=document.getElementById('aud');
+  function setAud(a){
+    document.querySelectorAll('.aud').forEach(function(p){p.classList.toggle('on',p.getAttribute('data-aud')===a);});
+    aud.querySelectorAll('button').forEach(function(o){o.classList.toggle('on',o.getAttribute('data-a')===a);});
+    window.scrollTo(0,0);
+  }
+  aud.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){setAud(b.getAttribute('data-a'));});});
+  document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){setAud(b.getAttribute('data-go'));});});
+
+  // lens selector — generalised across every report on the page
+  document.querySelectorAll('.report').forEach(function(rep){
+    var sel=rep.querySelector('.sel');
+    sel.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){
+      var l=b.getAttribute('data-l');
+      ['lens-all','lens-vega','lens-var','lens-val'].forEach(function(k){rep.classList.remove(k);});
+      rep.classList.add('lens-'+l);
+      sel.querySelectorAll('button').forEach(function(o){o.classList.toggle('on',o===b);});
+    });});
+  });
+})();
+</script>
+</body>
+</html>

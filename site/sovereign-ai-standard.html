@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sovereign AI Standard — control over the AI you depend on</title>
+<meta name="description" content="A public standard for AI sovereignty: whose model, under whose jurisdiction, trained on what, and whether you can leave, and whether you can evaluate it. Seven dimensions, three levels, assessed by accredited independent assessors.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000000; --bg-1:#080610; --panel:#0C0913; --panel-2:#110D1A; --panel-3:#171223;
+  --ink:#FFFFFF; --ink-2:#A7ADB7; --ink-3:#6A7079; --ink-4:#464C54;
+  --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.24); --line-3:rgba(255,255,255,.40);
+  --flare:#FF7A45; --violet:#9B6BFF; --magenta:#E85DA8; --red:#FF4D6D;
+  --grad:linear-gradient(115deg,#FF7A45 0%,#E85DA8 50%,#7B4DFF 100%);
+  --grad-soft:linear-gradient(115deg,rgba(255,122,69,.17),rgba(232,93,168,.17),rgba(123,77,255,.17));
+  --track:rgba(255,255,255,.11);
+  --disp:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+html[data-theme="light"]{
+  --bg:#FFFFFF; --bg-1:#F4F3F8; --panel:#F8F7FB; --panel-2:#EFEDF5; --panel-3:#E5E2EE;
+  --ink:#0C0F16; --ink-2:#4B5563; --ink-3:#79828F; --ink-4:#A7AFBB;
+  --line:rgba(12,18,30,.12); --line-2:rgba(12,18,30,.20); --line-3:rgba(12,18,30,.34);
+  --flare:#D9541F; --violet:#6D28D9; --magenta:#B02A82; --red:#C81E4A;
+  --grad:linear-gradient(115deg,#D9541F 0%,#B02A82 50%,#6D28D9 100%);
+  --grad-soft:linear-gradient(115deg,rgba(217,84,31,.14),rgba(176,42,130,.14),rgba(109,40,217,.14));
+  --track:rgba(12,18,30,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.pg{display:none}.pg.on{display:block}
+main{overflow-x:hidden}
+@media(prefers-reduced-motion:reduce){.pgx .rv{opacity:1;transform:none;transition:none}*{animation:none!important;transition:none!important}}
+
+/* ===== institutional masthead (always dark) ===== */
+.mast{position:sticky;top:0;z-index:60;background:#0B0913;color:#fff;border-bottom:1px solid rgba(255,255,255,.14)}
+.mast .in{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,44px);display:flex;align-items:center;gap:18px;min-height:62px}
+.mast .id{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff}
+.mast .id .shield{width:30px;height:34px;flex:none;display:block}
+.mast .id .wm{display:flex;flex-direction:column;gap:3px;line-height:1}
+.mast .id .wm b{font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.2em}
+.mast .id .wm span{font-family:var(--mono);font-size:8px;letter-spacing:.26em;color:#8A8F99}
+.mast .ver{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#0B0913;background:linear-gradient(115deg,#FF7A45,#E85DA8 55%,#9B6BFF);padding:5px 9px;white-space:nowrap}
+.mast nav{display:flex;gap:15px;margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+.mast nav a{color:#8A8F99;text-decoration:none;padding:4px 0;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
+.mast nav a:hover{color:#fff}
+.mast nav a.on{color:#fff;border-bottom-color:#E85DA8}
+.mast .ttog{display:flex;border:1px solid rgba(255,255,255,.22);margin-left:6px;flex:none}
+.mast .ttog button{width:28px;height:26px;display:grid;place-items:center;background:transparent;border:none;color:#8A8F99;cursor:pointer;padding:0}
+.mast .ttog button svg{width:12px;height:12px}
+.mast .ttog button.on{background:rgba(255,255,255,.12);color:#fff}
+@media(max-width:960px){.mast nav{display:none}.mast .ttog{margin-left:auto}}
+
+/* consultation strip */
+.constrip{background:var(--panel-2);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);text-align:center;padding:8px 20px}
+.constrip a{color:var(--ink);border-bottom:1px solid var(--line-2);text-decoration:none}
+.constrip b{color:var(--flare)}
+
+/* ===== home institutional hero ===== */
+.pgx .spec{border:1px solid var(--line-2);margin-top:30px;display:grid;grid-template-columns:1fr 1fr}
+.pgx .spec>div{padding:18px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pgx .spec>div:nth-child(2n){border-right:none}
+.pgx .spec>div:nth-last-child(-n+2){border-bottom:none}
+.pgx .spec .k{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.pgx .spec .v{font-family:var(--mono);font-size:13px;color:var(--ink)}
+@media(max-width:640px){.pgx .spec{grid-template-columns:1fr}.pgx .spec>div{border-right:none}}
+
+/* ===== footer ===== */
+.sfoot{border-top:1px solid var(--line);background:var(--panel);margin-top:0}
+.sfoot .in{max-width:1120px;margin:0 auto;padding:44px clamp(20px,4vw,44px) 40px}
+.sfoot .cols{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:32px}
+.sfoot .brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sfoot .brand .shield{width:26px;height:30px}
+.sfoot .brand b{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.18em;color:var(--ink)}
+.sfoot .blurb{font-size:13px;line-height:1.6;color:var(--ink-3);max-width:40ch}
+.sfoot h4{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:13px}
+.sfoot a{display:block;font-size:13px;color:var(--ink-2);text-decoration:none;margin-bottom:9px}
+.sfoot a:hover{color:var(--ink)}
+.sfoot .legal{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink-4);max-width:112ch}
+.sfoot .legal b{color:var(--ink-3);font-weight:500}
+@media(max-width:820px){.sfoot .cols{grid-template-columns:1fr 1fr;gap:26px}}
+@media(max-width:520px){.sfoot .cols{grid-template-columns:1fr}}
+
+/* ============ shared styles for Classification / Trust / Engagements ============ */
+.pgx a{color:inherit;text-decoration:none}
+.pgx .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+.pgx .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--flare)}
+.pgx .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pgx h1.disp{font-family:var(--disp);font-weight:600;font-size:clamp(34px,5.2vw,60px);line-height:1.05;letter-spacing:-.006em;margin:18px 0 20px}
+.pgx h2.big{font-family:var(--disp);font-weight:600;font-size:clamp(25px,3.3vw,40px);line-height:1.09;letter-spacing:-.005em;margin:13px 0 13px}
+.pgx h3.d{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.005em}
+.pgx .lead{color:var(--ink-2);font-size:16.5px;line-height:1.62;max-width:70ch}
+.pgx .lead b{color:var(--ink);font-weight:600}
+.pgx p{color:var(--ink-2);font-size:15px;line-height:1.62;max-width:72ch}
+.pgx p b{color:var(--ink);font-weight:600}
+.pgx .rv{opacity:0;transform:translateY(13px);transition:opacity .6s ease,transform .6s ease}
+.pgx .rv.in{opacity:1;transform:none}
+.pgx .hero{position:relative;padding:64px 0 8px}
+.pgx .hero .hero-copy{max-width:900px}
+.pgx .hero::before{content:"";position:absolute;inset:-130px -6% auto -6%;height:700px;pointer-events:none;z-index:0;
+  background:radial-gradient(42% 46% at 88% 6%,rgba(241,83,31,.20),transparent 66%),
+             radial-gradient(40% 50% at 4% 74%,rgba(109,40,217,.15),transparent 70%),
+             radial-gradient(36% 38% at 58% 96%,rgba(176,42,130,.13),transparent 72%)}
+.pgx .hero::after{content:"";position:absolute;inset:-130px -6% auto -6%;height:560px;pointer-events:none;z-index:0;opacity:.55;
+  background-image:radial-gradient(currentColor 1px,transparent 1px);background-size:8px 8px;color:rgba(176,42,130,.40);
+  -webkit-mask-image:radial-gradient(52% 62% at 96% 4%,rgba(0,0,0,.9),transparent 62%);mask-image:radial-gradient(52% 62% at 96% 4%,rgba(0,0,0,.9),transparent 62%)}
+html[data-theme="dark"] .pgx .hero::before{background:radial-gradient(42% 46% at 88% 6%,rgba(255,122,69,.22),transparent 66%),
+             radial-gradient(40% 50% at 4% 74%,rgba(123,77,255,.20),transparent 70%),
+             radial-gradient(36% 38% at 58% 96%,rgba(232,93,168,.16),transparent 72%)}
+html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
+.pgx .hero .wrap{position:relative;z-index:1}
+.pgx .ctas{display:flex;gap:14px;align-items:center;margin-top:26px;flex-wrap:wrap}
+.pgx .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:13px 22px;border:1px solid var(--line-2);color:var(--ink);background:transparent;transition:.16s}
+.pgx .btn:hover{border-color:var(--line-3)}
+.pgx .btn.grad{background:var(--grad);border-color:transparent;color:#fff}
+.pgx .btn.grad:hover{filter:brightness(1.07)}
+.pgx .sub-link{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--line-2);padding-bottom:3px}
+.pgx .sub-link:hover{color:var(--ink);border-color:var(--ink)}
+.pgx section.blk{padding:76px 0 0}
+.pgx .sh{max-width:820px;margin-bottom:30px}
+.pgx .divider{height:1px;background:var(--line);margin-top:14px}
+/* split intro */
+.pgx .split{display:grid;grid-template-columns:1fr 1.2fr;gap:52px;align-items:start}
+@media(max-width:900px){.pgx .split{grid-template-columns:1fr;gap:22px}}
+/* numbered layers */
+.pgx .layer{display:grid;grid-template-columns:82px 1fr;gap:28px;padding:34px 0;border-top:1px solid var(--line)}
+.pgx .layer:first-of-type{border-top:0}
+.pgx .layer .num{font-family:var(--disp);font-size:46px;line-height:.9;font-weight:600;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text}
+.pgx .layer .tagline{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.pgx .layer h3{font-family:var(--disp);font-weight:600;font-size:23px;margin-bottom:10px}
+.pgx .layer p+p{margin-top:11px}
+@media(max-width:720px){.pgx .layer{grid-template-columns:1fr;gap:8px}}
+/* accent column cards */
+.pgx .cols{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);margin-top:12px}
+.pgx .cols.two{grid-template-columns:repeat(2,1fr)}
+.pgx .cols .cl{padding:22px;border-right:1px solid var(--line);border-top:3px solid var(--c)}
+.pgx .cols .cl:last-child{border-right:none}
+.pgx .cols .cl .k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--c);margin-bottom:9px}
+.pgx .cols .cl h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:8px;letter-spacing:-.005em}
+.pgx .cols .cl p{font-size:13.5px;line-height:1.55}
+.pgx .cols .cl .rule{height:1px;background:var(--line);margin:16px 0 12px}
+.pgx .cols .cl .mk{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4)}
+.pgx .cols .cl .mv{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--ink-3);margin-top:7px}
+@media(max-width:860px){.pgx .cols,.pgx .cols.two{grid-template-columns:1fr}
+.pgx .cols .cl{border-right:none;border-bottom:1px solid var(--line)}}
+/* definition rows */
+.pgx .rows{border-top:1px solid var(--line);margin-top:14px}
+.pgx .rows .r{display:grid;grid-template-columns:250px 1fr;gap:32px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+.pgx .rows .r .k{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--ink);line-height:1.3}
+.pgx .rows .r .v{font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:66ch}
+@media(max-width:760px){.pgx .rows .r{grid-template-columns:1fr;gap:7px}}
+/* stat strip */
+.pgx .stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);margin-top:26px}
+.pgx .stats .s{padding:22px;border-right:1px solid var(--line)}
+.pgx .stats .s:last-child{border-right:none}
+.pgx .stats .n{font-family:var(--disp);font-size:34px;font-weight:600;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pgx .stats .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:11px}
+.pgx .stats .d{font-size:13px;line-height:1.5;color:var(--ink-3);margin-top:8px}
+@media(max-width:760px){.pgx .stats{grid-template-columns:1fr}.pgx .stats .s{border-right:none;border-bottom:1px solid var(--line)}}
+/* compare panel */
+.pgx .compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);margin-top:12px}
+.pgx .compare>div{padding:24px}
+.pgx .compare>div:first-child{border-right:1px solid var(--line)}
+.pgx .compare .who{font-family:var(--disp);font-size:19px;font-weight:600;color:var(--ink)}
+.pgx .compare .code{font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--ink-3);margin-top:5px}
+.pgx .compare .arch{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 9px;border:1px solid;margin-top:14px}
+.pgx .compare .arch.p{color:var(--violet);border-color:var(--violet)}
+.pgx .compare .arch.o{color:var(--flare);border-color:var(--flare)}
+.pgx .compare ul{list-style:none;margin:18px 0 0;padding:0}
+.pgx .compare li{font-size:14px;line-height:1.5;padding:9px 0;border-top:1px solid var(--line);color:var(--ink-2)}
+.pgx .compare li:first-child{border-top:0}
+.pgx .compare li b{color:var(--ink);font-weight:600}
+.pgx .note{font-size:15px;line-height:1.6;color:var(--ink-2);border-left:2px solid var(--violet);padding-left:18px;margin-top:24px;max-width:76ch}
+@media(max-width:760px){.pgx .compare{grid-template-columns:1fr}.pgx .compare>div:first-child{border-right:0;border-bottom:1px solid var(--line)}}
+/* coverage map */
+.pgx .cover{border-top:1px solid var(--line);margin-top:26px}
+.pgx .covrow{display:grid;grid-template-columns:230px 1fr;gap:32px;padding:22px 0;border-bottom:1px solid var(--line)}
+.pgx .covrow .csec{display:flex;flex-direction:column;gap:6px}
+.pgx .covrow .ccode{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--ink-4)}
+.pgx .covrow .cname{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.2;color:var(--ink)}
+.pgx .covrow .ccount{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4)}
+.pgx .covgroups{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.pgx .covgrp{display:inline-flex;align-items:baseline;gap:7px;border:1px solid var(--line);padding:6px 10px;font-size:13px;color:var(--ink-2);line-height:1.3}
+.pgx .covgrp i{font-style:normal;font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--violet)}
+.pgx .covnote{font-size:13.5px;line-height:1.55;color:var(--ink-3);max-width:74ch}
+.pgx .covnote b{color:var(--ink-2);font-weight:500}
+.pgx .covlead{display:flex;gap:34px;flex-wrap:wrap;margin-top:24px}
+.pgx .covlead div{display:flex;flex-direction:column;gap:5px}
+.pgx .covlead .n{font-family:var(--disp);font-size:30px;font-weight:600;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pgx .covlead .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+@media(max-width:820px){.pgx .covrow{grid-template-columns:1fr;gap:14px}}
+/* band */
+.pgx .band{position:relative;background:var(--panel);border:1px solid var(--line);padding:30px 30px 30px 34px;margin-top:14px}
+.pgx .band::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;background:var(--grad)}
+.pgx .band h3{font-family:var(--disp);font-weight:600;font-size:21px;margin-bottom:10px}
+.pgx .band p+p{margin-top:12px}
+/* generic matrix table */
+.pgx .mx{border:1px solid var(--line-2);margin-top:12px;overflow-x:auto}
+.pgx .mx table{width:100%;min-width:680px;border-collapse:collapse}
+.pgx .mx th,.pgx .mx td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:13.5px;line-height:1.5;color:var(--ink-2);vertical-align:top}
+.pgx .mx th:last-child,.pgx .mx td:last-child{border-right:none}
+.pgx .mx tr:last-child td{border-bottom:none}
+.pgx .mx thead th{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);background:var(--panel);font-weight:500}
+.pgx .mx td.lbl{color:var(--ink);font-weight:500}
+.pgx .mx td.c{text-align:center}
+.pgx .mx .yes{display:inline-block;width:9px;height:9px;background:var(--grad)}
+.pgx .mx .part{display:inline-block;width:9px;height:9px;background:var(--line-3)}
+.pgx .mx .no{display:inline-block;width:9px;height:9px;border:1px solid var(--line-2)}
+.pgx .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3);align-items:center}
+.pgx .legend span{display:inline-flex;align-items:center;gap:7px}
+/* flow steps */
+.pgx .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-2);margin-top:12px}
+.pgx .flow .st{padding:20px 18px;border-right:1px solid var(--line);position:relative}
+.pgx .flow .st:last-child{border-right:none}
+.pgx .flow .st .n{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--flare);margin-bottom:10px}
+.pgx .flow .st h4{font-family:var(--disp);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:7px}
+.pgx .flow .st p{font-size:12.5px;line-height:1.5;color:var(--ink-3)}
+@media(max-width:960px){.pgx .flow{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pgx .flow{grid-template-columns:1fr}
+.pgx .flow .st{border-right:none;border-bottom:1px solid var(--line)}}
+/* commitments */
+.pgx .commits{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line-2);margin-top:12px}
+.pgx .commits .cm{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pgx .commits .cm:nth-child(2n){border-right:none}
+.pgx .commits .cm:nth-last-child(-n+2){border-bottom:none}
+.pgx .commits .cm .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--flare);margin-bottom:10px}
+.pgx .commits .cm h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:8px}
+.pgx .commits .cm p{font-size:14px;line-height:1.58}
+@media(max-width:760px){.pgx .commits{grid-template-columns:1fr}
+.pgx .commits .cm{border-right:none;border-bottom:1px solid var(--line)}
+.pgx .commits .cm:last-child{border-bottom:none}}
+/* do / don't lists */
+.pgx .duo{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);margin-top:12px}
+.pgx .duo>div{padding:24px}
+.pgx .duo>div:first-child{border-right:1px solid var(--line);border-top:3px solid var(--flare)}
+.pgx .duo>div:last-child{border-top:3px solid var(--violet)}
+.pgx .duo h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:4px}
+.pgx .duo .sub{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+.pgx .duo ul{list-style:none;margin:0;padding:0}
+.pgx .duo li{position:relative;padding-left:16px;font-size:14px;line-height:1.55;color:var(--ink-2);margin-bottom:11px}
+.pgx .duo li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--flare)}
+.pgx .duo>div:last-child li::before{background:var(--violet)}
+.pgx .duo li b{color:var(--ink);font-weight:600}
+@media(max-width:760px){.pgx .duo{grid-template-columns:1fr}
+.pgx .duo>div:first-child{border-right:none;border-bottom:1px solid var(--line)}}
+/* tiers */
+.pgx .tiers{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);margin-top:12px}
+.pgx .tiers .t{padding:26px 22px;border-right:1px solid var(--line);border-top:3px solid var(--c);display:flex;flex-direction:column}
+.pgx .tiers .t:last-child{border-right:none}
+.pgx .tiers .t .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.pgx .tiers .t h3{font-family:var(--disp);font-weight:600;font-size:24px;margin:9px 0 4px;letter-spacing:-.006em}
+.pgx .tiers .t .when{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:16px}
+.pgx .tiers .t .meta{display:flex;gap:22px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:16px}
+.pgx .tiers .t .meta div{display:flex;flex-direction:column;gap:4px}
+.pgx .tiers .t .meta .mv{font-family:var(--disp);font-weight:600;font-size:19px;color:var(--ink)}
+.pgx .tiers .t .meta .ml{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.pgx .tiers .t ul{list-style:none;margin:0 0 18px;padding:0;flex:1}
+.pgx .tiers .t li{position:relative;padding-left:15px;font-size:13.5px;line-height:1.5;color:var(--ink-2);margin-bottom:9px}
+.pgx .tiers .t li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--c)}
+.pgx .tiers .t .fee{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:900px){.pgx .tiers{grid-template-columns:1fr}
+.pgx .tiers .t{border-right:none;border-bottom:1px solid var(--line)}}
+/* timeline */
+.pgx .tl{border-top:1px solid var(--line);margin-top:14px}
+.pgx .tl .e{display:grid;grid-template-columns:130px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid var(--line)}
+.pgx .tl .e .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--flare);padding-top:3px}
+.pgx .tl .e h4{font-family:var(--disp);font-weight:600;font-size:17px;color:var(--ink);margin-bottom:6px}
+.pgx .tl .e p{font-size:14px;line-height:1.58}
+@media(max-width:700px){.pgx .tl .e{grid-template-columns:1fr;gap:6px}}
+/* faq */
+.pgx .faq{border-top:1px solid var(--line);margin-top:14px}
+.pgx .faq details{border-bottom:1px solid var(--line)}
+.pgx .faq summary{cursor:pointer;list-style:none;padding:19px 0;font-family:var(--disp);font-weight:600;font-size:17px;color:var(--ink);display:flex;justify-content:space-between;gap:20px;align-items:center}
+.pgx .faq summary::-webkit-details-marker{display:none}
+.pgx .faq summary::after{content:"+";font-family:var(--mono);font-size:17px;color:var(--ink-3);flex:none}
+.pgx .faq details[open] summary::after{content:"–"}
+.pgx .faq details p{padding:0 0 20px;font-size:14.5px}
+/* to-confirm marker */
+.pgx .tbd{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--magenta);border:1px dashed var(--magenta);padding:2px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.pgx .tbdbox{border:1px dashed var(--magenta);padding:20px 22px;margin-top:12px}
+.pgx .tbdbox .h{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);margin-bottom:10px}
+.pgx .tbdbox p{font-size:14px}
+/* cta band */
+.pgx .ctaband{background:#0B0913;color:#fff;padding:76px 0;margin-top:84px;position:relative}
+.pgx .ctaband::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(115deg,#FF7A45,#E85DA8 52%,#7B4DFF)}
+.pgx .ctaband h2{font-family:var(--disp);font-weight:600;font-size:clamp(25px,3.5vw,42px);line-height:1.08;margin-bottom:13px}
+.pgx .ctaband .g{background:linear-gradient(115deg,#FF7A45,#E85DA8 52%,#9B6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pgx .ctaband p{color:#A7ADB7;max-width:62ch;margin-bottom:24px}
+.pgx .ctaband .btn{background:linear-gradient(115deg,#FF7A45,#E85DA8 52%,#7B4DFF);border-color:transparent;color:#fff}
+
+/* ============ Sovereign AI certification ============ */
+/* the mark / badge */
+.pgx .sbadge{display:inline-flex;align-items:stretch;border:1px solid var(--ink);background:var(--bg);text-decoration:none;overflow:hidden}
+.pgx .sbadge .sb-m{display:grid;place-items:center;width:46px;flex:none;background:var(--ink);color:var(--bg)}
+.pgx .sbadge .sb-m svg{width:22px;height:22px;display:block}
+.pgx .sbadge .sb-t{padding:9px 15px 10px;display:flex;flex-direction:column;gap:3px;justify-content:center}
+.pgx .sbadge .sb-t b{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);line-height:1}
+.pgx .sbadge .sb-t span{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);line-height:1}
+.pgx .sbadge.lg .sb-m{width:64px}.pgx .sbadge.lg .sb-m svg{width:30px;height:30px}
+.pgx .sbadge.lg .sb-t{padding:13px 20px 14px}
+.pgx .sbadge.lg .sb-t b{font-size:15px}.pgx .sbadge.lg .sb-t span{font-size:9.5px}
+.pgx .sbadge.l1 .sb-m{background:var(--ink-3)}
+.pgx .sbadge.l2 .sb-m{background:var(--ink)}
+.pgx .sbadge.l3 .sb-m{background:var(--grad);color:#fff}
+.pgx .badgerow{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:16px}
+/* level ladder */
+.pgx .ladder{border:1px solid var(--line-2);margin-top:14px}
+.pgx .ladder .lv{display:grid;grid-template-columns:210px 1fr;gap:30px;padding:24px;border-bottom:1px solid var(--line);border-left:3px solid var(--c)}
+.pgx .ladder .lv:last-child{border-bottom:none}
+.pgx .ladder .lv .lh{display:flex;flex-direction:column;gap:10px}
+.pgx .ladder .lv .lnum{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.pgx .ladder .lv .lname{font-family:var(--disp);font-weight:600;font-size:22px;letter-spacing:-.006em;color:var(--ink);line-height:1.15}
+.pgx .ladder .lv .lclaim{font-size:14.5px;line-height:1.6;color:var(--ink-2);margin-bottom:12px}
+.pgx .ladder .lv .lclaim b{color:var(--ink);font-weight:600}
+.pgx .ladder .lv ul{list-style:none;margin:0;padding:0}
+.pgx .ladder .lv li{position:relative;padding-left:16px;font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-bottom:7px}
+.pgx .ladder .lv li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--c)}
+@media(max-width:800px){.pgx .ladder .lv{grid-template-columns:1fr;gap:14px}}
+/* seven dimensions */
+.pgx .dims{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line);margin-top:14px}
+.pgx .dims .dm{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 22px;position:relative}
+.pgx .dims .dm::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:var(--c)}
+.pgx .dims .dm .dcode{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--c);margin-bottom:10px}
+.pgx .dims .dm h3{font-family:var(--disp);font-weight:600;font-size:18.5px;margin-bottom:8px;letter-spacing:-.005em;color:var(--ink)}
+.pgx .dims .dm p{font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-bottom:12px}
+.pgx .dims .dm .dq{font-family:var(--mono);font-size:11.5px;line-height:1.55;color:var(--ink-3);border-top:1px solid var(--line);padding-top:11px}
+.pgx .dims .dm .dq b{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;font-weight:500}
+@media(max-width:980px){.pgx .dims{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.pgx .dims{grid-template-columns:1fr}}
+/* criteria table */
+.pgx .crit{border:1px solid var(--line-2);margin-top:14px;overflow-x:auto}
+.pgx .crit table{width:100%;min-width:760px;border-collapse:collapse}
+.pgx .crit th,.pgx .crit td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:13px;line-height:1.5;color:var(--ink-2);vertical-align:top}
+.pgx .crit th:last-child,.pgx .crit td:last-child{border-right:none}
+.pgx .crit tr:last-child td{border-bottom:none}
+.pgx .crit thead th{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);background:var(--panel);font-weight:500}
+.pgx .crit td.dc{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--flare);white-space:nowrap}
+.pgx .crit td.rq{color:var(--ink);font-weight:500}
+.pgx .crit td.c{text-align:center}
+.pgx .crit .req{display:inline-block;width:10px;height:10px;background:var(--flare)}
+.pgx .crit .opt{display:inline-block;width:10px;height:10px;border:1px solid var(--line-2)}
+/* registry */
+.pgx .registry{border:1px solid var(--line-2);margin-top:14px}
+.pgx .registry .rh,.pgx .registry .rr{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:0}
+.pgx .registry .rh>div{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);background:var(--panel);padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pgx .registry .rr>div{padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink-2)}
+.pgx .registry .rh>div:last-child,.pgx .registry .rr>div:last-child{border-right:none}
+.pgx .registry .rr:last-child>div{border-bottom:none}
+.pgx .registry .empty{grid-column:1/-1;padding:30px 16px;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ink-4);border-right:none}
+@media(max-width:720px){.pgx .registry .rh{display:none}.pgx .registry .rr{grid-template-columns:1fr}.pgx .registry .rr>div{border-right:none}}
+
+/* ============ tracks ============ */
+.pgx .tracks{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);margin-top:14px}
+.pgx .tracks .tk{padding:26px 24px;border-right:1px solid var(--line);border-top:3px solid var(--c)}
+.pgx .tracks .tk:last-child{border-right:none}
+.pgx .tracks .tk .tkk{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--c);margin-bottom:10px}
+.pgx .tracks .tk h3{font-family:var(--disp);font-weight:600;font-size:21px;margin-bottom:9px;letter-spacing:-.005em;color:var(--ink)}
+.pgx .tracks .tk p{font-size:14px;line-height:1.6;margin-bottom:12px}
+.pgx .tracks .tk .who{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--ink-3);border-top:1px solid var(--line);padding-top:12px}
+.pgx .tracks .tk .who b{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;font-weight:500}
+@media(max-width:800px){.pgx .tracks{grid-template-columns:1fr}.pgx .tracks .tk{border-right:none;border-bottom:1px solid var(--line)}}
+/* ============ copy blocks ============ */
+.pgx .copyblk{border:1px solid var(--line-2);margin-top:14px}
+.pgx .copyblk .cbh{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+.pgx .copyblk .cbh .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.pgx .copyblk .cbh button{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1px solid var(--line-2);color:var(--ink-2);padding:6px 11px;cursor:pointer;transition:.15s}
+.pgx .copyblk .cbh button:hover{border-color:var(--ink);color:var(--ink)}
+.pgx .copyblk .cbb{padding:18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink-2);white-space:pre-wrap}
+.pgx .copyblk .cbb em{font-style:normal;color:var(--flare)}
+/* ============ mapping table ============ */
+.pgx .map{border:1px solid var(--line-2);margin-top:14px;overflow-x:auto}
+.pgx .map table{width:100%;min-width:780px;border-collapse:collapse}
+.pgx .map th,.pgx .map td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);font-size:13px;line-height:1.55;color:var(--ink-2);vertical-align:top}
+.pgx .map th:last-child,.pgx .map td:last-child{border-right:none}
+.pgx .map tr:last-child td{border-bottom:none}
+.pgx .map thead th{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);background:var(--panel);font-weight:500}
+.pgx .map td.ob{color:var(--ink);font-weight:500}
+.pgx .map td.cit{font-family:var(--mono);font-size:11px;color:var(--violet);white-space:nowrap}
+.pgx .map td.crx{font-family:var(--mono);font-size:11px;color:var(--flare)}
+.pgx .map tr.part td{background:var(--panel)}
+.pgx .map .cov{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border:1px solid;white-space:nowrap}
+.pgx .map .cov.full{color:var(--flare);border-color:var(--flare)}
+.pgx .map .cov.partial{color:var(--violet);border-color:var(--violet)}
+.pgx .map .cov.none{color:var(--ink-4);border-color:var(--line-2)}
+/* ============ register ============ */
+.pgx .regbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.pgx .regbar .rgl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-right:2px}
+.pgx .regbar button{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:1px solid var(--line-2);color:var(--ink-3);padding:8px 13px;cursor:pointer;transition:.15s}
+.pgx .regbar button:hover{color:var(--ink);border-color:var(--line-3)}
+.pgx .regbar button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.pgx .regbar input{font-family:var(--mono);font-size:11px;background:transparent;border:1px solid var(--line-2);color:var(--ink);padding:8px 12px;min-width:200px;outline:none}
+.pgx .regbar input:focus{border-color:var(--flare)}
+.pgx .regbar .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-3)}
+.pgx .regtable{border:1px solid var(--line-2);border-top:none;margin-top:0}
+.pgx .regtable .rh,.pgx .regtable .rr{display:grid;grid-template-columns:1.7fr .8fr .9fr 1fr .8fr .8fr}
+.pgx .regtable .rh>div{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);background:var(--panel);padding:11px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pgx .regtable .rr>div{padding:14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-2);display:flex;align-items:center}
+.pgx .regtable .rh>div:last-child,.pgx .regtable .rr>div:last-child{border-right:none}
+.pgx .regtable .rr .org{flex-direction:column;align-items:flex-start;gap:4px}
+.pgx .regtable .rr .org b{font-family:var(--disp);font-size:15px;font-weight:600;color:var(--ink)}
+.pgx .regtable .rr .org span{font-family:var(--mono);font-size:10px;color:var(--ink-4)}
+.pgx .regtable .lvl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:4px 8px;border:1px solid}
+.pgx .regtable .lvl.l1{color:var(--ink-3);border-color:var(--line-2)}
+.pgx .regtable .lvl.l2{color:var(--flare);border-color:var(--flare)}
+.pgx .regtable .lvl.l3{color:var(--violet);border-color:var(--violet)}
+.pgx .regtable .st-w{color:var(--red)}
+.pgx .regtable .none{grid-column:1/-1;padding:34px 14px;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ink-4);border-right:none}
+@media(max-width:900px){.pgx .regtable .rh{display:none}
+.pgx .regtable .rr{grid-template-columns:1fr 1fr}
+.pgx .regtable .rr>div{border-right:none}}
+/* ============ ROI / figure blocks ============ */
+.pgx .figs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line-2);margin-top:14px}
+.pgx .figs .fg{padding:22px 20px;border-right:1px solid var(--line)}
+.pgx .figs .fg:last-child{border-right:none}
+.pgx .figs .fg .fv{font-family:var(--disp);font-size:30px;font-weight:600;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pgx .figs .fg .fk{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-top:10px}
+.pgx .figs .fg .fd{font-size:12.5px;line-height:1.5;color:var(--ink-3);margin-top:8px}
+@media(max-width:860px){.pgx .figs{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.pgx .figs{grid-template-columns:1fr}.pgx .figs .fg{border-right:none;border-bottom:1px solid var(--line)}}
+
+/* ============ section sub-nav (shared) ============ */
+.subnav{border-bottom:1px solid var(--line);background:var(--panel)}
+.subnav .in{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,44px);display:flex;align-items:center;gap:22px;flex-wrap:wrap;min-height:46px}
+.subnav .sname{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding-right:4px;border-right:1px solid var(--line-2);margin-right:2px}
+.subnav a{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding:14px 0 12px;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s}
+.subnav a:hover{color:var(--ink)}
+.subnav a.on{color:var(--ink);border-bottom-color:var(--flare)}
+@media(max-width:700px){.subnav .in{gap:14px;min-height:0;padding-bottom:6px}.subnav .sname{width:100%;border-right:none;padding-top:12px;margin:0}.subnav a{padding:6px 0 8px;font-size:9.5px}}
+
+/* ============ clause library ============ */
+.pgx .disclaim{border:1px dashed var(--line-3);padding:18px 22px;margin-top:14px}
+.pgx .disclaim .h{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px}
+.pgx .disclaim p{font-size:13.5px;line-height:1.6;color:var(--ink-2);max-width:88ch}
+.pgx .clib{margin-top:8px}
+.pgx .cgroup{margin-top:44px}
+.pgx .ch{display:flex;align-items:baseline;gap:14px;padding-bottom:12px;border-bottom:2px solid var(--c)}
+.pgx .ch .cn{font-family:var(--disp);font-weight:600;font-size:26px;line-height:1;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text}
+.pgx .ch h3{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.005em;color:var(--ink);margin:0}
+.pgx .ch .cc{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-4);white-space:nowrap}
+.pgx .citem{display:grid;grid-template-columns:1fr 1.55fr;gap:34px;padding:20px 0;border-bottom:1px solid var(--line)}
+.pgx .citem .cq{font-family:var(--disp);font-weight:600;font-size:16.5px;line-height:1.35;color:var(--ink)}
+.pgx .citem .cid{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--c);margin-bottom:7px}
+.pgx .citem .cbody>div{font-size:14px;line-height:1.6;color:var(--ink-2)}
+.pgx .citem .cbody>div+div{margin-top:9px}
+.pgx .citem .cbody b{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:500}
+.pgx .citem .cx b{color:var(--magenta)}
+.pgx .citem .cc2 b{color:var(--flare)}
+.pgx .citem details{margin-top:12px;border-top:1px solid var(--line)}
+.pgx .citem details summary{cursor:pointer;list-style:none;padding:10px 0 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);display:flex;gap:8px;align-items:center}
+.pgx .citem details summary::-webkit-details-marker{display:none}
+.pgx .citem details summary::after{content:"+";font-size:13px}
+.pgx .citem details[open] summary::after{content:"–"}
+.pgx .citem details .lang{font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink-2);background:var(--panel);border-left:2px solid var(--violet);padding:14px 16px;margin-top:11px}
+@media(max-width:860px){.pgx .citem{grid-template-columns:1fr;gap:12px}}
+/* group accents */
+.pgx .cgroup:nth-of-type(6n+1){--c:var(--flare)}
+.pgx .cgroup:nth-of-type(6n+2){--c:var(--magenta)}
+.pgx .cgroup:nth-of-type(6n+3){--c:var(--violet)}
+.pgx .cgroup:nth-of-type(6n+4){--c:var(--flare)}
+.pgx .cgroup:nth-of-type(6n+5){--c:var(--magenta)}
+.pgx .cgroup:nth-of-type(6n+6){--c:var(--violet)}
+/* index chips */
+.pgx .cindex{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pgx .cindex a{display:inline-flex;align-items:baseline;gap:8px;border:1px solid var(--line-2);padding:9px 13px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-2);text-decoration:none;transition:.15s}
+.pgx .cindex a:hover{border-color:var(--line-3);color:var(--ink)}
+.pgx .cindex a i{font-style:normal;color:var(--flare);font-weight:600}
+
+
+.pgx .regtable .rr .org .asr{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--flare)}
+.pgx .cols .cl .mv a{word-break:break-word}
+
+
+/* ================= interaction polish ================= */
+@keyframes pgIn{from{opacity:0}to{opacity:1}}
+.pg.on{animation:pgIn .24s ease both}
+.pgx .btn{transition:border-color .16s ease,filter .16s ease,transform .16s ease,background .16s ease}
+.pgx .btn:hover{transform:translateY(-1px)}
+.pgx .cols .cl,.pgx .dims .dm,.pgx .tracks .tk{transition:background-color .18s ease}
+.pgx .cols .cl:hover,.pgx .dims .dm:hover,.pgx .tracks .tk:hover{background:var(--panel-2)}
+.pgx .rows .r{transition:background-color .16s ease}
+.pgx .rows .r:hover{background:var(--panel)}
+.pgx .dims a.dm::before{transition:height .16s ease}
+.pgx .dims a.dm:hover::before{height:5px}
+.pgx .cindex a{transition:border-color .16s ease,color .16s ease,transform .16s ease}
+.pgx .cindex a:hover{transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){.pg.on{animation:none}}
+/* bento (home overview prototype) */
+.pgx .bento{display:grid;grid-template-columns:1.5fr 1fr;border:1px solid var(--line-2);margin-top:12px}
+.pgx .bento .b{padding:24px 22px;border-top:3px solid var(--c);transition:background-color .18s ease}
+.pgx .bento .b:hover{background:var(--panel-2)}
+.pgx .bento .b .k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--c);margin-bottom:9px}
+.pgx .bento .b h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:8px;letter-spacing:-.005em;color:var(--ink)}
+.pgx .bento .b p{font-size:13.5px;line-height:1.55;color:var(--ink-2)}
+.pgx .bento .feat{grid-row:span 2;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+.pgx .bento .feat h3{font-size:26px;margin-bottom:12px}
+.pgx .bento .feat p{font-size:15px;max-width:36ch}
+@media(max-width:760px){.pgx .bento{grid-template-columns:1fr}.pgx .bento .feat{grid-row:auto;border-right:none;justify-content:flex-start}}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="shg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A45"/><stop offset=".55" stop-color="#E85DA8"/><stop offset="1" stop-color="#7B4DFF"/></linearGradient></defs></svg>
+<header class="mast"><div class="in">
+  <a class="id" href="#/"><svg class="shield" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z" stroke="url(#shg)" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke="url(#shg)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wm"><b>SOVEREIGN AI</b><span>THE STANDARD</span></span></a>
+  <span class="ver">v1.0 · DRAFT</span>
+  <nav><a href="#/" data-r="home">Home</a><a href="#/audiences" data-r="audiences">Audiences</a><a href="#/standard" data-r="standard">The standard</a><a href="#/governance" data-r="governance">Governance</a><a href="#/mapping" data-r="mapping">Mapping</a><a href="#/assessors" data-r="assessors">Assessors</a><a href="#/register" data-r="register">Register</a><a href="#/adopt" data-r="adopt">Adopt</a></nav>
+  <div class="ttog" id="themeToggle" role="group" aria-label="Colour theme">
+    <button type="button" data-t="light" aria-label="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2M12 20.5v2M1.5 12h2M20.5 12h2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M19.4 4.6L18 6M6 18l-1.4 1.4"/></svg></button>
+    <button type="button" data-t="dark" aria-label="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.5 14.2A8.6 8.6 0 1 1 9.8 3.5a7 7 0 0 0 10.7 10.7z"/></svg></button>
+  </div>
+</div></header>
+<main>
+<section class="pg pgx" id="pg-home">
+<section class="hero"><div class="wrap">
+  <div class="hero-copy rv">
+    <span class="eyebrow">The Sovereign AI Standard</span>
+    <h1 class="disp">A public standard for <span class="grad-text">who actually controls the AI you depend on.</span></h1>
+    <p class="lead">Sovereignty is not where the servers are. It is whether you know which model serves you, under whose jurisdiction, trained on what, whether it can change under you, what it runs on, whether you could leave, and whether you can even evaluate it. The Sovereign AI Standard tests all seven — <b>published in full, graded at three levels, and assessed by accredited independent assessors.</b></p>
+    <div class="ctas">
+      <a class="btn grad" href="#/standard">Read the standard →</a>
+      <a class="sub-link" href="#/assessors">Find an assessor ↓</a>
+    </div>
+  </div>
+  <div class="spec rv">
+    <div><div class="k">Version</div><div class="v">1.0 — draft for consultation <span class="tbd">confirm date</span></div></div>
+    <div><div class="k">Scope</div><div class="v">7 dimensions · 2 tracks · 3 levels · 56 criteria</div></div>
+    <div><div class="k">Administered by</div><div class="v">an independent body, being constituted <span class="tbd">confirm</span></div></div>
+    <div><div class="k">Assessed by</div><div class="v">accredited assessors — <a href="#/assessors" style="color:var(--violet)">1 founding</a></div></div>
+  </div>
+</div></section>
+
+<div class="constrip">This standard is a <b>draft open for public consultation</b>. Disagree with a criterion or a threshold? <a href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20Standard%20v1.0%20—%20consultation">Comment before it takes effect</a>. <span class="tbd" style="border:none;color:var(--ink-4)">domain to confirm</span></div>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">Who it's for</span>
+    <h2 class="big">Where you sit determines <span class="grad-text">what to read first.</span></h2>
+    <p class="lead">The seven dimensions apply differently by role. Select the entry point that fits — <a href="#/audiences" style="color:var(--violet)">see all six →</a></p>
+  </div>
+  <div class="cindex rv">
+    <a href="#/for-buyers"><i>&rarr;</i> Buyers &amp; procurement</a>
+    <a href="#/for-vendors"><i>&rarr;</i> Application vendors · Track A</a>
+    <a href="#/for-providers"><i>&rarr;</i> Model &amp; GPAI providers · Track B</a>
+    <a href="#/for-compliance"><i>&rarr;</i> Compliance, risk &amp; legal</a>
+    <a href="#/assessors"><i>&rarr;</i> Assessors</a>
+    <a href="#/for-investors"><i>&rarr;</i> Investors &amp; M&amp;A diligence</a>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">01 // What it is</span>
+    <h2 class="big">A published specification, <span class="grad-text">and a register you can check.</span></h2>
+    <p class="lead">The Standard exists so that "our AI is sovereign" stops being a claim a vendor asserts and becomes one an independent party can test against written criteria — the same way SOC 2 works for security, and the way an index standard works for classification.</p>
+  </div>
+  <div class="bento rv">
+    <div class="b feat" style="--c:var(--flare)"><div class="k">Published</div><h3>The criteria are public</h3><p>Every criterion, at every level, on this site — before it is applied to anyone. A rule you can read and argue with is worth more than an assurance you have to take on trust.</p></div>
+    <div class="b" style="--c:var(--magenta)"><div class="k">Independent</div><h3>The assessor doesn't own it</h3><p>The Standard, the mark and the register are held by the scheme, not any assessor — accredited graders cannot change the bar. That separation is the point.</p></div>
+    <div class="b" style="--c:var(--violet)"><div class="k">Checkable</div><h3>A public register</h3><p>Every certificate — product, level, version, assessor, status — sits on the <a href="#/register" style="color:var(--violet)">register</a>, withdrawals alongside grants.</p></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">02 // The seven dimensions</span>
+    <h2 class="big">Seven ways of asking one question: <span class="grad-text">can you still act?</span></h2>
+    <p class="lead">Can you name it, move it, defend it, steer it, run it elsewhere, leave it, and evaluate it. Each dimension protects one of those options. The full criteria for each are in <a href="#/standard" style="color:var(--violet)">the standard</a>.</p>
+  </div>
+  <div class="dims rv">
+    <div class="dm" style="--c:var(--flare)"><div class="dcode">S1</div><h3>Model sovereignty</h3><p>Whether you know and can control which model serves you — supply chain to origin, version pinning, change notice, fallback.</p></div>
+    <div class="dm" style="--c:var(--magenta)"><div class="dcode">S2</div><h3>Data sovereignty</h3><p>Where your data is processed, under whose law, and who could compel access — residency, sub-processors, government exposure.</p></div>
+    <div class="dm" style="--c:var(--violet)"><div class="dcode">S3</div><h3>Provenance sovereignty</h3><p>What the model learned from, and whether you hold clean title to what it produces — corpus rights, output ownership, indemnity.</p></div>
+    <div class="dm" style="--c:var(--flare)"><div class="dcode">S4</div><h3>Operational sovereignty</h3><p>Whether you can observe, test and refuse change — change notice, evaluation rights, rollback, decision logging.</p></div>
+    <div class="dm" style="--c:var(--magenta)"><div class="dcode">S5</div><h3>Infrastructure sovereignty</h3><p>What compute it rests on and how concentrated that is — hosting topology, provider concentration, customer-controlled deployment.</p></div>
+    <div class="dm" style="--c:var(--violet)"><div class="dcode">S6</div><h3>Exit sovereignty</h3><p>Whether you could leave, in what timeframe, at what cost — portability, transition assistance, escrow.</p></div>
+    <div class="dm" style="--c:var(--flare)"><div class="dcode">S7</div><h3>Evaluation sovereignty</h3><p>Whether you can measure it — for capability, bias and reproducibility. Evaluability is the control precondition for EU AI Act compliance; a black box you cannot test has no lawful path into a high-risk use.</p></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">03 // Three levels</span>
+    <h2 class="big">Disclosed. Controlled. Sovereign.</h2>
+    <p class="lead">Certification is graded, not pass/fail — a single bar either excludes almost everyone or certifies almost nothing. Each level is a claim a buyer can act on.</p>
+  </div>
+  <div class="ladder rv">
+    <div class="lv" style="--c:var(--ink-3)"><div class="lh"><span class="lnum">Level 01</span><span class="lname">Disclosed</span></div><div><div class="lclaim"><b>The buyer can see the whole picture.</b> Every dimension documented and independently verified. Transparency, not yet contractual protection.</div></div></div>
+    <div class="lv" style="--c:var(--flare)"><div class="lh"><span class="lnum">Level 02</span><span class="lname">Controlled</span></div><div><div class="lclaim"><b>The protections are in the contract, not the sales deck.</b> Standard terms carry the commitments that close each dimension, available to any customer.</div></div></div>
+    <div class="lv" style="--c:var(--violet)"><div class="lh"><span class="lnum">Level 03</span><span class="lname">Sovereign</span></div><div><div class="lclaim"><b>The customer could operate independently of any single provider.</b> Demonstrated substitutability, customer-controlled deployment, and an exit that can actually be executed.</div></div></div>
+  </div>
+  <div class="badgerow rv">
+    <span class="sbadge lg l1"><span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span><span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 1</span></span></span>
+    <span class="sbadge lg l2"><span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span><span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 2</span></span></span>
+    <span class="sbadge lg l3"><span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span><span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 3</span></span></span>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">04 // How it's run</span>
+    <h2 class="big">The Standard is one thing. <span class="grad-text">The assessors are another.</span></h2>
+    <p class="lead">Keeping the rule-maker separate from the graders is what makes the mark worth anything. This is the structure — including the parts still being built.</p>
+  </div>
+  <div class="rows rv">
+    <div class="r"><div class="k">The scheme owns the standard</div><div class="v">The criteria, the mark, the register and the appeals function belong to an independent administering body, being constituted with legal counsel. No assessor can add to, waive, or reinterpret a criterion. <span class="tbd">owning entity to confirm</span></div></div>
+    <div class="r"><div class="k">Accredited assessors grade against it</div><div class="v">Independent assessors are accredited to assess organisations and issue certification under the Standard's rules. A vendor is not locked to one — the Standard admits several, so you can choose your assessor. <a href="#/assessors" style="color:var(--violet)">See assessors →</a></div></div>
+    <div class="r"><div class="k">Built toward external accreditation</div><div class="v">The scheme is built to the principles of ISO/IEC 17065 — the international standard for bodies certifying products and services — with the intent that it and its assessors seek formal accreditation once there is operating history to assess. Until then these commitments are self-imposed and public. <span class="tbd">confirm</span></div></div>
+  </div>
+</div></section>
+
+<section class="ctaband"><div class="wrap">
+  <h2>Read it, apply it, <span class="g">or comment on it.</span></h2>
+  <p>The criteria are public, the procurement templates are free to use, and the consultation on v1.0 is open. A standard open to challenge is stronger than one published without it.</p>
+  <a class="btn" href="#/standard">Read the standard →</a>
+</div></section>
+</section>
+
+<section class="pg pgx" id="pg-standard">
+<section class="hero"><div class="wrap">
+  <div class="hero-copy rv">
+    <span class="eyebrow">The standard · v1.0 draft</span>
+    <h1 class="disp">Published in full, <span class="grad-text">before it is applied to anyone.</span></h1>
+    <p class="lead">Fifty-six criteria across seven dimensions, two tracks, and three levels. Every criterion states what is tested and what evidence satisfies it, so a vendor can self-assess before applying and a buyer can check a certificate against something concrete. <b>No criterion is applied to any organisation before it appears on this page.</b></p>
+  </div>
+  <div class="band rv">
+    <h3>Version 1.0 — draft for consultation</h3>
+    <p><b>Published</b> <span class="tbd">confirm date</span> &nbsp;·&nbsp; <b>Status</b> Draft for public consultation &nbsp;·&nbsp; <b>Effective</b> <span class="tbd">confirm</span> &nbsp;·&nbsp; <b>Cite as</b> Sovereign AI Standard v1.0</p>
+    <p style="margin-top:12px">Open for comment before it becomes effective. Comments and the responses to them will be published with the final version — including the ones not accepted.</p>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">02 // Two tracks</span>
+    <h2 class="big">The questions change <span class="grad-text">depending on where you sit in the stack.</span></h2>
+    <p class="lead">An application vendor can disclose whose model it uses. A model provider <em style="font-style:normal;color:var(--ink)">is</em> that model — asking it the same question is meaningless, and asking it to evidence per-item rights over a web-scale corpus is unachievable by anyone. So the standard runs two tracks with different criteria and the same seven dimensions.</p>
+  </div>
+  <div class="tracks rv">
+    <div class="tk" style="--c:var(--flare)">
+      <div class="tkk">Track A</div>
+      <h3>Application layer</h3>
+      <p>Products and services that deliver AI capability built on models the organisation did not train itself — the great majority of enterprise AI software. Criteria test disclosure of the supply chain, contractual protection, and exit.</p>
+      <div class="who"><b>Who certifies here</b>SaaS vendors · agents and copilots · vertical AI applications · systems integrators embedding third-party models</div>
+    </div>
+    <div class="tk" style="--c:var(--violet)">
+      <div class="tkk">Track B — draft</div>
+      <h3>Model providers</h3>
+      <p>Organisations that train, fine-tune, or publish foundation models offered to others. Criteria test lineage, corpus governance, deprecation discipline, and whether a customer can run the model somewhere they control.</p>
+      <div class="who"><b>Who certifies here</b>Foundation-model developers · providers of general-purpose AI models · organisations publishing open-weight models commercially</div>
+    </div>
+  </div>
+  <p class="note rv"><b>The design constraint that makes Track B possible.</b> No provider can evidence item-level rights across a web-scale training corpus, and a criterion requiring it would certify nobody. Track B therefore assesses provenance at the <em style="font-style:normal;color:var(--ink)">source-category</em> level, anchored to the disclosure artefacts the EU AI Act already mandates — the public training-content summary and the copyright policy addressing rights reservations. We test that those exist, are current, and are consistent with what we can independently observe. We do not pretend to audit a corpus.</p>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">02 // Design rationale</span>
+    <h2 class="big">Why the standard has <span class="grad-text">this shape.</span></h2>
+    <p class="lead">A standard that only lists rules invites the question its authors should answer first: why these, at these thresholds? Every criterion in the tables below exists to prevent a specific, observed failure — and the reasoning is published alongside the rules, because a criterion you understand is one you can argue with, and argue for.</p>
+  </div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">Why seven dimensions</div><h3>One owner, one remedy each</h3><p>Fewer would blur failure modes that need different fixes; more would fragment without adding a decision. The test for a dimension is whether it maps to a distinct internal owner and a distinct contractual remedy. All seven do.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Why two tracks</div><h3>The question changes across the stack</h3><p>Asking an application vendor "whose model is it?" is answerable; asking a model provider the same is meaningless. Separating the tracks is what lets every criterion be both fair and testable for the organisation it applies to.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Why three levels</div><h3>Pass/fail certifies nobody — or nothing</h3><p>A single bar either excludes most of the market or sits so low it means nothing. Graded, cumulative levels let a buyer match the requirement to the stakes, and give a vendor a ladder to climb rather than a wall to bounce off.</p></div>
+    <div class="cl" style="--c:var(--flare)"><div class="k">Why Level 1 is disclosure</div><h3>The lowest rung has to be reachable</h3><p>Transparency is achievable by any honest vendor, however the product is built. So Level 1 asks only that you disclose; Level 2 asks the protections be in your standard terms; Level 3 asks you prove independence. Difficulty rises with the size of the claim.</p></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">Rationale · the seven dimensions</span>
+    <h2 class="big">What each dimension is <span class="grad-text">actually protecting against.</span></h2>
+    <p class="lead">The rationale below applies to both tracks — the criteria differ between application vendors and model providers, the underlying reasoning does not.</p>
+  </div>
+  <div class="rows rv">
+    <div class="r"><div class="k">S1 · Model sovereignty</div><div class="v">You cannot manage a dependency you cannot name. The recurring failure is a buyer discovering, mid-incident, that an "AI feature" was a call to a third-party API on terms they never saw. Disclosure to origin is the precondition for every other protection, and version identification is what makes an incident investigable and a regulator answerable.</div></div>
+    <div class="r"><div class="k">S2 · Data sovereignty</div><div class="v">Where data is processed decides whose courts can compel it and whose law governs it. This is the dimension the market already calls "sovereignty", and it is non-negotiable in regulated and public-sector contexts. The quiet failure is silent cross-border failover — residency that holds until the primary region doesn't.</div></div>
+    <div class="r"><div class="k">S3 · Provenance sovereignty</div><div class="v">A model's training data is a liability you inherit without ever seeing it. Unresolved corpus rights surface as third-party claims that standard software indemnities do not reach, and "your data improves our model" quietly redistributes your advantage to competitors. Provenance is where IP risk and competitive risk meet.</div></div>
+    <div class="r"><div class="k">S4 · Operational sovereignty</div><div class="v">A model that changes under you is a supplier altering your product without telling you. The failure mode is learning of a behaviour change from a customer complaint rather than a release note. The right to be told, to test, and to roll back is the difference between steering a vendor and being steered by one.</div></div>
+    <div class="r"><div class="k">S5 · Infrastructure sovereignty</div><div class="v">Concentration is invisible one contract at a time and decisive across a whole stack. When many vendors rest on the same model or the same cloud, a single provider event is a correlated outage, not an isolated one. Sovereignty here is knowing the dependency exists and having somewhere else to run.</div></div>
+    <div class="r"><div class="k">S6 · Exit sovereignty</div><div class="v">Sovereignty you cannot exercise is not sovereignty. If leaving costs more than tolerating a price rise, every renewal is a demand rather than a negotiation. Portability, transition assistance, and — where critical — escrow are what give the six other dimensions teeth, because they put real content behind "or we walk".</div></div>
+    <div class="r"><div class="k">S7 · Evaluation sovereignty</div><div class="v">You can control an AI and still be unable to prove how it behaves — whether it is accurate, whether it discriminates, whether last week’s result reproduces. Under the EU AI Act a high-risk system must evidence accuracy and robustness (Art 15) and examination for bias (Art 10); a product you cannot evaluate has no lawful path into that use, however capable. This dimension certifies <em style="font-style:normal;color:var(--ink)">evaluability</em> — the means to reach that verdict — never the verdict itself.</div></div>
+  </div>
+  <p class="note rv">Read down that list and the through-line is deliberate: every dimension is a form of the same question — <b>can you still act?</b> Can you name it, move it, defend it, steer it, run it elsewhere, leave it, and evaluate it. Sovereignty is optionality, and each dimension protects one option.</p>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // Track A criteria — application layer</span><h2 class="big">Three levels, cumulative.</h2><p class="lead">Each level includes everything below it. A criterion required at Level 1 must also be met at Levels 2 and 3.</p></div>
+  <div class="legend rv" style="margin-top:6px"><span><i class="req" style="display:inline-block;width:10px;height:10px;background:var(--flare)"></i> Required at this level</span><span><i class="opt" style="display:inline-block;width:10px;height:10px;border:1px solid var(--line-2)"></i> Not required</span><span style="margin-left:auto;color:var(--ink-3)">L1 Disclosed · L2 Controlled · L3 Sovereign</span></div>
+  <div class="crit rv"><table>
+      <thead><tr><th>Dim.</th><th>Criterion</th><th>What satisfies it</th><th class="c">L1</th><th class="c">L2</th><th class="c">L3</th></tr></thead>
+      <tbody>
+        <tr><td class="dc">S1.1</td><td class="rq">Model inventory to origin</td><td>A current written inventory naming every model and inference provider in the delivery path, including those reached through intermediaries</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S1.2</td><td class="rq">Version identification</td><td>Each request attributable to a model version, with records retained for a stated period</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S1.3</td><td class="rq">Substitution notice in standard terms</td><td>Standard contract commits to advance written notice of any change of underlying model, with an equivalence standard and a remedy</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S1.4</td><td class="rq">Demonstrated substitutability</td><td>The service has been run in production or in a witnessed test on more than one underlying model, at the stated performance standard</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">S2.1</td><td class="rq">Processing residency disclosed</td><td>Every processing and inference location named by jurisdiction, including sub-processors and failover regions</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S2.2</td><td class="rq">Sub-processor schedule &amp; change control</td><td>A named schedule with a right of objection to additions and committed notice periods</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S2.3</td><td class="rq">Government-access exposure stated</td><td>A written statement of the legal regimes under which customer data could be compelled, and the vendor's disclosure practice</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S2.4</td><td class="rq">Residency pinnable on request</td><td>The customer can contractually pin processing to a named jurisdiction, with no silent failover outside it</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">S3.1</td><td class="rq">Training-corpus basis documented</td><td>For each corpus used to train, fine-tune, or ground the model, the legal basis on which it was obtained</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S3.2</td><td class="rq">No customer-data training by default</td><td>Standard terms exclude use of customer inputs, outputs, embeddings and metadata for training any model available to others</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S3.3</td><td class="rq">Output rights unambiguous</td><td>Standard terms assign output ownership to the customer, or grant a perpetual irrevocable licence surviving termination</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S3.4</td><td class="rq">IP indemnity reaches training data</td><td>Indemnity expressly covers claims arising from training, fine-tuning or retrieval corpora, and is not capped at fees paid</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">S4.1</td><td class="rq">Material-change notice</td><td>Committed advance notice of changes reasonably likely to alter output content, format or accuracy</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S4.2</td><td class="rq">Customer evaluation rights</td><td>The customer may test a pending change against its own evaluation set before it reaches production in its tenant</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S4.3</td><td class="rq">Evaluation &amp; monitoring evidence</td><td>Documented evaluation methodology, a defined evaluation set, and ongoing monitoring records available on request</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S4.4</td><td class="rq">Rollback capability</td><td>A committed rollback window to the prior model version, with a stated time to restore</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">S5.1</td><td class="rq">Hosting &amp; inference topology disclosed</td><td>A written description of where compute runs, on whose infrastructure, and how requests are routed</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S5.2</td><td class="rq">Provider concentration stated</td><td>Disclosure of single points of dependency across model, inference and hosting providers</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S5.3</td><td class="rq">Continuity on provider failure</td><td>A documented and tested plan for continued service on failure of any single upstream provider</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S5.4</td><td class="rq">Customer-controlled deployment available</td><td>A private-tenancy, VPC or on-premises deployment option exists and has been delivered at least once</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">S6.1</td><td class="rq">Export rights in standard terms</td><td>Customer data, configurations, prompt libraries and tuning artefacts exportable in a documented machine-readable format</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S6.2</td><td class="rq">Transition assistance committed</td><td>Post-termination assistance at published rates, not conditional on payment of disputed sums</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S6.3</td><td class="rq">Exit window stated and tested</td><td>A committed maximum exit period, evidenced by at least one completed customer migration</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S6.4</td><td class="rq">Continuity of key components</td><td>Escrow, or a documented handover standard, for models and pipelines maintained by a small number of individuals</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S7.1</td><td class="rq">Evaluation transparency</td><td>Discloses the benchmarks, metrics, evaluation harness, prompts and inference parameters behind any performance or quality claim, and the method used to screen training and evaluation data for contamination</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S7.2</td><td class="rq">Independent evaluation rights</td><td>Standard terms grant the customer, or an auditor acting for it, the right and technical means to run its own capability, robustness and bias evaluations against a fixed version, including on a held-out set the vendor has not seen</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S7.3</td><td class="rq">Subgroup &amp; bias evaluation supported</td><td>Provides the access needed to measure performance across relevant subgroups and protected attributes — representative data, labels, or a testing interface — and discloses the fairness evaluation the vendor performs</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">S7.4</td><td class="rq">Reproducible, independently-verified results</td><td>Reported results are reproducible — fixed version, disclosed decoding parameters, error bars over multiple runs — and have been evaluated independently or under witness on an uncontaminated, held-out set</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+      </tbody>
+    </table></div>
+  <p class="note rv">Twenty-eight Track A criteria: nine required for Level 1, twenty-two for Level 2, all twenty-eight for Level 3. Level 1 is almost entirely disclosure, because transparency is achievable by any honest vendor, and a standard whose lowest rung is unreachable certifies nobody.</p>
+</div></section>
+
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">04 // Track B criteria — model providers</span>
+    <h2 class="big">Draft for consultation.</h2>
+    <p class="lead">Track B is published earlier in its development than Track A deliberately: it is the harder track, it affects the largest organisations in the market, and we would rather have the argument in public before anyone is assessed against it. <b>No Track B certificates will be issued until this track has been through consultation.</b></p>
+  </div>
+  <div class="crit rv">
+    <table>
+      <thead><tr><th>Dim.</th><th>Criterion</th><th>What satisfies it</th><th class="c">L1</th><th class="c">L2</th><th class="c">L3</th></tr></thead>
+      <tbody>
+        <tr><td class="dc">B1.1</td><td class="rq">Model lineage declared</td><td>For each published model: whether trained from scratch or derived, and from what base — including where weights originate</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B1.2</td><td class="rq">Version and deprecation policy</td><td>Published versioning scheme, support horizon, and committed minimum notice before retirement of any generally available model</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B1.3</td><td class="rq">Behaviour-change notice</td><td>Committed notice before changes to a pinned model version's behaviour, and the ability for customers to pin a version for a stated period</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B1.4</td><td class="rq">Weights available to enterprise customers</td><td>Open weights, or contractual weight access or escrow for enterprise customers on defined trigger events</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">B2.1</td><td class="rq">Training and inference locations disclosed</td><td>Jurisdictions in which training was performed and in which inference is served, including failover</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B2.2</td><td class="rq">Customer-data handling stated</td><td>Whether API inputs and outputs are retained, for how long, and whether they may be used for training — stated in default terms, not only in an enterprise tier</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B2.3</td><td class="rq">Regional inference commitment</td><td>Inference pinnable to a named region contractually, with no silent cross-border failover</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B2.4</td><td class="rq">Government-access regime disclosed</td><td>The legal regimes under which model inputs could be compelled, and the provider's transparency-reporting practice</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">B3.1</td><td class="rq">Training-content summary published</td><td>A current public summary of training content at source-category level, in the form mandated for general-purpose AI model providers in the EU</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B3.2</td><td class="rq">Copyright and rights-reservation policy</td><td>A published policy for identifying and respecting machine-readable rights reservations, with a stated method</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B3.3</td><td class="rq">Opt-out honoured and evidenced</td><td>Evidence that reservations and removal requests are actioned, with a stated turnaround and a record of volume handled</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B3.4</td><td class="rq">Downstream indemnity offered</td><td>An IP indemnity available to commercial customers that expressly reaches training-corpus claims</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">B4.1</td><td class="rq">Model documentation published</td><td>Capabilities, limitations, intended and out-of-scope uses, and evaluation results, in a form sufficient for a downstream integrator to assess fitness</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B4.2</td><td class="rq">Evaluation methodology disclosed</td><td>Named benchmarks, methodology, and any contamination controls — not headline scores alone</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B4.3</td><td class="rq">Downstream information package</td><td>Documentation maintained for integrators covering what they need to meet their own obligations, kept current across versions</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B4.4</td><td class="rq">Reproducibility of a pinned version</td><td>A pinned version returns materially consistent behaviour for the stated support period, evidenced by the provider's own regression records</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">B5.1</td><td class="rq">Compute dependency disclosed</td><td>Where training and inference compute is sourced, and material single-supplier dependencies</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B5.2</td><td class="rq">Export-control and jurisdictional exposure</td><td>A statement of the export-control regimes and jurisdictional constraints that could restrict customer access</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B5.3</td><td class="rq">Capacity and rate-limit commitments</td><td>Contractual capacity commitments for enterprise customers, rather than best-efforts rate limits alone</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B5.4</td><td class="rq">Customer-controlled deployment available</td><td>The model can be served in infrastructure the customer controls — private tenancy, dedicated region, or on-premises — and has been at least once</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+
+        <tr><td class="dc">B6.1</td><td class="rq">Migration path on deprecation</td><td>A documented path from a retired version to a successor, including behaviour-difference guidance</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B6.2</td><td class="rq">Output portability</td><td>Customer inputs, outputs and any customer-specific tuning artefacts exportable in a documented format</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B6.3</td><td class="rq">Fine-tune and adapter portability</td><td>Customer-created adapters or fine-tunes are exportable or reproducible elsewhere, not locked to the provider's platform</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B6.4</td><td class="rq">Continuity on provider failure</td><td>Weight escrow, an open-weight sibling, or a named continuity arrangement enabling service to survive the provider ceasing to operate</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B7.1</td><td class="rq">Model evaluation transparency</td><td>Publishes evaluation methodology in full: named benchmarks, metrics, harness, decoding parameters, zero/few-shot status, and the contamination-screening and decontamination method used</td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B7.2</td><td class="rq">Held-out &amp; independent evaluation enabled</td><td>Enables independent evaluation on held-out or private sets — API access to a pinned, non-silently-updated version at sufficient capacity, so a third party can reproduce or contest published scores</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B7.3</td><td class="rq">Bias, robustness &amp; adversarial evaluation</td><td>Publishes bias, robustness and red-team / adversarial evaluations, and gives downstream integrators the information and access to run their own — enough for a deployer to meet its own Art 10 / Art 15 obligations</td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td><td class="c"><i class="req"></i></td></tr>
+        <tr><td class="dc">B7.4</td><td class="rq">Externally-audited, reproducible evaluation</td><td>Published results are reproducible — a pinned version returns materially consistent behaviour, with error bars — and the model has undergone independent or external evaluation or audit on an uncontaminated set</td><td class="c"><i class="opt"></i></td><td class="c"><i class="opt"></i></td><td class="c"><i class="req"></i></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note rv">Twenty-eight Track B criteria: <b>eleven</b> required at Level 1, <b>twenty-two</b> at Level 2, all twenty-eight at Level 3. Level 1 is again almost entirely disclosure — and note that a provider already meeting its EU general-purpose AI obligations satisfies a meaningful share of it, which is deliberate. We are not asking the market to document itself twice.</p>
+  <div class="tbdbox rv">
+    <div class="h">Open questions for consultation — Track B</div>
+    <p style="margin-bottom:10px"><b>B1.4 and B6.4 are the contested criteria.</b> Requiring weight availability or escrow at Level 3 means that, as drafted, a closed-weight provider cannot reach Level 3 however well it performs on the other twenty-six criteria. That is either the honest consequence of what sovereignty means, or it is a criterion that makes the top level unreachable for most of the market and therefore useless. We hold the first view and are prepared to be argued out of it.</p>
+    <p><b>Open-weight models are not automatically sovereign.</b> Publishing weights satisfies B1.4 but says nothing about corpus governance, jurisdiction, or documentation. A permissively licensed model with no training-content summary fails B3.1 at Level 1. We expect this to be unpopular in both directions.</p>
+  </div>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Comment on the draft <span class="g">before it takes effect.</span></h2><p>A standard tested in public is stronger than one published without challenge. Where a threshold is wrong, or a criterion unachievable for a legitimate reason, tell us before v1.0 becomes effective.</p><a class="btn" href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20Standard%20consultation">Comment on the draft →</a></div></section>
+</section>
+<section class="pg pgx" id="pg-governance">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">Governance of the Standard</span>
+  <h1 class="disp">The rule-maker, the graders, and the referee <span class="grad-text">are not the same party.</span></h1>
+  <p class="lead">A certification mark is worth exactly what its governance is worth. What makes one credible is that the body which writes the criteria is separate from the assessors who apply them and from the function that hears appeals against them. <b>This page sets out that separation — including the parts still being built.</b></p>
+  <div class="ctas"><a class="btn grad" href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20—%20governance">Ask a governance question →</a><a class="sub-link" href="#/assessors">How assessors are accredited ↓</a></div>
+</div>
+<div class="disclaim rv"><div class="h">Being built in the open</div><p>Sovereign AI is a new scheme. The independent body that owns the Standard and administers the mark and register is being constituted with legal counsel, separately from any assessor. Where that ownership or a governing function is not yet settled, this page says so rather than imply a structure that does not exist. <b>The roles are fixed; the entities that will hold them are being established.</b> <span class="tbd">confirm scheme constitution &amp; mark holder with counsel</span></p></div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Who does what</span><h2 class="big">Four roles, <span class="grad-text">held by different parties by design.</span></h2><p class="lead">The failure mode for any certifier is a single organisation that writes the rules, decides who passes, hears the complaints, and books the revenue. Here those roles are deliberately split.</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">The Standard — sets the criteria</div><div class="v">The criteria, levels and thresholds are owned by the Standard and published before they are applied. No assessor can add to, waive, or reinterpret them for a client. Changes go through the Standard's own consultation. The owning body is being constituted with counsel. <span class="tbd">to confirm</span></div></div>
+    <div class="r"><div class="k">Accredited assessors — apply them</div><div class="v">An accredited assessor tests an organisation against the published criteria on evidence and issues certification under the Standard's rules. The Standard admits several, on common terms, so a vendor is not locked to one grader. <a href="#/assessors" style="color:var(--violet)">See assessors →</a></div></div>
+    <div class="r"><div class="k">The Standard — hears appeals</div><div class="v">A determination is appealed to the Standard's appeal function, independent of the assessor that made it. An assessor does not hear appeals against its own decisions — you are not asking the grader to overturn the grader. <span class="tbd">appeal function to confirm</span></div></div>
+    <div class="r"><div class="k">The Standard — holds the mark &amp; register</div><div class="v">The certification mark and public register belong to the Standard, not to any assessor. A certificate is recorded whichever accredited assessor issued it, and the mark is licensed by the Standard on common terms. <span class="tbd">mark holder to confirm</span></div></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // Accreditation of assessors</span><h2 class="big">Anyone grading against the Standard <span class="grad-text">is themselves held to it.</span></h2><p class="lead">An open standard with sloppy assessors is worth nothing — the mark is only as good as the weakest party entitled to grant it. So the Standard admits assessors by accreditation, not by default.</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">Assessors are accredited, not assumed</div><div class="v">An organisation may only assess against the Standard once accredited — competence, method and independence tested before the first certificate, and re-tested periodically. <a href="#/assessors" style="color:var(--violet)">The accreditation path is here.</a> <span class="tbd">process to confirm</span></div></div>
+    <div class="r"><div class="k">Consistency across assessors</div><div class="v">Two accredited assessors applying the Standard to the same evidence should reach the same result. Calibration, shared interpretation notes, and review of borderline determinations exist so the level means the same thing whoever assessed it.</div></div>
+    <div class="r"><div class="k">Toward external accreditation</div><div class="v">The international standard for bodies certifying products and services is <b>ISO/IEC 17065</b> — impartiality, competence, consistency, and the handling of appeals and complaints. The scheme is built to its principles, with the intent that it and its assessors seek formal accreditation once there is operating history to assess. Until then these commitments are self-imposed and public. <span class="tbd">confirm timeline &amp; body</span></div></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // How a decision is challenged</span><h2 class="big">The appeal leaves the assessor entirely.</h2><p class="lead">A determination should be contestable on the record, not relitigated by relationship — and reviewed by someone with no stake in the assessment.</p></div>
+  <div class="flow rv">
+    <div class="st"><div class="n">STEP 01</div><h4>Draft determination</h4><p>Your assessor records a proposed outcome against each criterion, with evidence and reasons for any shortfall.</p></div>
+    <div class="st"><div class="n">STEP 02</div><h4>Right of reply</h4><p>You receive the draft and a stated window to correct the record or contest a finding before anything issues.</p></div>
+    <div class="st"><div class="n">STEP 03</div><h4>Determination</h4><p>The assessor confirms or revises in writing and issues the level the evidence supports under the Standard's rules.</p></div>
+    <div class="st"><div class="n">STEP 04</div><h4>Appeal to the Standard</h4><p>You may appeal to the Standard's appeal function — independent of the assessor that decided — with written reasons on both sides.</p></div>
+    <div class="st"><div class="n">STEP 05</div><h4>Register record</h4><p>The outcome is recorded on the public register. Grants, appeals resolved, and withdrawals are all reflected there.</p></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">04 // Complaints &amp; surveillance</span><h2 class="big">A mark that is never withdrawn <span class="grad-text">is a mark that is not being watched.</span></h2><p class="lead">What keeps a certificate honest between assessments is a route for anyone to flag that a holder has slipped, and a scheme willing to act on it independently of the assessor who granted it.</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">Anyone can raise a concern</div><div class="v">A buyer, a competitor, or a member of the public can report to the Standard that a certified product no longer meets the bar. Concerns go to the Standard, not to the assessor that issued the certificate. <span class="tbd">reporting route to confirm</span></div></div>
+    <div class="r"><div class="k">What a credible concern triggers</div><div class="v">A concern that clears triage can open an out-of-cycle review. The holder is shown the concern and given a chance to respond before any action — adversarial-fair, not summary.</div></div>
+    <div class="r"><div class="k">Routine surveillance</div><div class="v">A lighter check at the twelve-month point tests whether the model supply chain, standard terms, or processing locations have moved. Material change must be notified within a stated window.</div></div>
+    <div class="r"><div class="k">Suspension and withdrawal</div><div class="v">A holder that no longer meets the bar, fails surveillance, or will not cooperate is suspended and, if unremedied, withdrawn — a decision of the Standard, not the assessor. Both appear on the public register alongside grants.</div></div>
+    <div class="r"><div class="k">A check, not a weapon</div><div class="v">The mechanism is a check on holders, not a tool for harassing them. Bad-faith or competitively motivated complaints are closed at triage, and a pattern of them is itself recorded.</div></div>
+  </div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">05 // What every assessor must accept</span><h2 class="big">The impartiality rules <span class="grad-text">the Standard imposes on its graders.</span></h2><p class="lead">These bind every accredited assessor — not as a promise each makes, but as a condition of accreditation the Standard enforces and can revoke.</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">No selling the answer</div><div class="v">An assessor provides no readiness consulting, remediation advisory, or pre-assessment coaching to an organisation it may assess. You cannot buy help passing from the party grading you.</div></div>
+    <div class="r"><div class="k">Non-discriminatory access</div><div class="v">An assessor grades any organisation on the same terms and published fee, regardless of size or other relationship. Refusals carry written reasons and a right of appeal to the Standard.</div></div>
+    <div class="r"><div class="k">No fees from the supply chain</div><div class="v">An assessor takes no revenue or commercial relationship from the model, cloud, or reseller vendors whose products appear in an assessed supply chain.</div></div>
+    <div class="r"><div class="k">Declared conflicts</div><div class="v">Where an assessor has another relationship with an organisation it assesses, the relationship is disclosed and the work separated — or the assessment is referred to another accredited assessor. The Standard's multi-assessor design exists precisely so that referral is always possible.</div></div>
+    <div class="r"><div class="k">Accreditation can be withdrawn</div><div class="v">An assessor that breaches these rules loses accreditation, and certificates it issued are reviewed. The rules are conditions, not aspirations.</div></div>
+  </div>
+</div></section>
+
+<section class="ctaband"><div class="wrap"><h2>Hold the scheme to these commitments. <span class="g">They are published to be tested.</span></h2><p>Where a governance commitment is vague where it should be specific, or absent where it should exist, tell us. A scheme unwilling to be questioned about its own governance has answered the question.</p><a class="btn" href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20—%20governance">Ask a governance question →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-mapping">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">Regulatory &amp; framework mapping</span>
+  <h1 class="disp">What this discharges, <span class="grad-text">and what it plainly doesn't.</span></h1>
+  <p class="lead">The Standard is useful to a legal team only if the overlap with real obligations is stated precisely — including where there is none. Each criterion group is mapped to the obligations it evidences, with coverage marked honestly.</p>
+</div>
+<div class="disclaim rv"><div class="h">Read this first</div><p>This mapping is informational and is <b>not legal advice</b>. Which obligations apply depends on your role, risk classification and jurisdiction. Certification evidences criteria; it does not certify legal compliance, and no regulator has recognised this standard. References should be verified with counsel against the current consolidated text. <span class="tbd">confirm citations with counsel</span></p></div>
+</div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">01 // EU AI Act — GPAI model providers</span><h2 class="big">Track B carries most of this <span class="grad-text">because the Act already asked for it.</span></h2></div><div class="map rv">
+    <table>
+      <thead><tr><th>Obligation</th><th>Reference</th><th>Criteria</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td class="ob">Technical documentation of the model, kept current — training and testing process, evaluation results</td><td class="cit">Art. 53(1)(a) · Annex XI</td><td class="crx">B4.1 · B4.2</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">Information and documentation for downstream providers integrating the model, sufficient to understand capabilities and limitations</td><td class="cit">Art. 53(1)(b) · Annex XII</td><td class="crx">B4.1 · B4.3</td><td><span class="cov full">Full</span></td></tr>
+        <tr><td class="ob">Policy to comply with EU copyright law, including identifying and respecting rights reservations under Art. 4(3) of Directive 2019/790</td><td class="cit">Art. 53(1)(c)</td><td class="crx">B3.2 · B3.3</td><td><span class="cov full">Full</span></td></tr>
+        <tr><td class="ob">Publicly available, sufficiently detailed summary of content used for training, per the AI Office template</td><td class="cit">Art. 53(1)(d)</td><td class="crx">B3.1</td><td><span class="cov full">Full</span></td></tr>
+        <tr><td class="ob">Cooperation with the Commission and national competent authorities</td><td class="cit">Art. 53(3)</td><td class="crx">—</td><td><span class="cov none">Not tested</span></td></tr>
+        <tr class="part"><td class="ob">Systemic-risk obligations — model evaluation, adversarial testing, incident reporting, cybersecurity</td><td class="cit">Art. 55</td><td class="crx">B4.2 (partial)</td><td><span class="cov none">Not tested</span></td></tr>
+      </tbody>
+    </table>
+  </div><p class="note rv"><b>Two honest gaps.</b> The Standard does not test the cooperation obligation — a duty owed to authorities — nor systemic-risk obligations, which concern model capability and safety, a different discipline from sovereignty.</p></div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">02 // EU AI Act — systems &amp; value chain</span><h2 class="big">Track A, where obligations are role-dependent.</h2></div><div class="map rv">
+    <table>
+      <thead><tr><th>Obligation</th><th>Reference</th><th>Criteria</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td class="ob">Responsibilities along the AI value chain — information flow between providers and downstream deployers</td><td class="cit">Art. 25</td><td class="crx">S1.1 · S1.3 · S4.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">Technical documentation for high-risk systems</td><td class="cit">Art. 11 · Annex IV</td><td class="crx">S1.1 · S4.3 · S5.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">Automatic logging and record-keeping over the system lifetime</td><td class="cit">Art. 12</td><td class="crx">S1.2</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">Transparency and instructions for use provided to deployers</td><td class="cit">Art. 13</td><td class="crx">S1.1 · S4.3</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">Human oversight design for high-risk systems</td><td class="cit">Art. 14</td><td class="crx">—</td><td><span class="cov none">Not tested</span></td></tr>
+        <tr class="part"><td class="ob">Risk management, data governance for training data quality, accuracy and robustness</td><td class="cit">Arts. 9 · 10 · 15</td><td class="crx">—</td><td><span class="cov none">Not tested</span></td></tr>
+        <tr class="part"><td class="ob">Conformity assessment, CE marking, registration</td><td class="cit">Arts. 43 · 48 · 49</td><td class="crx">—</td><td><span class="cov none">Not tested</span></td></tr>
+      </tbody>
+    </table>
+  </div><p class="note rv"><b>The Standard is not a conformity assessment and cannot substitute for one.</b> Where the AI Act requires conformity assessment and CE marking, that is a regulated process with designated bodies, and this certification has no standing in it.</p></div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">03 // Other frameworks</span><h2 class="big">Where existing evidence is accepted.</h2></div><div class="map rv">
+    <table>
+      <thead><tr><th>Framework</th><th>What it establishes</th><th>Criteria we accept it for</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td class="ob">ISO/IEC 42001 — AI management systems</td><td>That the organisation runs a governed AI management system, with evaluation and monitoring discipline</td><td class="crx">S4.3 · B4.2 · parts of S4.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">SOC 2 Type II</td><td>Operating effectiveness of security, availability and confidentiality controls over a period</td><td class="crx">parts of S2.1 · S5.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">ISO/IEC 27001</td><td>An information security management system and control set</td><td class="crx">parts of S2.1 · S5.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">ISO/IEC 27701 · GDPR Art. 28 processor terms</td><td>Privacy-specific controls and processor obligations, sub-processor governance</td><td class="crx">S2.2 · parts of S2.1</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr><td class="ob">NIST AI Risk Management Framework</td><td>A voluntary risk-management structure — govern, map, measure, manage</td><td class="crx">S4.3 (as supporting evidence)</td><td><span class="cov partial">Partial</span></td></tr>
+        <tr class="part"><td class="ob">Emerging public-sector AI procurement frameworks</td><td>Typically content safeguards, bias mitigation and civil-rights protections</td><td class="crx">—</td><td><span class="cov none">Orthogonal</span></td></tr>
+      </tbody>
+    </table>
+  </div><p class="note rv">Public-sector AI procurement frameworks concentrate on harmful content, bias and civil rights — important, and <b>largely orthogonal to sovereignty</b>. A claim that this certification satisfies them would be unfounded.</p></div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">04 // The summary you can forward</span><h2 class="big">One paragraph for your legal team.</h2></div><div class="copyblk rv">
+    <div class="cbh"><span class="t">Positioning summary — for internal circulation</span><button type="button" data-copy>Copy</button></div>
+    <div class="cbb">Sovereign AI certification is a voluntary, third-party attestation that a named AI product or model meets published criteria across seven dimensions of customer control: model supply chain, data jurisdiction, provenance and IP, change control, infrastructure dependency, exit, and evaluability.
+
+It is NOT a conformity assessment under the EU AI Act, has no regulatory standing, and does not certify accuracy, safety, fairness, or fitness for purpose.
+
+It evidences, in substantial part, the downstream-documentation, copyright-policy and training-content-summary obligations applicable to providers of general-purpose AI models in the EU, and partially evidences value-chain information, documentation and logging obligations for AI systems.
+
+It does not address risk management, data quality, robustness, human oversight, systemic-risk obligations, or conformity assessment. Existing SOC 2, ISO 27001, ISO 42001 and GDPR processor evidence is accepted where it satisfies a criterion.
+
+Criteria are public and versioned; certificates name the version assessed; the register lists withdrawals alongside grants.</div>
+  </div></div></section>
+<section class="ctaband"><div class="wrap"><h2>Consider a mapping inaccurate? <span class="g">Tell us, in public.</span></h2><p>Overstated coverage is the fastest way for a standard to lose credibility with the audience that matters.</p><a class="btn" href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20mapping">Challenge a mapping →</a></div></section>
+</section>
+<section class="pg pgx" id="pg-assessors">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">Assessors</span>
+  <h1 class="disp">One standard, <span class="grad-text">several accredited assessors.</span></h1>
+  <p class="lead">The Standard does not assess anyone itself. Independent, accredited assessors grade organisations against it and issue certification under its rules — and because there is more than one, a vendor is never locked to a single grader, and an assessor with a conflict can hand the work to another. <b>This is what separates an open standard from a proprietary badge.</b></p>
+  <div class="ctas"><a class="btn grad" href="#assessor-list">See accredited assessors →</a><a class="sub-link" href="#become">Become an assessor ↓</a></div>
+</div></div></section>
+
+<section class="blk" id="assessor-list"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Accredited assessors</span><h2 class="big">Who can grade you today.</h2><p class="lead">Every assessor here is accredited against the Standard and bound by its impartiality rules. A certificate is valid whichever of them issued it, and all appear on the same public register.</p></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)">
+      <div class="k">Founding assessor</div>
+      <h3>Tensor</h3>
+      <p>AI diligence &amp; transaction advisory. A founding accredited assessor of the Sovereign AI Standard, applying the same instrument it uses to price AI risk in M&amp;A. Tensor does not own the Standard and has exited vendor-side advisory to assess cleanly.</p>
+      <div class="rule"></div>
+      <div class="mk">Find out more</div>
+      <div class="mv"><a href="https://tensordiligence.ai/#/sovereign" style="color:var(--violet)">tensordiligence.ai →</a> <span class="tbd">confirm URL</span></div>
+    </div>
+    <div class="cl" style="--c:var(--ink-4)">
+      <div class="k">Accreditation open</div>
+      <h3>Your firm here</h3>
+      <p>The Standard is actively accrediting further assessors — audit and assurance firms, security and privacy consultancies, and specialist AI advisors. A second and third assessor is how the mark becomes infrastructure rather than one firm's product.</p>
+      <div class="rule"></div>
+      <div class="mk">Apply</div>
+      <div class="mv"><a href="#become" style="color:var(--violet)">Become an assessor →</a></div>
+    </div>
+  </div>
+  <p class="note rv">Only one assessor is accredited today, and we say so plainly rather than imply a roster that does not exist. The framework is built for several from the start — the <a href="#/governance" style="color:var(--violet)">governance rules</a> and the register both assume more than one.</p>
+</div></section>
+
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // Choosing an assessor</span><h2 class="big">Once there is more than one, <span class="grad-text">how to choose.</span></h2><p class="lead">Because assessment is graded against a single published standard, the result should be the same whoever performs it. What differs is fit — and one hard rule.</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">The one hard rule — independence from you</div><div class="v">An assessor that already advises you, sells to you, or has another material relationship cannot grade you without disclosing it and separating the work — and may have to refer you elsewhere. If you have an existing relationship with an assessor, expect to be referred to another. That is the system working, not failing.</div></div>
+    <div class="r"><div class="k">Sector and track fit</div><div class="v">Some assessors will specialise — model providers on Track B, regulated-sector applications, particular jurisdictions. Fit shortens the assessment; it does not change the bar.</div></div>
+    <div class="r"><div class="k">The result is portable</div><div class="v">A Level 2 certificate means the same thing whoever issued it, and moves with you. If you change assessor at renewal, your level and history are the Standard's record, not any assessor's.</div></div>
+    <div class="r"><div class="k">Fees are the assessor's; the certificate is the Standard's</div><div class="v">Assessors set and publish their own assessment fees and compete on them. The certificate and mark licence are the Standard's, priced separately — so no fee to your grader ever depends on the result.</div></div>
+  </div>
+</div></section>
+
+<section class="blk" id="become"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // Become an accredited assessor</span><h2 class="big">For assurance firms, consultancies <span class="grad-text">and specialist advisors.</span></h2><p class="lead">If you assess technology, security, or AI risk for a living, accreditation lets you grade against a published standard with a public mark and register behind it — and adds a recognised line to what you already sell.</p></div>
+  <div class="flow rv">
+    <div class="st"><div class="n">STEP 01</div><h4>Application</h4><p>Your firm, its independence structure, and the people who would assess. Conflicts and any competing lines of business declared up front.</p></div>
+    <div class="st"><div class="n">STEP 02</div><h4>Competence review</h4><p>Assessor training against the criteria, and a review of method — how you gather evidence, verify claims, and record determinations.</p></div>
+    <div class="st"><div class="n">STEP 03</div><h4>Witnessed assessment</h4><p>A supervised assessment against the Standard, checked for consistency with how other accredited assessors would have graded the same evidence.</p></div>
+    <div class="st"><div class="n">STEP 04</div><h4>Accreditation</h4><p>Admission as an accredited assessor, listed here and on the register, bound by the impartiality rules the Standard enforces.</p></div>
+    <div class="st"><div class="n">STEP 05</div><h4>Surveillance</h4><p>Periodic re-assessment and calibration, so the level continues to mean the same thing across every assessor.</p></div>
+  </div>
+  <div class="tbdbox rv"><div class="h">To confirm before opening applications</div><p>The accreditation criteria for assessors, the fee (if any) to become one, the calibration cadence, and the body that grants accreditation are being settled with counsel alongside the scheme's constitution. This page states the shape; the operational detail follows the entity. <span class="tbd">confirm accreditation criteria, fees &amp; granting body</span></p></div>
+</div></section>
+
+<section class="ctaband"><div class="wrap"><h2>Assess against a published standard, <span class="g">not a proprietary opinion.</span></h2><p>For firms that assess AI, security or technology risk, accreditation places a published benchmark and a public mark behind the work. We are in discussion with founding assessors now.</p><a class="btn" href="mailto:assessors@sovereignai.org?subject=Sovereign%20AI%20—%20assessor%20accreditation">Enquire about accreditation →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-register">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">The public register</span>
+  <h1 class="disp">Every certificate, <span class="grad-text">every assessor, every withdrawal.</span></h1>
+  <p class="lead">Search and compare certified products by level, track, dimension strength, residency and deployment model. The register is the Standard's and spans every accredited assessor — a certificate appears here whoever issued it. <b>Withdrawals and suspensions are listed alongside grants.</b></p>
+</div>
+<div class="disclaim rv"><div class="h">Preview — no certificates issued yet</div><p>The rows below are <b>illustrative examples using fictional organisations and assessors</b>, shown so buyers and applicants can see the format before the first cohort is assessed. No organisation or assessor named here is real. The register opens with the first certification round. <span class="tbd">confirm date</span></p></div>
+</div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">01 // Search the register</span><h2 class="big">Filter by what you actually need.</h2><p class="lead">Most buyers do not need the highest level — they need a specific property: residency in a named jurisdiction, a deployment option they control, or substitutability.</p></div>
+<div class="regbar rv">
+    <span class="rgl">Level</span>
+    <button type="button" class="on" data-f="lvl" data-v="all">All</button>
+    <button type="button" data-f="lvl" data-v="1">L1</button>
+    <button type="button" data-f="lvl" data-v="2">L2</button>
+    <button type="button" data-f="lvl" data-v="3">L3</button>
+    <span class="rgl" style="margin-left:12px">Track</span>
+    <button type="button" class="on" data-f="trk" data-v="all">All</button>
+    <button type="button" data-f="trk" data-v="A">A · application</button>
+    <button type="button" data-f="trk" data-v="B">B · model provider</button>
+    <span class="rgl" style="margin-left:12px">Property</span>
+    <button type="button" class="on" data-f="prop" data-v="all">Any</button>
+    <button type="button" data-f="prop" data-v="residency">Residency pinnable</button>
+    <button type="button" data-f="prop" data-v="selfhost">Customer-controlled deployment</button>
+    <button type="button" data-f="prop" data-v="substitutable">Model substitutable</button>
+  </div>
+  <div class="regbar rv" style="border-bottom:none;padding-bottom:0">
+    <input type="search" id="regq" placeholder="Search organisation or product…" aria-label="Search the register">
+    <button type="button" id="regreset">Reset</button>
+    <span class="cnt" id="regcount"></span>
+  </div>
+  <div class="regtable rv" id="regtable" style="border-top:1px solid var(--line-2);margin-top:16px">
+    <div class="rh"><div>Organisation &amp; product</div><div>Track</div><div>Level</div><div>Properties</div><div>Std. version</div><div>Status</div></div>
+    <div class="rr" data-lvl="3" data-trk="A" data-prop="residency selfhost substitutable" data-q="northwind analytics claims copilot">
+      <div class="org"><b>Northwind Analytics</b><span>Claims Copilot</span><span class="asr">assessed by Tensor</span></div>
+      <div>A</div><div><span class="lvl l3">Level 3</span></div>
+      <div>Residency · Self-host · Substitutable</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="2" data-trk="A" data-prop="residency" data-q="halden systems document intelligence">
+      <div class="org"><b>Halden Systems</b><span>Document Intelligence</span><span class="asr">assessed by Tensor</span></div>
+      <div>A</div><div><span class="lvl l2">Level 2</span></div>
+      <div>Residency</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="2" data-trk="A" data-prop="selfhost" data-q="corvine labs support agent">
+      <div class="org"><b>Corvine Labs</b><span>Support Agent</span><span class="asr">assessed by Meridian Assurance</span></div>
+      <div>A</div><div><span class="lvl l2">Level 2</span></div>
+      <div>Self-host</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="1" data-trk="A" data-prop="" data-q="tessellate forecasting suite">
+      <div class="org"><b>Tessellate</b><span>Forecasting Suite</span><span class="asr">assessed by Tensor</span></div>
+      <div>A</div><div><span class="lvl l1">Level 1</span></div>
+      <div>—</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="3" data-trk="B" data-prop="residency selfhost" data-q="aldermoor research open weights family">
+      <div class="org"><b>Aldermoor Research</b><span>Open-weight model family</span><span class="asr">assessed by Meridian Assurance</span></div>
+      <div>B</div><div><span class="lvl l3">Level 3</span></div>
+      <div>Residency · Self-host</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="2" data-trk="B" data-prop="residency" data-q="brightmoor foundation model api">
+      <div class="org"><b>Brightmoor</b><span>Foundation Model API</span><span class="asr">assessed by Tensor</span></div>
+      <div>B</div><div><span class="lvl l2">Level 2</span></div>
+      <div>Residency</div><div>v1.0</div><div>Current</div>
+    </div>
+    <div class="rr" data-lvl="1" data-trk="A" data-prop="" data-q="pellworth retail pricing engine withdrawn">
+      <div class="org"><b>Pellworth</b><span>Retail Pricing Engine</span><span class="asr">assessed by Northlight Audit</span></div>
+      <div>A</div><div><span class="lvl l1">Level 1</span></div>
+      <div>—</div><div>v1.0</div><div class="st-w">Withdrawn</div>
+    </div>
+    <div class="rr" data-lvl="2" data-trk="A" data-prop="substitutable" data-q="quillon media summarisation suspended">
+      <div class="org"><b>Quillon Media</b><span>Summarisation API</span><span class="asr">assessed by Tensor</span></div>
+      <div>A</div><div><span class="lvl l2">Level 2</span></div>
+      <div>Substitutable</div><div>v1.0</div><div class="st-w">Suspended</div>
+    </div>
+    <div class="rr none" id="regnone" style="display:none"><div class="none">No entries match those filters</div></div>
+  </div>
+<p class="note rv">Two of the eight illustrative rows are a withdrawal and a suspension, and that ratio is deliberate. If the register never shows one, either the standard is not being enforced or nobody is being surveilled.</p></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv">
+    <span class="eyebrow">02 // What an entry means</span>
+    <h2 class="big">And what it doesn't.</h2>
+  </div>
+  <div class="rows rv">
+    <div class="r"><div class="k">The certificate is product-scoped</div><div class="v">An entry covers the named product, not the organisation. A vendor with one certified product and four uncertified ones appears once. Implying otherwise is a withdrawal condition.</div></div>
+    <div class="r"><div class="k">The version is part of the claim</div><div class="v">Every entry names the standard version it was assessed against. A v1.0 Level 2 certificate is not the same claim as a v1.2 Level 2 certificate, and the register shows both rather than silently normalising them.</div></div>
+    <div class="r"><div class="k">Status is live, not annual</div><div class="v">Suspensions appear when they happen, not at the next review cycle. A vendor that fails to notify a material change can be suspended between surveillance points.</div></div>
+    <div class="r"><div class="k">It says nothing about accuracy or safety</div><div class="v">The standard tests sovereignty — control, provenance, jurisdiction, exit. A certified product is not thereby accurate, unbiased, safe, or fit for your purpose. Those are real questions and this is not the instrument for them.</div></div>
+    <div class="r"><div class="k">Absence is not a judgement</div><div class="v">A vendor not on the register may simply not have applied. Absence is a gap in evidence, not evidence of a problem — and a buyer should ask rather than assume.</div></div>
+  </div>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>To appear on the register, <span class="g">start with the public criteria.</span></h2><p>Assess yourself against the standard, then engage an accredited assessor.</p><a class="btn" href="#/assessors">Find an assessor →</a></div></section>
+</section>
+<section class="pg pgx" id="pg-adopt">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">Adopt the standard · free to use</span>
+  <h1 class="disp">Require the evidence <span class="grad-text">before you shortlist.</span></h1>
+  <p class="lead">The fastest way to stop absorbing AI vendor risk is to ask for it in language your procurement team already uses. Everything here is <b>free to copy, adapt and use without attribution</b> — including by organisations that never engage any assessor.</p>
+  <div class="ctas"><a class="btn grad" href="#insert">Take the RFP insert →</a><a class="sub-link" href="#/standard">See the criteria ↓</a></div>
+</div>
+<div class="disclaim rv"><div class="h">Two things to keep in mind</div><p><b>Always keep the equivalence route.</b> Every template says "or equivalent evidence against the published Standard". Requiring one certification and nothing else can create a competition problem for you and an access problem for smaller suppliers. What you want is the evidence; certification is one efficient way to get it. <b>This is drafting guidance, not legal advice.</b></p></div>
+</div></section>
+<section class="blk" id="insert"><div class="wrap"><div class="sh rv"><span class="eyebrow">01 // The RFP insert</span><h2 class="big">One paragraph, <span class="grad-text">at the shortlisting stage.</span></h2></div><div class="copyblk rv">
+    <div class="cbh"><span class="t">RFP / RFI requirements insert</span><button type="button" data-copy>Copy</button></div>
+    <div class="cbb">AI ASSURANCE REQUIREMENT
+
+Where the proposed solution incorporates artificial intelligence, the Supplier shall demonstrate, at the point of response, that it holds <em>Sovereign AI certification at Level 2 or above</em>, or shall provide equivalent evidence addressing each criterion of the published Sovereign AI Standard.
+
+Evidence shall address, at minimum:
+  (a) the identity of every model and inference provider in the delivery path, to origin;
+  (b) the jurisdictions in which Customer data will be processed, including failover;
+  (c) the basis on which training, fine-tuning and retrieval corpora were obtained;
+  (d) the notice the Supplier will give before changing any underlying model, and the Customer's right to evaluate that change;
+  (e) the Supplier's commitments on use of Customer data for model training; and
+  (f) the Customer's rights and the Supplier's obligations on exit, including portability and transition assistance.
+
+A Supplier unable to evidence any of the above shall state which item, and why, in its response. Non-disclosure will be treated as a scored deficiency rather than a neutral omission.</div>
+  </div>
+<p class="note rv">The scored-deficiency line is what changes behaviour. Most questionnaires let a vendor leave a box blank at no cost; scoring silence as a deficiency makes disclosure the cheaper option.</p></div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">02 // The contract clause</span><h2 class="big">For the agreement itself.</h2></div><div class="copyblk rv">
+    <div class="cbh"><span class="t">Contract clause — certification maintenance</span><button type="button" data-copy>Copy</button></div>
+    <div class="cbb">CERTIFICATION AND CONTINUING DISCLOSURE
+
+1. The Supplier warrants that as at the Effective Date it holds <em>Sovereign AI certification at Level [2] or above</em> in respect of the Services, at the standard version stated in Schedule [x].
+
+2. The Supplier shall maintain that certification throughout the Term and shall notify the Customer in writing within [ten] Business Days of any suspension, withdrawal, downgrade, or lapse.
+
+3. Where certification is suspended, withdrawn, downgraded or lapses, the Supplier shall within [thirty] days provide equivalent evidence against each criterion of the published standard. Failure to do so is a material breach.
+
+4. Where the Supplier does not hold certification, it shall instead provide the evidence at clause [x] on request, and shall notify the Customer of any material change to the matters disclosed within [ten] Business Days.
+
+5. Nothing in this clause limits any other warranty, indemnity, or right of the Customer, and certification shall not be construed as the Supplier's sole assurance obligation.</div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">03 // Which level to require</span><h2 class="big">Requiring Level 3 everywhere <span class="grad-text">is the same as requiring nothing.</span></h2></div><div class="mx rv">
+    <table>
+      <thead><tr><th>Use context</th><th>What a failure costs</th><th>Require</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">Internal productivity tools, no regulated data</td><td>Inconvenience and lost time</td><td><b>Level 1</b> — full disclosure, so you at least know what you depend on</td></tr>
+        <tr><td class="lbl">Customer-facing or revenue-path workflows</td><td>Service degradation visible to your customers; unbudgeted repricing</td><td><b>Level 2</b> — protections in the contract, not the sales deck</td></tr>
+        <tr><td class="lbl">Regulated data, decisioning about people, or safety-adjacent</td><td>Regulatory finding, remediation cost, customer harm</td><td><b>Level 2</b> plus the sectoral controls your regulator expects</td></tr>
+        <tr><td class="lbl">Business-critical, hard to replace, or long-term commitment</td><td>Lock-in; a provider event you cannot route around</td><td><b>Level 3</b> — substitutability and executable exit, evidenced</td></tr>
+        <tr><td class="lbl">Sovereignty-constrained — public sector, defence, or residency-mandated</td><td>Contractual or statutory breach</td><td><b>Level 3</b>, with residency pinned and customer-controlled deployment available</td></tr>
+      </tbody>
+    </table>
+  </div></div></section>
+<section class="blk"><div class="wrap"><div class="sh rv"><span class="eyebrow">04 // Replace your questionnaire</span><h2 class="big">A questionnaire you can adopt directly.</h2></div><div class="copyblk rv">
+    <div class="cbh"><span class="t">Vendor questionnaire — AI section</span><button type="button" data-copy>Copy</button></div>
+    <div class="cbb">1.  List every model and inference provider in the delivery path, including any reached via an intermediary. <em>[S1.1]</em>
+2.  Can you attribute a given request to a specific model version, and for how long are those records kept? <em>[S1.2]</em>
+3.  What notice do your standard terms give before you change the underlying model? <em>[S1.3]</em>
+4.  Has this service run in production on more than one underlying model? <em>[S1.4]</em>
+5.  Name every jurisdiction in which our data would be processed, including failover regions. <em>[S2.1]</em>
+6.  Provide your sub-processor schedule and your change-notification commitment. <em>[S2.2]</em>
+7.  Under which legal regimes could our data be compelled from you? <em>[S2.3]</em>
+8.  Can processing be contractually pinned to a named jurisdiction? <em>[S2.4]</em>
+9.  For each training, fine-tuning and retrieval corpus, on what basis was it obtained? <em>[S3.1]</em>
+10. Do your standard terms exclude use of our data for training any model available to others? <em>[S3.2]</em>
+11. Who owns the outputs, and what survives termination? <em>[S3.3]</em>
+12. Does your IP indemnity expressly cover training-corpus claims, and is it capped? <em>[S3.4]</em>
+13. What advance notice do we get of changes affecting output behaviour? <em>[S4.1]</em>
+14. May we evaluate a pending change against our own test set before it reaches us? <em>[S4.2]</em>
+15. Provide your evaluation methodology and current monitoring records. <em>[S4.3]</em>
+16. What is your committed rollback window and time to restore? <em>[S4.4]</em>
+17. Describe where compute runs and how requests are routed. <em>[S5.1]</em>
+18. Identify any single points of dependency across model, inference and hosting. <em>[S5.2]</em>
+19. Provide your tested continuity plan for failure of an upstream provider. <em>[S5.3]</em>
+20. Is a private-tenancy or on-premises deployment available, and has it been delivered? <em>[S5.4]</em>
+21. What can we export on exit, in what format, and how quickly? <em>[S6.1]</em>
+22. What transition assistance is committed, and on what conditions? <em>[S6.2]</em>
+23. What is your committed maximum exit period, and has a migration been completed? <em>[S6.3]</em>
+24. What continuity exists for components maintained by one or two individuals? <em>[S6.4]</em>
+25. Provide the benchmarks, metrics, harness, prompts and inference parameters behind your quality claims, and how you screen training/evaluation data for contamination. <em>[S7.1]</em>
+26. May we (or our auditor) run our own capability, robustness and bias evaluations against a fixed version, including on a held-out set? <em>[S7.2]</em>
+27. What access do you provide to measure performance across relevant subgroups and protected attributes? <em>[S7.3]</em>
+28. Are your reported results reproducible with error bars, and have they been independently or externally verified on an uncontaminated set? <em>[S7.4]</em>
+
+For each item: state your answer, identify the evidence, and where you cannot answer, say so and explain why.</div>
+  </div><p class="note rv">A certified vendor answers all twenty-eight from its response pack in minutes. That difference in effort is the mechanism.</p></div></section>
+<section class="ctaband"><div class="wrap"><h2>Use any of it. <span class="g">No attribution required.</span></h2><p>The templates apply whether or not you engage an assessor. If they are useful, the Standard is serving its purpose.</p><a class="btn" href="mailto:standard@sovereignai.org?subject=Sovereign%20AI%20procurement">Ask about the templates →</a></div></section>
+</section>
+<section class="pg pgx" id="pg-audiences">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">Who it's for</span>
+  <h1 class="disp">One standard, <span class="grad-text">read according to your role.</span></h1>
+  <p class="lead">The seven dimensions are the same for everyone; the questions brought to them depend on the reader's role. Each entry point below sets out how the Standard applies to a particular party. <b>The criteria, the register and the regulatory mapping do not change between them.</b></p>
+</div></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Entry points</span><h2 class="big">Six roles, <span class="grad-text">one set of criteria.</span></h2></div>
+  <div class="dims rv">
+    <a class="dm" style="--c:var(--flare)" href="#/for-buyers"><div class="dcode">FOR BUYERS</div><h3>Enterprise &amp; public-sector buyers</h3><p>Requiring and evaluating evidence of AI control in procurement.</p><div class="dq"><b>Provides</b>Procurement clauses, an evaluation questionnaire, and level guidance for each use context →</div></a>
+    <a class="dm" style="--c:var(--magenta)" href="#/for-vendors"><div class="dcode">FOR VENDORS · TRACK A</div><h3>Application vendors</h3><p>Demonstrating control of an AI supply chain built on third-party models.</p><div class="dq"><b>Provides</b>A graded certificate evidencing twenty-eight procurement questions from a single assessment →</div></a>
+    <a class="dm" style="--c:var(--violet)" href="#/for-providers"><div class="dcode">FOR PROVIDERS · TRACK B</div><h3>Model &amp; GPAI providers</h3><p>Evidencing the model so downstream integrators can meet their own obligations.</p><div class="dq"><b>Provides</b>The documentation and evaluation evidence integrators would otherwise request individually →</div></a>
+    <a class="dm" style="--c:var(--flare)" href="#/for-compliance"><div class="dcode">FOR COMPLIANCE</div><h3>Compliance, risk &amp; legal</h3><p>Establishing what the certificate does and does not evidence against regulatory obligations.</p><div class="dq"><b>Provides</b>An EU AI Act mapping, honest coverage marks, and a summary for internal circulation →</div></a>
+    <a class="dm" style="--c:var(--magenta)" href="#/assessors"><div class="dcode">FOR ASSESSORS</div><h3>Assessors</h3><p>Assessing organisations against a published standard rather than a proprietary opinion.</p><div class="dq"><b>Provides</b>A public benchmark, certification mark and register; accreditation is open →</div></a>
+    <a class="dm" style="--c:var(--violet)" href="#/for-investors"><div class="dcode">FOR INVESTORS</div><h3>Investors &amp; M&amp;A diligence</h3><p>Assessing control over the AI in a target as part of technology diligence.</p><div class="dq"><b>Provides</b>A structured diligence lens mapping findings to representations, indemnities and price →</div></a>
+  </div>
+  <p class="note rv">Buyers, compliance and assessors each have a dedicated page on this site — <a href="#/adopt" style="color:var(--violet)">Adopt</a>, <a href="#/mapping" style="color:var(--violet)">Mapping</a> and <a href="#/assessors" style="color:var(--violet)">Assessors</a>. The entries above are role-specific introductions to those and the other resources; the underlying criteria are common to all.</p>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Unsure which applies? <span class="g">Begin with the criteria.</span></h2><p>The criteria are public, versioned, and identical whoever reads them. Reading them first usually makes the relevant entry point clear.</p><a class="btn" href="#/standard">Read the standard →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-for-buyers">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">For buyers &amp; procurement</span>
+  <h1 class="disp">Require evidence of AI control <span class="grad-text">before you contract.</span></h1>
+  <p class="lead">Accountability for embedded AI rests with the organisation that deploys it, not the vendor that supplied the model. The Standard lets you require, evaluate, and contract on that evidence — <b>using procurement language your team already applies.</b></p>
+  <div class="ctas"><a class="btn grad" href="#/adopt">Open the procurement toolkit →</a><a class="sub-link" href="#/register">Search the register ↓</a></div>
+</div></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // The exposure</span><h2 class="big">The risk transfers to you. <span class="grad-text">The evidence does not.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">Undisclosed dependency</div><h3>Third-party models, unseen terms</h3><p>An AI feature is frequently a call to a third-party model on terms the buyer never reviewed. When that model changes, fails, or becomes subject to a foreign jurisdiction, the exposure sits with the deploying organisation.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Unpriced silence</div><h3>The unanswered question carries no cost</h3><p>Most vendor questionnaires allow a supplier to leave the difficult items blank without penalty. Model origin, data jurisdiction and exit terms commonly go undisclosed until they can no longer be negotiated.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Non-transferable accountability</div><h3>Obligations you cannot delegate</h3><p>Under the EU AI Act and sectoral regimes, the deployer retains obligations regardless of who supplied the model. An obligation that cannot be evidenced has not been discharged.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // What the Standard provides</span><h2 class="big">A claim you can require, <span class="grad-text">evaluate and contract on.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">A verifiable claim</div><h3>A register, not a badge</h3><p>A certificate names the product, level, version and assessor on a public register. The claim means the same thing across vendors, and withdrawals are listed alongside grants.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Established language</div><h3>Insert, clause, questionnaire</h3><p>Templates mapped criterion by criterion, in which a non-response is recorded as a scored deficiency rather than a neutral omission.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Proportionate requirement</div><h3>A level for each use context</h3><p>Three graded levels allow disclosure to be required for low-stakes tools and executable exit for business-critical systems, without applying the highest level indiscriminately.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // Reading a certificate</span><h2 class="big">What each level <span class="grad-text">entitles you to rely on.</span></h2><p class="lead">Certification is graded rather than pass/fail. Each level is a defined claim; require the level the use context warrants.</p></div>
+  <div class="ladder rv">
+    <div class="lv" style="--c:var(--ink-3)"><div class="lh"><span class="lnum">Level 01</span><span class="lname">Disclosed</span></div><div><div class="lclaim"><b>The full picture is visible.</b> Every dimension is documented and independently verified — transparency, not yet contractual protection.</div></div></div>
+    <div class="lv" style="--c:var(--flare)"><div class="lh"><span class="lnum">Level 02</span><span class="lname">Controlled</span></div><div><div class="lclaim"><b>The protections sit in the contract.</b> Standard terms carry the commitments that close each dimension, available to any customer. The appropriate default for revenue-path and regulated workloads.</div></div></div>
+    <div class="lv" style="--c:var(--violet)"><div class="lh"><span class="lnum">Level 03</span><span class="lname">Sovereign</span></div><div><div class="lclaim"><b>Operation independent of any single provider is demonstrated.</b> Substitutability, customer-controlled deployment and an executable exit. For business-critical, hard-to-replace or residency-constrained systems.</div></div></div>
+  </div>
+  <p class="note rv">Guidance on which level to require for which use context, together with the RFP insert and contract clause, is set out in the <a href="#/adopt" style="color:var(--violet)">procurement toolkit</a>.</p>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Require the evidence. <span class="g">The templates are open.</span></h2><p>The procurement insert, contract clause and questionnaire are free to copy and adapt without attribution, whether or not you engage an assessor.</p><a class="btn" href="#/adopt">Open the procurement toolkit →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-for-vendors">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">For application vendors · Track A</span>
+  <h1 class="disp">Demonstrate control of <span class="grad-text">your AI supply chain.</span></h1>
+  <p class="lead">If your product is built on a model you did not train, your customers increasingly require evidence that you can identify it, contain it, and leave it. Track A certifies that control, at a level you select, against <b>public criteria you can assess yourself against today.</b></p>
+  <div class="ctas"><a class="btn grad" href="#/standard">Read the Track A criteria →</a><a class="sub-link" href="#/assessors">Find an assessor ↓</a></div>
+</div></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // The case for certification</span><h2 class="big">Disclosure as <span class="grad-text">a commercial position.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">Efficiency</div><h3>Answer the questionnaire once</h3><p>Regulated buyers now attach AI clauses to most RFPs. A certificate evidences all twenty-eight Track A questions from a single assessment, in place of a bespoke review per deal.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Differentiation</div><h3>Clear the gates competitors stall at</h3><p>Where your standard terms already carry the commitments — model-change notice, evaluation rights, exit — procurement proceeds faster than it does for uncertified suppliers.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Credibility</div><h3>A claim a buyer can verify</h3><p>"Enterprise-grade" is unfalsifiable. A Level 2 certificate on a public register is a claim a buyer can rely on without taking it on assertion.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // Scope of Track A</span><h2 class="big">The seven dimensions, <span class="grad-text">as applied to your product.</span></h2><p class="lead">The full criteria and thresholds are in <a href="#/standard" style="color:var(--violet)">the standard</a>. In summary, what a Track A assessment evidences:</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">S1 · Model</div><div class="v">Every model and inference provider in your delivery path, to origin — with version pinning and change notice carried in your terms.</div></div>
+    <div class="r"><div class="k">S2 · Data</div><div class="v">Every jurisdiction your customers' data is processed in, including failover, and residency you can contractually pin.</div></div>
+    <div class="r"><div class="k">S3 · Provenance</div><div class="v">The basis your training and retrieval corpora were obtained on, that you do not train shared models on customer data, and clean output title with an IP indemnity that reaches training-corpus claims.</div></div>
+    <div class="r"><div class="k">S4 · Operational</div><div class="v">Advance notice of behaviour-changing updates, a customer right to evaluate a change before it ships, and a committed rollback window.</div></div>
+    <div class="r"><div class="k">S5 · Infrastructure</div><div class="v">Where compute runs and how concentrated it is, single points of dependency named, and a private-tenancy option where you offer one.</div></div>
+    <div class="r"><div class="k">S6 · Exit</div><div class="v">What a customer can export, in what format and how quickly, with committed transition assistance and a maximum exit period.</div></div>
+    <div class="r"><div class="k">S7 · Evaluation</div><div class="v">The benchmarks and harness behind your quality claims, and a customer's right to run its own capability, bias and robustness evaluations against a fixed version.</div></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // The certification process</span><h2 class="big">Public criteria first, <span class="grad-text">then an independent assessor.</span></h2></div>
+  <div class="flow rv">
+    <div class="st"><div class="n">STEP 01</div><h4>Self-assess</h4><p>Evaluate yourself against the published criteria at every threshold. The criteria are public and require no engagement to read.</p></div>
+    <div class="st"><div class="n">STEP 02</div><h4>Select an assessor</h4><p>Engage an accredited assessor with no material relationship to your organisation. You are not locked to a single grader.</p></div>
+    <div class="st"><div class="n">STEP 03</div><h4>Evidence review</h4><p>The assessor tests your claims against evidence — terms, logs, architecture — rather than assertion.</p></div>
+    <div class="st"><div class="n">STEP 04</div><h4>Certificate &amp; listing</h4><p>Your level and the standard version are issued and recorded on the public register in your name.</p></div>
+    <div class="st"><div class="n">STEP 05</div><h4>Maintain</h4><p>Periodic re-assessment, with notice of any change affecting the certified claims, so the level continues to mean the same thing.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">04 // Levels</span><h2 class="big">Certify at the level <span class="grad-text">your buyers require.</span></h2></div>
+  <div class="ladder rv">
+    <div class="lv" style="--c:var(--ink-3)"><div class="lh"><span class="lnum">Level 01</span><span class="lname">Disclosed</span></div><div><div class="lclaim"><b>The full picture is documented.</b> Every dimension documented and independently verified. The entry claim — transparency, before contractual protection.</div></div></div>
+    <div class="lv" style="--c:var(--flare)"><div class="lh"><span class="lnum">Level 02</span><span class="lname">Controlled</span></div><div><div class="lclaim"><b>The commitments sit in your standard terms.</b> The protections that close each dimension, available to any customer rather than negotiated one enterprise at a time. The level most regulated buyers require.</div></div></div>
+    <div class="lv" style="--c:var(--violet)"><div class="lh"><span class="lnum">Level 03</span><span class="lname">Sovereign</span></div><div><div class="lclaim"><b>A customer can operate independent of any single provider.</b> Demonstrated substitutability, customer-controlled deployment, and an executable exit. The differentiator for critical and sovereignty-constrained procurement.</div></div></div>
+  </div>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>The criteria are public. <span class="g">Assess yourself first.</span></h2><p>Read the Track A criteria, evaluate yourself against each threshold, then engage an accredited assessor. No assessor sets the bar, so the result is portable and remains yours.</p><a class="btn" href="#/standard">Read the Track A criteria →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-for-providers">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">For model &amp; GPAI providers · Track B</span>
+  <h1 class="disp">Certify the model so integrators <span class="grad-text">can inherit compliance.</span></h1>
+  <p class="lead">You are the model rather than a reseller of one, so the questions a deployer must answer resolve to you. Track B certifies the supply-chain, provenance, documentation and evaluation evidence your downstream integrators need <b>to meet their own obligations.</b></p>
+  <div class="ctas"><a class="btn grad" href="#/standard">Read the Track B criteria →</a><a class="sub-link" href="#/mapping">See the GPAI mapping ↓</a></div>
+</div></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Why a separate track</span><h2 class="big">Track A questions do not apply <span class="grad-text">to a model provider.</span></h2><p class="lead">An application vendor can disclose whose model it uses. A model provider <em style="font-style:normal;color:var(--ink)">is</em> that model — so the standard runs a separate track with criteria that fit.</p></div>
+  <div class="compare rv">
+    <div>
+      <div class="who">Application vendor</div>
+      <div class="code">embeds a third-party model</div>
+      <span class="arch o">Track A</span>
+      <ul>
+        <li>Discloses <b>whose</b> model it uses, and passes change notice through</li>
+        <li>Answers "which provider?" with a name</li>
+        <li>Inherits corpus and IP risk it did not create</li>
+      </ul>
+    </div>
+    <div>
+      <div class="who">Model / GPAI provider</div>
+      <div class="code">is the model</div>
+      <span class="arch p">Track B</span>
+      <ul>
+        <li><b>Is</b> the model — "which provider?" is a question about you</li>
+        <li>Must evidence corpus rights over a web-scale corpus</li>
+        <li>Publishes the documentation others build their compliance on</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // Alignment with the EU AI Act</span><h2 class="big">Track B carries much of this <span class="grad-text">because the Act already requires it.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">Art. 53(1)(b) · Annex XII</div><h3>Downstream documentation</h3><p>Information sufficient for integrators to understand the model's capabilities and limitations. Track B B4 evidences this in full.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Art. 53(1)(c)–(d)</div><h3>Copyright policy &amp; training summary</h3><p>A policy respecting EU rights reservations, and a public, sufficiently detailed summary of training content. B3 evidences both.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Art. 55 · the stated limit</div><h3>Systemic-risk obligations</h3><p>Model evaluation, adversarial testing and incident reporting for systemic-risk models are a distinct discipline. The Standard does not test them, and <a href="#/mapping" style="color:var(--violet)">states so</a>.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // Scope of Track B</span><h2 class="big">The seven dimensions, <span class="grad-text">as applied to a model.</span></h2><p class="lead">Full criteria in <a href="#/standard" style="color:var(--violet)">the standard</a>. In summary, what a Track B assessment evidences:</p></div>
+  <div class="rows rv">
+    <div class="r"><div class="k">B1 · Model</div><div class="v">Architecture family, versioning and deprecation policy — and how a pinned version stays pinned for those who depend on it.</div></div>
+    <div class="r"><div class="k">B2 · Data</div><div class="v">Where training and inference run and under whose jurisdiction, and what a government could and could not compel.</div></div>
+    <div class="r"><div class="k">B3 · Provenance</div><div class="v">The legal basis for your training corpus, a public content summary, and the IP position passed to everyone downstream.</div></div>
+    <div class="r"><div class="k">B4 · Operational</div><div class="v">Published evaluation methodology, monitoring, and versioned documentation integrators can rely on.</div></div>
+    <div class="r"><div class="k">B5 · Infrastructure</div><div class="v">Compute concentration, and the continuity offered if an upstream provider you depend on fails.</div></div>
+    <div class="r"><div class="k">B6 · Exit</div><div class="v">Weight portability terms and escrow where a small team maintains a critical model — service surviving the provider ceasing to operate.</div></div>
+    <div class="r"><div class="k">B7 · Evaluation</div><div class="v">Full evaluation transparency, held-out and independent evaluation access, and bias, robustness and adversarial results downstream deployers can build on.</div></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">04 // Downstream inheritance</span><h2 class="big">Your evidence becomes <span class="grad-text">your customer's compliance.</span></h2></div>
+  <div class="band rv">
+    <h3>A deployer's obligations do not transfer to you — but your evidence enables theirs.</h3>
+    <p>A downstream integrator's duties on data governance and bias (Art. 10) and on accuracy and robustness (Art. 15) apply to it whether or not it trained anything. At present it discharges them by sending your team a bespoke evidence request for each deal.</p>
+    <p>A Track B certificate is that evidence pack, published once. It is the difference between being the model your customers must work around and the model they can build a compliant product on — <b>a commercial advantage as much as a compliance requirement.</b></p>
+  </div>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Provide the evidence <span class="g">integrators build on.</span></h2><p>Read the Track B criteria and the regulatory mapping. Evidence published once replaces the requests integrators would otherwise make one deal at a time.</p><a class="btn" href="#/standard">Read the Track B criteria →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-for-compliance">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">For compliance, risk &amp; legal</span>
+  <h1 class="disp">What the certificate discharges — <span class="grad-text">and what it does not.</span></h1>
+  <p class="lead">A certification is useful to a legal function only where its overlap with actual obligations is stated precisely, including where none exists. The Standard maps each criterion group to the obligation it evidences, <b>marks coverage honestly, and provides a summary suitable for internal circulation.</b></p>
+  <div class="ctas"><a class="btn grad" href="#/mapping">See the regulatory mapping →</a><a class="sub-link" href="#/standard">Read the criteria ↓</a></div>
+</div>
+<div class="disclaim rv"><div class="h">Read this first</div><p>This is informational and is <b>not legal advice</b>. Which obligations apply depends on your role, risk classification and jurisdiction. Certification evidences criteria; it does not certify legal compliance, and no regulator has recognised this standard. <span class="tbd">confirm citations with counsel</span></p></div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Areas of overlap</span><h2 class="big">Overlap with obligations <span class="grad-text">you already carry.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">GPAI providers · Art 53</div><h3>Documentation &amp; copyright</h3><p>Track B substantially evidences the downstream documentation, the copyright policy and the training-content summary the Act requires of general-purpose model providers.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">AI systems · Arts 12–13, 25</div><h3>Value-chain information &amp; logging</h3><p>Track A partially evidences the information, instructions-for-use and record-keeping obligations that flow along the AI value chain to deployers.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">High-risk · Arts 10, 15</div><h3>Evaluability as a precondition</h3><p>A high-risk system must evidence accuracy, robustness and screening for bias. S7 certifies that the product can be evaluated at all — the precondition for reaching that verdict.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // The boundary</span><h2 class="big">The boundary, <span class="grad-text">stated as plainly as the overlap.</span></h2><p class="lead">Overstated coverage is the fastest way for a standard to lose credibility with the audience that matters. The limits are therefore set out as flatly as the areas of overlap.</p></div>
+  <div class="duo rv">
+    <div>
+      <h3>It evidences</h3>
+      <div class="sub">In whole or substantial part</div>
+      <ul>
+        <li>Downstream GPAI documentation, copyright policy and training summary <b>(substantial)</b></li>
+        <li>Value-chain information, instructions and logging <b>(partial)</b></li>
+        <li>Model and data supply-chain control across seven dimensions</li>
+        <li>That the product is <b>evaluable</b> — the S7 precondition</li>
+      </ul>
+    </div>
+    <div>
+      <h3>It does not</h3>
+      <div class="sub">And no assessor may represent otherwise</div>
+      <ul>
+        <li>Conformity assessment or CE marking — a regulated process with designated bodies</li>
+        <li>Risk management, human oversight, or systemic-risk obligations</li>
+        <li>Accuracy, safety, fairness or fitness for purpose — the finding, not the means to reach it</li>
+        <li>Any regulatory standing — no regulator has recognised it</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // Evaluability as a precondition</span><h2 class="big">The dimension most often mistaken <span class="grad-text">for a quality claim.</span></h2></div>
+  <div class="band rv">
+    <h3>Evaluation sovereignty certifies the means, not the finding.</h3>
+    <p>The Standard certifies control, not quality. S7 is where that is most easily misread — it is not a mark of a good model. It certifies that the model can be <em style="font-style:normal;color:var(--ink)">measured</em>: capability, bias, and reproducibility, on a fixed version, on a held-out set.</p>
+    <p>This matters in law because a product that cannot be evaluated has no lawful path into a high-risk use, however capable. The Standard grades the means to reach a verdict; <b>the assessment of the result remains yours.</b></p>
+  </div>
+  <p class="note rv">The full EU AI Act article map — GPAI provider obligations, the value chain, other frameworks accepted as evidence (SOC 2, ISO 27001, ISO 42001, NIST AI RMF), and the summary for internal circulation — is on the <a href="#/mapping" style="color:var(--violet)">regulatory mapping page</a>.</p>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Review the mapping. <span class="g">Contest it where it is wrong.</span></h2><p>Each criterion group is mapped to the obligation it evidences, with coverage marked honestly, including the gaps. Where a mapping overstates, we would prefer to correct it in public.</p><a class="btn" href="#/mapping">Open the regulatory mapping →</a></div></section>
+</section>
+
+<section class="pg pgx" id="pg-for-investors">
+<section class="hero"><div class="wrap"><div class="hero-copy rv">
+  <span class="eyebrow">For investors &amp; M&amp;A diligence</span>
+  <h1 class="disp">Assess control over the AI <span class="grad-text">in a target.</span></h1>
+  <p class="lead">A diligence window rarely allows inspection of the model itself. What can be established is whether the target controls it: which model, under whose jurisdiction, trained on what, and whether the business could withstand losing it. <b>The Standard turns that into a graded, evidence-backed signal.</b></p>
+  <div class="ctas"><a class="btn grad" href="#/standard">See what is assessed →</a><a class="sub-link" href="#/register">Search the register ↓</a></div>
+</div></div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">01 // Common exposures in an AI target</span><h2 class="big">Where an AI thesis <span class="grad-text">is most exposed.</span></h2></div>
+  <div class="cols rv">
+    <div class="cl" style="--c:var(--flare)"><div class="k">Supply chain</div><h3>Undisclosed model dependency</h3><p>An AI capability that proves to be a thin layer over a third-party API — on terms the target never controlled, and which surface only after close.</p></div>
+    <div class="cl" style="--c:var(--magenta)"><div class="k">Provenance</div><h3>Inherited corpus liability</h3><p>Training-data rights that were never documented, emerging post-close as third-party claims a standard software indemnity does not reach.</p></div>
+    <div class="cl" style="--c:var(--violet)"><div class="k">Exit</div><h3>Unpriced lock-in</h3><p>Switching costs and residency constraints that make each future renewal a demand rather than a negotiation, depressing the multiple being paid.</p></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">02 // What a certificate establishes</span><h2 class="big">A structured read, <span class="grad-text">rather than a data-room estimate.</span></h2></div>
+  <div class="figs rv">
+    <div class="fg"><div class="fv">56</div><div class="fk">criteria assessed</div><div class="fd">Across seven dimensions and two tracks — the AI-diligence framework otherwise assembled from scratch during diligence.</div></div>
+    <div class="fg"><div class="fv">3</div><div class="fk">graded levels</div><div class="fd">Disclosed / Controlled / Sovereign — a level is a claim about how far the target's control actually runs.</div></div>
+    <div class="fg"><div class="fv">L2</div><div class="fk">the contract line</div><div class="fd">At Level 2 the protections sit in the target's standard terms, not its sales deck — a materially different risk to underwrite.</div></div>
+    <div class="fg"><div class="fv">1</div><div class="fk">public register</div><div class="fd">Level, version, assessor and status are checkable — and any withdrawal is listed alongside the grant.</div></div>
+  </div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">03 // From finding to deal term</span><h2 class="big">Where each gap <span class="grad-text">enters the agreement.</span></h2></div>
+  <div class="mx rv"><table>
+    <thead><tr><th>What diligence surfaces</th><th>What it signals</th><th>Where it lands in the deal</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">No model inventory (S1)</td><td>The target cannot identify its own dependencies</td><td>Condition to close; disclosure schedule; specific rep</td></tr>
+      <tr><td class="lbl">Cross-border failover, no residency pin (S2)</td><td>Data leaves the jurisdiction the thesis assumed</td><td>Reps &amp; warranties; regulatory indemnity</td></tr>
+      <tr><td class="lbl">Unresolved corpus rights (S3)</td><td>IP claims a software indemnity will not cover</td><td>Specific indemnity; escrow; price adjustment</td></tr>
+      <tr><td class="lbl">No evaluation rights or reproducibility (S7)</td><td>The capability being paid for cannot be verified</td><td>Earn-out tied to evidenced performance; price chip</td></tr>
+      <tr><td class="lbl">No executable exit (S6)</td><td>Lock-in inherited at the current multiple</td><td>Valuation discount; post-close remediation plan</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+<section class="blk"><div class="wrap">
+  <div class="sh rv"><span class="eyebrow">04 // Applying the Standard in diligence</span><h2 class="big">The benchmark is public; <span class="grad-text">an assessor produces the finding.</span></h2></div>
+  <div class="band rv">
+    <h3>The Standard is the measure; an accredited assessor takes the measurement.</h3>
+    <p>The public criteria can be used as a diligence framework directly. Where an independent read is required within a deal timeline, an accredited assessor grades the target against the same seven dimensions and returns findings that convert into deal terms.</p>
+    <p>Tensor, a founding accredited assessor, applies this instrument to price AI risk in transactions — <a href="https://tensordiligence.ai/#/sovereign" style="color:var(--violet)">tensordiligence.ai →</a> <span class="tbd">confirm URL</span>. Others are being accredited; a certificate is valid whoever issued it.</p>
+  </div>
+</div></section>
+<section class="ctaband"><div class="wrap"><h2>Optionality is <span class="g">what is being acquired.</span></h2><p>Control over the AI a business depends on is a determinant of its value. The public criteria serve as a diligence framework; an accredited assessor can grade a target against them within a deal timeline.</p><a class="btn" href="#/assessors">Find an assessor →</a></div></section>
+</section>
+</main>
+<footer class="sfoot"><div class="in">
+  <div class="cols">
+    <div><div class="brand"><svg class="shield" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z" stroke="url(#shg)" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke="url(#shg)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><b>SOVEREIGN AI</b></div><div class="blurb">An independent, public standard for control over the AI you depend on. Administered by an independent body being constituted; assessed by accredited independent assessors.</div></div>
+    <div><h4>The standard</h4><a href="#/standard">The standard</a><a href="#/governance">Governance</a><a href="#/mapping">Regulatory mapping</a><a href="#/register">Register</a></div>
+    <div><h4>Take part</h4><a href="#/audiences">Who it's for</a><a href="#/assessors">Find an assessor</a><a href="#/assessors">Become an assessor</a><a href="#/adopt">Adopt (buyers)</a><a href="mailto:standard@sovereignai.org">Comment on v1.0</a></div>
+    <div><h4>Assessors</h4><a href="https://tensordiligence.ai/#/sovereign">Tensor — founding</a><a href="#/assessors">Accreditation open</a></div>
+  </div>
+  <div class="legal"><b>Sovereign AI Standard</b> — v1.0, draft for public consultation. Illustrative content throughout; no certificates have been issued and no organisation or assessor named on the register is real. "Sovereign AI" is a registered certification mark held by the Standard's administering body <span class="tbd" style="border:none">confirm registration &amp; holder</span>; the mark is not owned by any assessor. The administering entity, mark registration, assessor accreditation and appeal function are being constituted with legal counsel. Domain, contact addresses and dates are placeholders pending confirmation.</div>
+</div></footer>
+<script>
+(function(){
+  var ROUTES=['home','audiences','for-buyers','for-vendors','for-providers','for-compliance','for-investors','standard','governance','mapping','assessors','register','adopt'];
+  var _reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function _revealCheck(){ if(_reduce) return; var vh=window.innerHeight;
+    var els=[].slice.call(document.querySelectorAll('.pg.on .rv:not(.in)')), shown=0;
+    els.forEach(function(el){ if(el.getBoundingClientRect().top < vh){
+      el.style.transitionDelay=Math.min(shown*70,280)+'ms'; el.classList.add('in'); shown++;
+      (function(e){ setTimeout(function(){ e.style.transitionDelay=''; },1000); })(el); } }); }
+  var _tick=false;
+  function _onScroll(){ if(_tick) return; _tick=true; requestAnimationFrame(function(){ _revealCheck(); _tick=false; }); }
+  window.addEventListener('scroll',_onScroll,{capture:true,passive:true});
+  window.addEventListener('resize',_onScroll);
+  function reveal(pg){ if(_reduce){ pg.querySelectorAll('.rv:not(.in)').forEach(function(e){e.classList.add('in');}); return; }
+    _revealCheck(); requestAnimationFrame(_revealCheck); }
+
+  function show(hash){
+    var r=(hash||'').replace('#/','').split('?')[0].split('#')[0];
+    if(ROUTES.indexOf(r)<0) r='home';
+    document.querySelectorAll('.pg').forEach(function(p){p.classList.toggle('on', p.id==='pg-'+r);});
+    document.querySelectorAll('.mast nav a').forEach(function(a){a.classList.toggle('on', a.getAttribute('data-r')===r);});
+    var pg=document.getElementById('pg-'+r);
+    if(pg) reveal(pg);
+    window.scrollTo(0,0);
+  }
+  function onhash(){ var h=location.hash; if(h && h.indexOf('#/')!==0){ return; } show(h); }
+  window.addEventListener('hashchange', onhash);
+  (function(){ var root=document.documentElement, box=document.getElementById('themeToggle');
+    function set(t){ root.setAttribute('data-theme',t); if(box) box.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-t')===t); }); try{ localStorage.setItem('sovai-theme',t); }catch(e){} }
+    var saved=null; try{ saved=localStorage.getItem('sovai-theme'); }catch(e){}
+    set(saved==='dark'?'dark':'light');
+    if(box) box.querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ set(b.getAttribute('data-t')); }); }); })();
+  (function(){ var tbl=document.getElementById('regtable'); if(!tbl) return;
+    var rows=[].slice.call(tbl.querySelectorAll('.rr:not(.none)'));
+    var none=document.getElementById('regnone'), cnt=document.getElementById('regcount');
+    var q=document.getElementById('regq'), rst=document.getElementById('regreset');
+    var f={lvl:'all',trk:'all',prop:'all'};
+    function apply(){ var term=(q&&q.value||'').toLowerCase().trim(), shown=0;
+      rows.forEach(function(rw){ var ok=(f.lvl==='all'||rw.getAttribute('data-lvl')===f.lvl)&&(f.trk==='all'||rw.getAttribute('data-trk')===f.trk)&&(f.prop==='all'||(rw.getAttribute('data-prop')||'').indexOf(f.prop)>-1)&&(!term||(rw.getAttribute('data-q')||'').indexOf(term)>-1);
+        rw.style.display=ok?'':'none'; if(ok) shown++; });
+      if(none) none.style.display=shown?'none':''; if(cnt) cnt.textContent=shown+' of '+rows.length+' entries'; }
+    [].slice.call(document.querySelectorAll('.regbar button[data-f]')).forEach(function(b){ b.addEventListener('click',function(){ var k=b.getAttribute('data-f'); f[k]=b.getAttribute('data-v'); [].slice.call(document.querySelectorAll('.regbar button[data-f="'+k+'"]')).forEach(function(o){o.classList.toggle('on',o===b);}); apply(); }); });
+    if(q) q.addEventListener('input',apply);
+    if(rst) rst.addEventListener('click',function(){ f={lvl:'all',trk:'all',prop:'all'}; if(q) q.value=''; [].slice.call(document.querySelectorAll('.regbar button[data-f]')).forEach(function(o){o.classList.toggle('on',o.getAttribute('data-v')==='all');}); apply(); });
+    apply(); })();
+  [].slice.call(document.querySelectorAll('.copyblk button[data-copy]')).forEach(function(b){ b.addEventListener('click',function(){ var body=b.closest('.copyblk').querySelector('.cbb'), txt=body.innerText, done=function(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){b.textContent=o;},1600); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,sel); } else { sel(); }
+      function sel(){ var rg=document.createRange(); rg.selectNodeContents(body); var s2=window.getSelection(); s2.removeAllRanges(); s2.addRange(rg); b.textContent='Selected — Ctrl/Cmd-C'; setTimeout(function(){b.textContent='Copy';},2600); } }); });
+  onhash(); if(!location.hash||location.hash.indexOf('#/')!==0) show('home');
+})();
+</script>
+</body></html>
