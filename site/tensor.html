@@ -5486,10 +5486,10 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <table>
       <thead><tr><th>Category</th><th>Where it lives</th><th>Retention</th><th>Deletion</th></tr></thead>
       <tbody>
-        <tr><td class="lbl">Raw evidence &amp; extracts</td><td>Clean room only, never replicated</td><td>Engagement duration only</td><td>Destroyed with the room at completion <span class="tbd">confirm window</span></td></tr>
-        <tr><td class="lbl">Working analysis</td><td>Clean room only</td><td>Engagement duration only</td><td>Destroyed with the room at completion <span class="tbd">confirm window</span></td></tr>
-        <tr><td class="lbl">The assessment &amp; evidence index</td><td>Delivered to you; copy held for defensibility</td><td>Retained so findings remain auditable <span class="tbd">confirm period</span></td><td>On written request, subject to the engagement letter</td></tr>
-        <tr><td class="lbl">Standardized scores (de-identified)</td><td>Benchmark panel</td><td>Retained to compute peer medians</td><td>Company-identifying fields removed; opt-out available <span class="tbd">confirm</span></td></tr>
+        <tr><td class="lbl">Raw evidence &amp; extracts</td><td>Clean room only, never replicated</td><td>Engagement duration only</td><td>Destroyed with the room at completion <span class="tbd" data-gate="G13">confirm window</span></td></tr>
+        <tr><td class="lbl">Working analysis</td><td>Clean room only</td><td>Engagement duration only</td><td>Destroyed with the room at completion <span class="tbd" data-gate="G13">confirm window</span></td></tr>
+        <tr><td class="lbl">The assessment &amp; evidence index</td><td>Delivered to you; copy held for defensibility</td><td>Retained so findings remain auditable <span class="tbd" data-gate="G13">confirm period</span></td><td>On written request, subject to the engagement letter</td></tr>
+        <tr><td class="lbl">Standardized scores (de-identified)</td><td>Benchmark panel</td><td>Retained to compute peer medians</td><td>Company-identifying fields removed; opt-out available <span class="tbd" data-gate="G13">confirm</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -5506,8 +5506,8 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <div class="r"><div class="k">Named access only</div><div class="v">Access is granted to identified individuals on the engagement team, not to a shared service account or a role. You receive the list before access is provisioned, and any addition is notified in advance.</div></div>
     <div class="r"><div class="k">Least privilege, time-boxed</div><div class="v">Read-only, scoped to the named systems, and revoked at completion rather than left dormant. No standing access persists between engagements.</div></div>
     <div class="r"><div class="k">Human validation of every finding</div><div class="v">No finding, score, or coefficient reaches a deliverable without review by a named reviewer. The engine flags; a person confirms. This is a quality control and an accountability control at the same time.</div></div>
-    <div class="r"><div class="k">Confidentiality &amp; screening</div><div class="v">All personnel are bound by confidentiality obligations covering client and target material. Background screening and onboarding controls are described in the security pack. <span class="tbd">confirm scope</span></div></div>
-    <div class="r"><div class="k">Conflicts</div><div class="v">We run a conflicts check before accepting an engagement and decline where a conflict cannot be managed. Where we have previously assessed a company appearing in your process, we disclose it. <span class="tbd">confirm policy</span></div></div>
+    <div class="r"><div class="k">Confidentiality &amp; screening</div><div class="v">All personnel are bound by confidentiality obligations covering client and target material. Background screening and onboarding controls are described in the security pack. <span class="tbd" data-gate="G13">confirm scope</span></div></div>
+    <div class="r"><div class="k">Conflicts</div><div class="v">We run a conflicts check before accepting an engagement and decline where a conflict cannot be managed. Where we have previously assessed a company appearing in your process, we disclose it. <span class="tbd" data-gate="G13">confirm policy</span></div></div>
   </div>
 </div></section>
 
@@ -5517,7 +5517,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <h2 class="big">Certifications, insurance, <span class="grad-text">and what we will sign.</span></h2>
     <p class="lead">The controls above are commitments. This section is the independent evidence behind them — and it is the part your procurement team will ask for first.</p>
   </div>
-  <div class="tbdbox rv">
+  <div class="tbdbox rv" data-gate="G13">
     <div class="h">To confirm before publication</div>
     <p style="margin-bottom:12px">The items below are the standard set a buy-side procurement or vendor-risk review will request. Each needs a factual answer from Tensor before this page goes live — publishing an unverified certification claim is materially worse than publishing none.</p>
     <p><b>Certification status</b> — SOC 2 Type II, ISO 27001, or "in progress with target date", stated plainly.<br>
@@ -5541,8 +5541,8 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <details><summary>Will our data be used to improve your product or your benchmarks?</summary><p>No to the first, and only in a specific, de-identified sense for the second. Nothing is used to train or fine-tune a model. Benchmarks are computed from the standardized scores an assessment produces, with company-identifying fields removed.</p></details>
     <details><summary>What happens if we walk away from the deal mid-engagement?</summary><p>The clean room is torn down on the same terms as a completed engagement, and you receive the same written deletion confirmation. Work completed to that point is delivered in whatever state it has reached.</p></details>
     <details><summary>Can the target's counsel see this page before granting access?</summary><p>Yes — that is what it is for. In a sell-side or vendor-diligence context we expect it to be circulated to the target's counsel and IT before any credential is issued.</p></details>
-    <details><summary>Do you subcontract any part of the assessment?</summary><p>The engagement team is named before access is provisioned, and that list is the complete set of people with access. Any change is notified in advance. <span class="tbd">confirm subcontracting policy</span></p></details>
-    <details><summary>Who owns the output?</summary><p>You do — the assessment, the findings, and the evidence index are yours to use and to share with your counterparties, subject to the engagement letter. <span class="tbd">confirm licence terms</span></p></details>
+    <details><summary>Do you subcontract any part of the assessment?</summary><p>The engagement team is named before access is provisioned, and that list is the complete set of people with access. Any change is notified in advance. <span class="tbd" data-gate="G13">confirm subcontracting policy</span></p></details>
+    <details><summary>Who owns the output?</summary><p>You do — the assessment, the findings, and the evidence index are yours to use and to share with your counterparties, subject to the engagement letter. <span class="tbd" data-gate="G13">confirm licence terms</span></p></details>
   </div>
 </div></section>
 
@@ -5652,7 +5652,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
         <div class="pl">Fee — annual subscription</div>
         <div class="pv" style="font-size:22px;color:var(--ink-2)">Priced on holdings</div>
         <div class="pu">per fund · per year</div>
-        <div class="pn">Quoted on the number of companies in the book. <span class="tbd">confirm range</span></div>
+        <div class="pn">Quoted on the number of companies in the book. <span class="tbd" data-gate="G12">confirm range</span></div>
       </div>
     </div>
   </div>
@@ -5743,7 +5743,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
   <div class="rows rv">
     <div class="r"><div class="k">Flash Screen — per target</div><div class="v"><b>$5,000 per target, fixed.</b> The same fee whatever the target, so screening a long list is a predictable line item rather than a negotiation. Credits in full toward the Confirmatory Assessment if you proceed past LOI.</div></div>
     <div class="r"><div class="k">Confirmatory Assessment — per deal</div><div class="v"><b>$10,000 to $20,000 per deal</b>, banded by enterprise value — $10,000 under $50M EV, $15,000 from $50M to $250M, and $20,000 from $250M to $1B. Above $1B EV the estate is large enough that a standard band would misprice it in both directions, so it is quoted on the scoping call. Fixed against the agreed scope; scope changes are re-quoted in writing before work continues.</div></div>
-    <div class="r"><div class="k">Portfolio Intelligence — per fund, per year</div><div class="v">An annual subscription priced on the number of holdings, including quarterly re-scores, the fund-level panel, and an annual deep-dive per company. <span class="tbd">confirm fee</span></div></div>
+    <div class="r"><div class="k">Portfolio Intelligence — per fund, per year</div><div class="v">An annual subscription priced on the number of holdings, including quarterly re-scores, the fund-level panel, and an annual deep-dive per company. <span class="tbd" data-gate="G12">confirm fee</span></div></div>
     <div class="r"><div class="k">What is never charged extra</div><div class="v">Named SME hours, the security review, the evidence index, and app access for your deal team are included in every tier that carries them. There is no separate platform fee.</div></div>
   </div>
 </div></section>
@@ -5759,7 +5759,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <details><summary>Can we run this on the sell-side?</summary><p>Yes — and it is usually cheaper to find it yourself. The same assessment run pre-process tells you what a buyer's advisor will find, while you still have time to fix it or price it.</p></details>
     <details><summary>Do you work with lenders?</summary><p>Yes. The read is the same instrument focused on durability of cash flow rather than upside — the AI dependency behind the covenant, scored at underwriting and re-scored over the life of the loan.</p></details>
     <details><summary>Is the score comparable across companies?</summary><p>That is the point of the <a href="#/classification" style="color:var(--violet)">classification methodology</a>. Every company is placed on a recognized industry standard and an archetype derived from its own scores, and every benchmark carries the peer group it was measured against.</p></details>
-    <details><summary>What does the engagement letter cover?</summary><p>Scope, fee, timeline, the named team, data-handling terms, deletion schedule, and ownership of the output. Our standard terms and any client addendum are exchanged before access is provisioned. <span class="tbd">confirm standard terms</span></p></details>
+    <details><summary>What does the engagement letter cover?</summary><p>Scope, fee, timeline, the named team, data-handling terms, deletion schedule, and ownership of the output. Our standard terms and any client addendum are exchanged before access is provisioned. <span class="tbd" data-gate="G12">confirm standard terms</span></p></details>
   </div>
 </div></section>
 
@@ -6361,7 +6361,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
       <div class="pricing">
         <div class="pl">Fee — fixed, per vendor</div>
         <div class="pv">$5,000</div>
-        <div class="pu">per vendor · fixed fee <span class="tbd">confirm</span></div>
+        <div class="pu">per vendor · fixed fee <span class="tbd" data-gate="G12">confirm</span></div>
         <div class="pn">Credits in full toward a Vendor Assessment on the vendor you proceed with.</div>
       </div>
     </div>
@@ -6384,7 +6384,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
       <div class="pricing">
         <div class="pl">Fee — fixed, per vendor</div>
         <div class="pv" style="font-size:22px;color:var(--ink-2)">Quoted on scope</div>
-        <div class="pu">per vendor · per contract <span class="tbd">confirm range</span></div>
+        <div class="pu">per vendor · per contract <span class="tbd" data-gate="G12">confirm range</span></div>
         <div class="pn">Priced on the contract value and the breadth of the deployment.</div>
       </div>
     </div>
@@ -6431,9 +6431,9 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <p class="lead">Most enterprises are not assessing one vendor. They are assessing several a quarter, renewing others, and carrying a stack nobody has looked at as a whole.</p>
   </div>
   <div class="rows rv">
-    <div class="r"><div class="k">Shortlist pricing</div><div class="v">Three or more vendors screened together in one engagement, scored on one schema so the comparison is real rather than assembled from three sales decks. <span class="tbd">confirm rate</span></div></div>
-    <div class="r"><div class="k">Annual programme</div><div class="v">An agreed number of screens and assessments across the year, plus renewal re-scores and a stack-level concentration view. Priced as a subscription rather than per engagement. <span class="tbd">confirm rate</span></div></div>
-    <div class="r"><div class="k">Portfolio programme</div><div class="v">For private-equity owners: vendor screening deployed across holdings, aggregated into the same fund-level panel as <a href="#/portfolio" style="color:var(--violet)">Portfolio Intelligence</a>. One provider event across twelve companies is a portfolio risk, not twelve vendor problems. <span class="tbd">confirm rate</span></div></div>
+    <div class="r"><div class="k">Shortlist pricing</div><div class="v">Three or more vendors screened together in one engagement, scored on one schema so the comparison is real rather than assembled from three sales decks. <span class="tbd" data-gate="G12">confirm rate</span></div></div>
+    <div class="r"><div class="k">Annual programme</div><div class="v">An agreed number of screens and assessments across the year, plus renewal re-scores and a stack-level concentration view. Priced as a subscription rather than per engagement. <span class="tbd" data-gate="G12">confirm rate</span></div></div>
+    <div class="r"><div class="k">Portfolio programme</div><div class="v">For private-equity owners: vendor screening deployed across holdings, aggregated into the same fund-level panel as <a href="#/portfolio" style="color:var(--violet)">Portfolio Intelligence</a>. One provider event across twelve companies is a portfolio risk, not twelve vendor problems. <span class="tbd" data-gate="G12">confirm rate</span></div></div>
     <div class="r"><div class="k">What is never charged extra</div><div class="v">Named SME hours, the question list, the clause schedule, and the readout are included in every tier that carries them. There is no platform fee and no per-seat charge.</div></div>
   </div>
 </div></section>
@@ -6447,7 +6447,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <details><summary>Can you assess a vendor we've already signed with?</summary><p>Yes, and it is often the more valuable read — you have a renewal coming, and the clauses you did not get the first time are the ones to ask for now.</p></details>
     <details><summary>Are you reselling or partnered with any model vendor?</summary><p>No. We take no fees from model providers, software vendors, or resellers, and we are not a partner or reseller of any of them. Our independence is the product — see <a href="#/trust" style="color:var(--violet)">trust &amp; data handling</a>.</p></details>
     <details><summary>Is this the same instrument you use on transactions?</summary><p>Yes — the same eight weighted domains, the same red-flag taxonomy, the same peer benchmarking described in our <a href="#/classification" style="color:var(--violet)">classification methodology</a>. What changes is the output: a clause schedule instead of a price bridge.</p></details>
-    <details><summary>Who signs the engagement letter — procurement or legal?</summary><p>Whoever owns the budget. In practice the business owner sponsors it, procurement contracts it, and legal consumes the output. We are happy to present to all three at once, which is usually faster. <span class="tbd">confirm standard terms</span></p></details>
+    <details><summary>Who signs the engagement letter — procurement or legal?</summary><p>Whoever owns the budget. In practice the business owner sponsors it, procurement contracts it, and legal consumes the output. We are happy to present to all three at once, which is usually faster. <span class="tbd" data-gate="G12">confirm standard terms</span></p></details>
   </div>
 </div></section>
 
@@ -6494,7 +6494,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
   </div>
   <div class="disclaim rv">
     <div class="h">Mark status</div>
-    <p>Sovereign AI is a registered certification mark held by the Standard, not by any assessor. <span class="tbd">confirm registration no., holder &amp; jurisdictions</span> Use of the mark is permitted only by organisations holding a current certification at the stated level, under the Standard's mark usage terms — whichever accredited assessor issued it. <b>Tensor assesses against the Standard; it does not own it.</b> The standard, its public register and its governance are published at the <a href="sovereign-ai-standard.html#/" style="color:var(--violet)">Sovereign AI Standard ↗</a> <span class="tbd">confirm standard-site URL</span> — this page is Tensor's, as one of its accredited assessors.</p>
+    <p>SovereignAI is a certification mark held by Sovereign Technology Systems Corporation, the Standard's administering body — not by any assessor (USPTO application Serial No. 99861987, registration pending). Use of the mark is permitted only by organisations holding a current certification at the stated level, under the Standard's mark usage terms — whichever accredited assessor issued it. <b>Tensor assesses against the Standard; it does not own it.</b> The standard, its public register and its governance are published at the <a href="sovereign-ai-standard.html#/" style="color:var(--violet)">Sovereign AI Standard ↗</a> — this page is Tensor's, as one of its accredited assessors.</p>
   </div>
 </div></section>
 
@@ -6641,7 +6641,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <p class="lead">A certification mark without a public register is an assertion. The Standard keeps one public register across every accredited assessor — organisation, product, level, standard version, issuing assessor and status, withdrawals alongside grants. A Tensor certificate appears there whoever you check it against.</p>
   </div>
   <div class="ctas rv"><a class="btn" href="sovereign-ai-standard.html#/register">Open the public register ↗</a><a class="sub-link" href="sovereign-ai-standard.html#/adopt">Free procurement templates &#8599;</a></div>
-  <p class="note rv">Until the first certificates are issued, the register publishes the format and the standard only — an empty register beats implying a cohort that does not exist. <span class="tbd">confirm standard-site URL</span></p>
+  <p class="note rv">Until the first certificates are issued, the register publishes the format and the standard only — an empty register beats implying a cohort that does not exist.</p>
 </div></section>
 
 <section class="ctaband"><div class="wrap">
@@ -6721,11 +6721,11 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <p class="lead">Certification is a statement about a moving target. These are the obligations that keep it meaningful between assessments.</p>
   </div>
   <div class="rows rv">
-    <div class="r"><div class="k">Term</div><div class="v">Certificates run for twenty-four months from issue, against the standard version named on the certificate. <span class="tbd">confirm term</span></div></div>
+    <div class="r"><div class="k">Term</div><div class="v">Certificates run for twenty-four months from issue, against the standard version named on the certificate. <span class="tbd" data-gate="G11">confirm term</span></div></div>
     <div class="r"><div class="k">Annual surveillance</div><div class="v">A lighter-touch check at the twelve-month point: has the model supply chain changed, have the standard terms changed, have processing locations changed, are evaluation records current.</div></div>
-    <div class="r"><div class="k">Duty to notify</div><div class="v">Material change to any certified dimension must be notified within a stated period — a change of underlying model, a new sub-processor or region, a change to standard terms, or an acquisition. <span class="tbd">confirm window</span></div></div>
+    <div class="r"><div class="k">Duty to notify</div><div class="v">Material change to any certified dimension must be notified within a stated period — a change of underlying model, a new sub-processor or region, a change to standard terms, or an acquisition. <span class="tbd" data-gate="G11">confirm window</span></div></div>
     <div class="r"><div class="k">Suspension and withdrawal</div><div class="v">Unreported material change, failed surveillance, or misuse of the mark leads to suspension and, if unremedied, withdrawal. Withdrawals appear on the public register alongside grants — buyers relying on the mark need to see both.</div></div>
-    <div class="r"><div class="k">Appeals</div><div class="v">Any determination, suspension, or withdrawal can be appealed to the Standard's appeal function, which is independent of the assessor that decided — with written reasons on both sides. <span class="tbd">confirm appeal function</span></div></div>
+    <div class="r"><div class="k">Appeals</div><div class="v">Any determination, suspension, or withdrawal can be appealed to the Standard's appeal function, the Sovereign AI Lab Research Group, which is independent of the assessor that decided — with written reasons on both sides.</div></div>
     <div class="r"><div class="k">Mark usage</div><div class="v">The mark may be used only by the certified organisation, only for the certified product, and only at the level held — always with the level stated. It may not be used to imply certification of an uncertified product in the same portfolio.</div></div>
   </div>
 </div></section>
@@ -6738,12 +6738,12 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
   </div>
   <div class="rows rv">
     <div class="r"><div class="k">Self-assessment</div><div class="v"><b>No charge.</b> The criteria are public and the self-assessment template is free. We would rather you found out you were not ready without paying us.</div></div>
-    <div class="r"><div class="k">Certification assessment</div><div class="v">A flat fee per product, per level applied for, covering evidence review, verification, determination and the right of reply. <span class="tbd">confirm fee by level</span></div></div>
-    <div class="r"><div class="k">Annual surveillance</div><div class="v">A smaller flat fee at the twelve-month point. <span class="tbd">confirm fee</span></div></div>
-    <div class="r"><div class="k">Mark licence (paid to the Standard)</div><div class="v">An annual licence for use of the certification mark, set by the Standard and paid to it — not to the assessor — so that no fee to Tensor ever depends on the result. <span class="tbd">confirm fee</span></div></div>
+    <div class="r"><div class="k">Certification assessment</div><div class="v">A flat fee per product, per level applied for, covering evidence review, verification, determination and the right of reply. <span class="tbd" data-gate="G11">confirm fee by level</span></div></div>
+    <div class="r"><div class="k">Annual surveillance</div><div class="v">A smaller flat fee at the twelve-month point. <span class="tbd" data-gate="G11">confirm fee</span></div></div>
+    <div class="r"><div class="k">Mark licence (paid to the Standard)</div><div class="v">An annual licence for use of the certification mark, set by the Standard and paid to it — not to the assessor — so that no fee to Tensor ever depends on the result. <span class="tbd" data-gate="G11">confirm fee</span></div></div>
     <div class="r"><div class="k">What is never charged</div><div class="v">There is no fee to appeal, no fee to be re-assessed after a failure you have remedied within the term, and no premium for a faster determination. Queue position is not for sale.</div></div>
   </div>
-  <div class="tbdbox rv">
+  <div class="tbdbox rv" data-gate="G11">
     <div class="h">To confirm before launch</div>
     <p>Fee levels are the last open decision and they set the character of the scheme. A fee low enough that a mid-market vendor can afford it builds adoption and therefore buyer recognition; a fee high enough to fund proper verification protects the mark's credibility. The two pull against each other, and the answer depends on whether the first cohort is a handful of flagship vendors or a broad base.</p>
   </div>
@@ -6756,7 +6756,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <p class="lead">The first cohort certified against v1.0 gets disproportionate recognition, because a new standard needs credible early adopters more than early adopters need it. That asymmetry is worth something and we would rather share it than pretend it does not exist.</p>
   </div>
   <div class="rows rv">
-    <div class="r"><div class="k">Preferential fees for the term</div><div class="v">Founding-cohort assessment and mark licence fees, held for the initial certificate term. <span class="tbd">confirm terms</span></div></div>
+    <div class="r"><div class="k">Preferential fees for the term</div><div class="v">Founding-cohort assessment and mark licence fees, held for the initial certificate term. <span class="tbd" data-gate="G11">confirm terms</span></div></div>
     <div class="r"><div class="k">A voice in v1.1</div><div class="v">Founding members are consulted by the Standard on its first revision, and their comments are published with the responses. Consultation, not control — criteria are set by the Standard, never negotiated with the organisations they apply to, and never with an assessor.</div></div>
     <div class="r"><div class="k">Named recognition</div><div class="v">Founding-cohort status marked permanently on the public register, whatever level you hold now.</div></div>
     <div class="r"><div class="k">What it does not buy</div><div class="v">Not a lower bar, not a faster queue, and not readiness help. Founding members are assessed against exactly the same published criteria as everyone after them.</div></div>
@@ -6775,7 +6775,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <details><summary>Does a certificate mean the AI is safe or accurate?</summary><p>No, and we are careful about this. The standard tests sovereignty — control, provenance, jurisdiction, and exit. It does not certify model accuracy, safety, fairness, or fitness for a particular use. Those are real questions and other frameworks address them; conflating them would make the mark mean less, not more.</p></details>
     <details><summary>Is Tensor also assessing us for a buyer?</summary><p>Possibly, and if so it is disclosed to both sides and the teams are separated. Where separation is not achievable we decline the buyer engagement rather than compromise the certification — the rules are on the <a href="#/sovereign-governance" style="color:var(--violet)">Independence page</a>.</p></details>
     <details><summary>What if the standard changes during our term?</summary><p>Your certificate stands against the version it was issued under, for its full term. A raised bar applies at your next surveillance or renewal, never retroactively, and the transition mapping is published with the new version.</p></details>
-    <details><summary>Who actually owns the mark?</summary><p>The Standard does — the certification mark and the register belong to the scheme, not to Tensor. Tensor is an accredited assessor that grades against the Standard and issues certification under its rules; it is one of several the Standard can admit. The scheme's owning entity is being constituted with counsel. <span class="tbd">confirm holding entity</span></p></details>
+    <details><summary>Who actually owns the mark?</summary><p>The Standard does — the certification mark and the register belong to the scheme, not to Tensor. Tensor is an accredited assessor that grades against the Standard and issues certification under its rules; it is one of several the Standard can admit. The scheme's owning entity is Sovereign Technology Systems Corporation (B Corp certification pending); its Sovereign AI Lab maintains the criteria.</p></details>
   </div>
 </div></section>
 
@@ -6808,7 +6808,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
   </div>
   <div class="disclaim rv">
     <div class="h">Where scheme governance lives</div>
-    <p>The scheme's own governance — who owns the standard, how assessors are accredited, how a determination is appealed, and how complaints and surveillance work — is published and maintained by the Sovereign AI Standard, independently of any assessor. This page does not restate it; it points to it, and sets out Tensor's own commitments as one of the graders. <span class="tbd">confirm scheme constitution &amp; mark holder with counsel</span></p>
+    <p>The scheme's own governance — who owns the standard, how assessors are accredited, how a determination is appealed, and how complaints and surveillance work — is published and maintained by the Sovereign AI Standard, independently of any assessor. This page does not restate it; it points to it, and sets out Tensor's own commitments as one of the graders.</p>
   </div>
 </div></section>
 
@@ -6848,7 +6848,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <h2 class="big">Don't take our word for it — <span class="grad-text">check the Standard's own list.</span></h2>
     <p class="lead">Tensor's accreditation is recorded by the Standard, not asserted here. Every assessor entitled to grade against the standard appears on the Standard's assessor register, on common terms.</p>
   </div>
-  <div class="ctas rv"><a class="btn" href="sovereign-ai-standard.html#/assessors">See Tensor on the Standard's assessor register &#8599;</a><span class="tbd" style="align-self:center">confirm standard-site URL</span></div>
+  <div class="ctas rv"><a class="btn" href="sovereign-ai-standard.html#/assessors">See Tensor on the Standard's assessor register &#8599;</a></div>
 </div></section>
 
 <section class="ctaband"><div class="wrap">
@@ -6869,7 +6869,7 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <div><h4>Who it's for</h4><a href="#/buy-side">Buy-side</a><a href="#/sell-side">Sell-side</a><a href="#/lenders">Lenders</a><a href="#/vendors">Software &amp; vendor procurement</a></div>
     <div><h4>How we work</h4><a href="#/classification">Classification</a><a href="#/sovereign">Sovereign AI certification</a><a href="#/sovereign-governance">Assessor independence</a><a href="sovereign-ai-standard.html#/">Sovereign AI Standard &#8599;</a><a href="sovereign-ai-standard.html#/adopt">Procurement templates &#8599;</a><a href="sovereign-ai-standard.html#/register">Certification register &#8599;</a><a href="#/clauses">AI contract clause library</a><a href="#/trust">Trust &amp; data handling</a><a href="mailto:deals@tensordiligence.ai">deals@tensordiligence.ai</a></div>
   </div>
-  <div class="legal"><b>Tensor AI Diligence &amp; Transaction Advisory Services</b> — illustrative figures throughout. Classification methodology published as the Tensor Sector Taxonomy standard; assessment methodology subject of USPTO patent application 19/418,922. The Global Industry Classification Standard (GICS) is the exclusive property of MSCI and S&amp;P; &quot;Global Industry Classification Standard (GICS)&quot; is a service mark of MSCI and S&amp;P. Tensor is not affiliated with, endorsed by, or sponsored by MSCI or S&amp;P.</div>
+  <div class="legal"><b>Tensor AI Diligence &amp; Transaction Advisory Services</b> — illustrative figures throughout. Classification methodology published as the Tensor Sector Taxonomy standard; assessment methodology subject of USPTO patent application 19/418,922. Content current as of August 2026. The Global Industry Classification Standard (GICS) is the exclusive property of MSCI and S&amp;P; &quot;Global Industry Classification Standard (GICS)&quot; is a service mark of MSCI and S&amp;P. Tensor is not affiliated with, endorsed by, or sponsored by MSCI or S&amp;P.</div>
 </div></footer>
 
 <script type="text/plain" id="src-assessment">&lt;!doctype html&gt;

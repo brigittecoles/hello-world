@@ -61,6 +61,33 @@ for path in sorted(glob.glob(f"{ROOT}/site/*.html")):
         problems.append(f"{name}: questionnaire ends at item {max(items, key=int)}, "
                         f"source of truth says {counts['procurement_questionnaire_items']}")
 
+# 6. every placeholder marker must point at an open launch gate
+gates = {g["id"]: g for g in json.load(open(f"{ROOT}/standard/launch-gate.json", encoding="utf-8"))["gates"]}
+counts = {}
+for path in sorted(glob.glob(f"{ROOT}/site/*.html")):
+    name = path.split("/")[-1]
+    raw = open(path, encoding="utf-8").read()
+    for m in re.finditer(r'<(?:span|div) class="(?:tbd|tbdbox)(?: rv)?"([^>]*)>', raw):
+        line = raw.count("\n", 0, m.start()) + 1
+        g = re.search(r'data-gate="(G\d+)"', m.group(1))
+        if not g:
+            problems.append(f"{name}:{line}: placeholder marker without a data-gate"); continue
+        gid = g.group(1)
+        if gid not in gates:
+            problems.append(f"{name}:{line}: unknown gate {gid}"); continue
+        if gates[gid]["status"] == "resolved":
+            problems.append(f"{name}:{line}: marker still points at resolved gate {gid} ({gates[gid]['title']})")
+        counts[gid] = counts.get(gid, 0) + 1
+    body = re.sub(r"<(style|script)[^>]*>.*?</\1>", lambda mm: "\n" * mm.group(0).count("\n"), raw, flags=re.S)  # same line numbers as the file
+    for m in re.finditer(r'(?i)\b(TBC|to confirm)\b', body):
+        if '<span class="tbd"' in body[max(0, m.start()-120):m.start()] or 'class="tbdbox' in body[max(0, m.start()-200):m.start()]: continue
+        line = body.count("\n", 0, m.start()) + 1
+        problems.append(f"{name}:{line}: bare '{m.group(0)}' outside a tagged marker")
+
 if problems:
     print("\n".join(problems)); print(f"\n{len(problems)} problem(s)"); sys.exit(1)
+print("Open launch gates (markers in the documents):")
+for gid, g in gates.items():
+    if g["status"] != "resolved":
+        print(f"  {gid}  {g['title']:<34} {g['status']:<15} {counts.get(gid, 0)} marker(s)")
 print(f"OK — {len(glob.glob(f'{ROOT}/site/*.html'))} documents agree with standard/source-of-truth.json")
