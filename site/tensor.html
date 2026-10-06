@@ -2095,6 +2095,9 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
 .pgx .sbadge.l2 .sb-m{background:var(--ink)}
 .pgx .sbadge.l3 .sb-m{background:var(--grad);color:#fff}
 .pgx .badgerow{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.pgx .badgeimg img{display:block;height:56px;width:auto}
+html[data-theme="light"] .pgx .badgeimg .bd-dark{display:none}
+html[data-theme="dark"] .pgx .badgeimg .bd-light{display:none}
 /* level ladder */
 .pgx .ladder{border:1px solid var(--line-2);margin-top:14px}
 .pgx .ladder .lv{display:grid;grid-template-columns:210px 1fr;gap:30px;padding:24px;border-bottom:1px solid var(--line);border-left:3px solid var(--c)}
@@ -6474,18 +6477,9 @@ html[data-theme="dark"] .pgx .hero::after{color:rgba(232,93,168,.34)}
     <h1 class="disp">Most enterprises don't own their AI. <span class="grad-text">They rent it, from someone they can't name.</span></h1>
     <p class="lead">Sovereignty is not a question of where the servers are. It is whether you know which model serves you, under whose jurisdiction, trained on what, whether it can change under you, what it runs on, whether you could leave, and whether you can even evaluate it. <b>Sovereign AI is an independent certification standard that tests all seven — and a mark that lets a vendor prove it rather than assert it. Tensor is one of its accredited assessors.</b></p>
     <div class="badgerow rv">
-      <span class="sbadge lg l3">
-        <span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span>
-        <span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 3</span></span>
-      </span>
-      <span class="sbadge l2">
-        <span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span>
-        <span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 2</span></span>
-      </span>
-      <span class="sbadge l1">
-        <span class="sb-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6 20 6v6.2c0 4.3-3.2 7.6-8 9.2-4.8-1.6-8-4.9-8-9.2V6z"/><path d="M8.6 12.2l2.5 2.5 4.3-5" stroke-linecap="round"/></svg></span>
-        <span class="sb-t"><b>Sovereign AI</b><span>Certified · Level 1</span></span>
-      </span>
+      <span class="badgeimg"><img class="bd-dark" src="brand/badge-level-3-dark.svg" alt="Sovereign AI Certified · Level 3" width="300" height="56"><img class="bd-light" src="brand/badge-level-3-light.svg" alt="" width="300" height="56"></span>
+      <span class="badgeimg"><img class="bd-dark" src="brand/badge-level-2-dark.svg" alt="Sovereign AI Certified · Level 2" width="300" height="56"><img class="bd-light" src="brand/badge-level-2-light.svg" alt="" width="300" height="56"></span>
+      <span class="badgeimg"><img class="bd-dark" src="brand/badge-level-1-dark.svg" alt="Sovereign AI Certified · Level 1" width="300" height="56"><img class="bd-light" src="brand/badge-level-1-light.svg" alt="" width="300" height="56"></span>
     </div>
     <div class="ctas">
       <a class="btn grad" href="mailto:deals@tensordiligence.com?subject=Sovereign%20AI%20certification">Apply for certification →</a>

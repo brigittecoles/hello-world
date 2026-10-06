@@ -29,7 +29,7 @@ a:hover{color:#fff}
 /* header */
 .doc-header{padding:64px 0 26px;border-bottom:1px solid var(--edge);margin-bottom:8px}
 .brandline{display:flex;align-items:center;gap:10px;margin-bottom:30px}
-.brandline .gl{color:var(--hi)}.brandline b{font-family:var(--insc);font-weight:600;letter-spacing:.14em;font-size:13px;color:var(--hi2)}
+.brandline .gl{color:var(--hi);display:block;flex:none}.brandline b{font-family:var(--insc);font-weight:600;letter-spacing:.14em;font-size:13px;color:var(--hi2)}
 .doc-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
 h1.doc-title{font-family:var(--disp);font-weight:600;font-size:clamp(34px,5.4vw,58px);line-height:1.04;letter-spacing:-.02em;
  background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:16px}
@@ -116,7 +116,7 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
 <div class="wrap">
 
 <header class="doc-header">
-  <div class="brandline"><span class="gl">◈</span><b>SOVEREIGN AI STANDARD</b></div>
+  <div class="brandline"><svg class="gl" viewBox="0 0 64 64" width="18" height="18" aria-hidden="true"><defs><linearGradient id="mg4" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="64" y2="64"><stop offset="0" stop-color="#EEF2F6"/><stop offset=".24" stop-color="#9AA3AE"/><stop offset=".46" stop-color="#F3F6F9"/><stop offset=".62" stop-color="#828C98"/><stop offset=".82" stop-color="#CBD2DA"/><stop offset="1" stop-color="#7E8894"/></linearGradient></defs><path d="M32 4 L60 32 L32 60 L4 32 Z" fill="none" stroke="url(#mg4)" stroke-width="4"/><path d="M32 19 L45 32 L32 45 L19 32 Z" fill="url(#mg4)"/></svg><b>SOVEREIGN AI STANDARD</b></div>
   <div class="doc-eyebrow">Methodology & Implementation Guide · Rev 1</div>
   <h1 class="doc-title">The V-Seal</h1>
   <p class="doc-deck">A stigmergic key — one mark that is a glyph, a cryptographic seed, and its own verification rule — hidden in the artwork of a credential and its certificate.</p>
@@ -141,18 +141,18 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
   </ol>
 </nav>
 
-<p class="lead">The V-Seal welds provenance into the mark itself. Instead of stapling a signature onto a file, it scatters a secret across hundreds of sub-pixel traces in the artwork — invisible until an agent re-walks the field with the right seed, at which point a <strong>V</strong> emerges and the mark proves it is authentic and unaltered. This guide documents the method and gives exact instructions to reproduce, verify, and operate it.</p>
+<p class="lead">The V-Seal welds provenance into the mark itself. Instead of stapling a signature onto a file, it scatters a secret across hundreds of sub-pixel traces in the artwork — invisible until an agent re-walks the field with the right seed, at which point the <strong>Standard's device</strong> — the Ψ–compressor mark — emerges and the mark proves it is authentic and unaltered. This guide documents the method and gives exact instructions to reproduce, verify, and operate it.</p>
 
 <!-- 01 -->
 <h2 class="section-h2" id="s1"><span class="section-num">01</span>What the V-Seal is</h2>
 <p class="section-sub">One object · three roles</p>
-<p>The V-Seal is a single construct that plays three roles simultaneously. It is not three features bolted together — the same 256-bit value drives all three, so they cannot disagree.</p>
+<p>The <em>V</em> in V-Seal stands for verification. The glyph the seal reveals is the Standard's device: the Greek letter Ψ fused with the P&amp;ID compressor wedge, as published in the <a href="brand/index.html">mark &amp; usage kit</a>. The V-Seal is a single construct that plays three roles simultaneously. It is not three features bolted together — the same 256-bit value drives all three, so they cannot disagree.</p>
 
 <div class="framework-box">
   <div class="fb-title">The three roles of one seal</div>
-  <div class="fb-item"><span class="fb-num">1</span><div><strong>Glyph</strong><span class="d">A <em>V</em> that is never drawn on the face. It emerges from the existing dot-field only when the mark is read with the correct seed — a covert constellation.</span></div></div>
-  <div class="fb-item"><span class="fb-num">2</span><div><strong>Seed / vector</strong><span class="d">A 256-bit key that deterministically generates both the V's exact geometry and a fractional-pixel nudge on every dot. The V you eventually see is, in effect, a visual hash of the seed.</span></div></div>
-  <div class="fb-item"><span class="fb-num">3</span><div><strong>Verification rule</strong><span class="d">Regenerate the whole field and the V from the seed and compare to what is in the file. The glyph is an <em>executable</em> authenticity check, not decoration.</span></div></div>
+  <div class="fb-item"><span class="fb-num">1</span><div><strong>Glyph</strong><span class="d">The <em>device</em> is never drawn on the face. It emerges from the existing dot-field only when the mark is read with the correct seed — a covert constellation.</span></div></div>
+  <div class="fb-item"><span class="fb-num">2</span><div><strong>Seed / vector</strong><span class="d">A 256-bit key that deterministically generates both the device's exact geometry and a fractional-pixel nudge on every dot. The device you eventually see is, in effect, a visual hash of the seed.</span></div></div>
+  <div class="fb-item"><span class="fb-num">3</span><div><strong>Verification rule</strong><span class="d">Regenerate the whole field and the device from the seed and compare to what is in the file. The glyph is an <em>executable</em> authenticity check, not decoration.</span></div></div>
 </div>
 
 <p>Two profiles share the method. The <strong>coin credential</strong> (<code>vseal-1</code>) binds the seal to the registry number and the artwork. The <strong>certificate</strong> — the Bill of Assessment (<code>vseal-cert-1</code>) — additionally binds it to the <em>finding</em>, so altering any printed score breaks the seal.</p>
@@ -160,7 +160,7 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
 <!-- 02 -->
 <h2 class="section-h2" id="s2"><span class="section-num">02</span>Why stigmergy</h2>
 <p class="section-sub">Coordination through traces in a shared medium</p>
-<p>Stigmergy is how ants coordinate without messaging each other: each deposits and reads pheromone in the environment, and the environment itself carries the memory. A <em>stigmergic key</em> applies that idea to a mark. The key is never stored as one value anywhere. It is deposited as hundreds of faint traces — tiny per-dot offsets — spread across the whole artwork, densest along the V. An agent reassembles the key only by re-walking the field with the seed.</p>
+<p>Stigmergy is how ants coordinate without messaging each other: each deposits and reads pheromone in the environment, and the environment itself carries the memory. A <em>stigmergic key</em> applies that idea to a mark. The key is never stored as one value anywhere. It is deposited as hundreds of faint traces — tiny per-dot offsets — spread across the whole artwork, densest along the device. An agent reassembles the key only by re-walking the field with the seed.</p>
 
 <blockquote class="pull-quote">Disturb the medium — move, add, or drop a single dot — and the traces desynchronise. The key is therefore also the tamper-evidence.</blockquote>
 
@@ -211,7 +211,7 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
   <rect class="bx" x="446" y="30" width="180" height="42" rx="5"/>
   <text class="t" x="462" y="50">per-dot offsets</text><text class="ts" x="462" y="65">the field / traces</text>
   <rect class="bx" x="446" y="132" width="180" height="42" rx="5"/>
-  <text class="t" x="462" y="152">V geometry</text><text class="ts" x="462" y="167">SHA(key‖"VGLYPH")</text>
+  <text class="t" x="462" y="152">device geometry</text><text class="ts" x="462" y="167">SHA(key‖"VGLYPH")</text>
   <rect class="bx" x="446" y="234" width="180" height="42" rx="5"/>
   <text class="t" x="462" y="254">commitment C</text><text class="ts" x="462" y="269">SHA-256(key)</text>
   <line class="ln" x1="378" y1="95" x2="444" y2="55"/>
@@ -230,7 +230,7 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
   <text class="t" x="705" y="258">1 · all traces reproduce</text>
   <text class="t" x="705" y="278">2 · SHA-256(key) = C</text>
   <text class="t" x="705" y="298">3 · printed = sealed (cert)</text>
-  <text class="ts" x="705" y="318">→ PASS · V reveals · medallion lights</text>
+  <text class="ts" x="705" y="318">→ PASS · device reveals · medallion lights</text>
   <line class="ln" x1="761" y1="160" x2="761" y2="208"/>
 </svg>
   <div class="figcap">Deterministic pipeline. The coin stops at K; the certificate folds the finding in to make Kf.</div>
@@ -251,7 +251,7 @@ hr.rule{border:0;border-top:1px solid var(--edge);margin:56px 0}
 <tr><td><code>i</code></td><td>Stable dot index, row-major</td><td>Identical order in encoder and verifier</td></tr>
 <tr><td><code>offset&#8341;</code></td><td>2 bits of <code>SHA-256(key ‖ u32le(i))[0]</code> → sign of x,y nudge × <code>DELTA</code></td><td><code>key</code> = K (coin) or Kf (cert)</td></tr>
 <tr><td><code>C</code></td><td><code>SHA-256(key)</code></td><td>Public commitment; also recorded on-chain</td></tr>
-<tr><td>V geom</td><td><code>SHA-256(key ‖ "VGLYPH")</code></td><td>Seeds apex jitter &amp; arm span</td></tr>
+<tr><td>Device geom</td><td><code>SHA-256(key ‖ "VGLYPH")</code></td><td>Seeds apex jitter &amp; wedge span; the base shape is the kit's device</td></tr>
 </table></div>
 
 <p>The <strong>canonical finding string</strong> is a fixed-order, pipe-joined serialization so it reproduces byte-for-byte across languages (avoid locale- or key-order-dependent JSON):</p>
@@ -268,7 +268,7 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 <p>The key is embedded as a <strong>sub-pixel offset</strong> on each dot: two bits of the keystream choose the sign of a <code>±DELTA</code> (0.09&nbsp;px) nudge in x and y. At 0.09&nbsp;px the shift is invisible at any zoom, but written at three-decimal precision it reads back exactly. Two carriers:</p>
 <ul class="clean">
 <li><strong>Coin credential</strong> — the mark's own ASCII dot-field (≈385 circles) is the substrate. No extra ornament is added; the key rides the art you already approved.</li>
-<li><strong>Certificate</strong> — a dedicated <strong>guilloché microprint field</strong> (≈913 microdots on a fine grid) plus a microtext hairline, placed at the foot of the Bill. It reads as genuine anti-forgery printing, gives ample capacity, and is where the V emerges; the assay medallion is set into its right end and lights on a pass.</li>
+<li><strong>Certificate</strong> — a dedicated <strong>guilloché microprint field</strong> (≈913 microdots on a fine grid) plus a microtext hairline, placed at the foot of the Bill. It reads as genuine anti-forgery printing, gives ample capacity, and is where the device emerges; the assay medallion is set into its right end and lights on a pass.</li>
 </ul>
 
 <div class="callout"><div class="stat">0.09px</div><div class="lab">The per-dot nudge. Invisible on screen and in print, exact on read-back at three decimals — the whole key is a field of these.</div></div>
@@ -294,13 +294,13 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 
 <div class="scroll"><table class="tbl">
 <tr><th>Scenario</th><th>Field</th><th>Commitment</th><th>Printed = sealed</th><th>Verdict</th></tr>
-<tr><td>Authentic</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">PASS · V reveals</td></tr>
+<tr><td>Authentic</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">PASS · device reveals</td></tr>
 <tr><td>One microdot moved</td><td class="bad">912 / 913 ✗</td><td class="ok">✓</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
 <tr><td>Printed score edited</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="bad">✗ (S5)</td><td class="bad">FAIL</td></tr>
 <tr><td>Sealed finding altered</td><td class="bad">234 / 913 ✗</td><td class="bad">✗</td><td class="bad">✗</td><td class="bad">FAIL</td></tr>
 <tr><td>Wrong seed</td><td class="bad">225 / 913 ✗</td><td class="bad">✗</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
 </table></div>
-<p>These rows are the actual self-test outcomes for the certificate. On a pass, the verifier lights the V along its stigmergic trail and activates the medallion; on a fail, it flashes the desynced dots.</p>
+<p>These rows are the actual self-test outcomes for the certificate. On a pass, the verifier lights the device along its stigmergic trail and activates the medallion; on a fail, it flashes the desynced dots.</p>
 
 <!-- 07 -->
 <h2 class="section-h2" id="s7"><span class="section-num">07</span>Security model &amp; threats</h2>
@@ -330,22 +330,22 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 
 <h3>A · Seal a coin credential</h3>
 <pre><span class="c"># master secret + registry no.  → writes sas-coin-silver-keyed.svg</span>
-python3 vseal.py encode <span class="s">"AINIA-master-demo"</span> <span class="s">"SAS-2026-0007"</span>
-<span class="c"># prints: seedK, commitment C, dot count, glyph-V count</span></pre>
+python3 vseal.py encode <span class="s">"SAS-master-demo"</span> <span class="s">"SAS-2026-0007"</span>
+<span class="c"># prints: seedK, commitment C, dot count, device-dot count</span></pre>
 
 <h3>B · Seal a certificate (Bill of Assessment)</h3>
 <pre><span class="c"># edit the finding F at the top of vseal_cert.py, then:</span>
-python3 vseal_cert.py encode <span class="s">"AINIA-master-demo"</span>   <span class="c"># → sas-bill-sealed.svg</span>
+python3 vseal_cert.py encode <span class="s">"SAS-master-demo"</span>   <span class="c"># → sas-bill-sealed.svg</span>
 <span class="c"># prints: K, Kf, commit, content_hash, dots</span></pre>
 
 <h3>C · Verify</h3>
 <pre><span class="c"># command line</span>
 python3 vseal.py       verify sas-coin-silver-keyed.svg &lt;seedK-hex&gt;
-python3 vseal_cert.py  verify sas-bill-sealed.svg <span class="s">"AINIA-master-demo"</span>
+python3 vseal_cert.py  verify sas-bill-sealed.svg <span class="s">"SAS-master-demo"</span>
 
 <span class="c"># in a browser (offline, WebCrypto) — open and enter the passphrase:</span>
-sas-vseal-verifier.html      <span class="c"># coin: V emerges, 385/385</span>
-sas-cert-verifier.html       <span class="c"># certificate: 3 checks, V + medallion</span></pre>
+sas-vseal-verifier.html      <span class="c"># coin: device emerges, 385/385</span>
+sas-cert-verifier.html       <span class="c"># certificate: 3 checks, device + medallion</span></pre>
 
 <h3>D · Self-test (proves the guarantees)</h3>
 <pre>python3 vseal.py      selftest   <span class="c"># authentic PASS · tamper FAIL · wrong-seed FAIL</span>
@@ -358,14 +358,15 @@ python3 vseal_cert.py selftest   <span class="c"># + edited-score FAIL · altere
 <li>Store the artwork on-chain via SSTORE2 chunks for a fully self-contained register, or anchor the <code>keccak-256</code> hash on-chain with the SVG on Arweave/IPFS to cut mint gas.</li>
 </ul>
 
-<h3>F · Swap in the real AINIA V</h3>
-<p>The reference build uses a seed-derived placeholder V. To bind your actual glyph, change the geometry function in one place per profile:</p>
+<h3>F · Bind the Standard's device</h3>
+<p>The reference build used a seed-derived placeholder V. The glyph to bind is the Standard's device from the mark kit — <code>brand/medallion.svg</code>: a wedge (the compressor), a stem through it (the Ψ), a base, and the apex star. Change the geometry function in one place per profile:</p>
 <pre><span class="c"># coin: vseal.py → v_geometry() / VBASE</span>
 <span class="c"># cert: vseal_cert.py → v_geometry() / VBASE  (apexx, apexy, topy, span)</span></pre>
 <ul class="clean">
-<li>For a line-based V, set the two stroke segments' endpoints from your glyph and keep the seed jitter (or drop it for a fixed shape).</li>
-<li>For an arbitrary glyph, replace the "distance-to-segments" membership test with a point-in-path test against your SVG path; the field mechanics are unchanged.</li>
+<li>Replace the "distance-to-segments" membership test with a <strong>point-in-path</strong> test against the device's four paths from the kit, scaled into the field; the field mechanics are unchanged.</li>
+<li>Keep the seed jitter on the apex star and the wedge span so the revealed device is still a visual hash of the seed, or drop it for a fixed shape.</li>
 <li>Keep the same geometry in the browser verifier's <code>vgeom()</code> so the reveal matches the encoder.</li>
+<li>The scheme identifiers <code>vseal-1</code> and <code>vseal-cert-1</code> do not change; the name is the seal's, the glyph is the Standard's.</li>
 </ul>
 
 <!-- 10 -->
