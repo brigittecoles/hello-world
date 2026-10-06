@@ -267,8 +267,8 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 <p class="section-sub">Where the key lives, and how</p>
 <p>The key is embedded as a <strong>sub-pixel offset</strong> on each dot: two bits of the keystream choose the sign of a <code>±DELTA</code> (0.09&nbsp;px) nudge in x and y. At 0.09&nbsp;px the shift is invisible at any zoom, but written at three-decimal precision it reads back exactly. Two carriers:</p>
 <ul class="clean">
-<li><strong>Coin credential</strong> — the mark's own ASCII dot-field (≈385 circles) is the substrate. No extra ornament is added; the key rides the art you already approved.</li>
-<li><strong>Certificate</strong> — a dedicated <strong>guilloché microprint field</strong> (≈913 microdots on a fine grid) plus a microtext hairline, placed at the foot of the Bill. It reads as genuine anti-forgery printing, gives ample capacity, and is where the device emerges; the assay medallion is set into its right end and lights on a pass.</li>
+<li><strong>Coin credential</strong> — the mark's own dot-field (457 dots: 385 on the grid, 72 on the rim) is the substrate. No extra ornament is added; the key rides the art you already approved.</li>
+<li><strong>Certificate</strong> — a dedicated <strong>microprint field</strong> (888 microdots: 852 on a fine grid plus 36 in the assay medallion ring), placed at the foot of the Bill. It reads as genuine anti-forgery printing, gives ample capacity, and is where the device emerges; the assay medallion is set into its right end and lights on a pass.</li>
 </ul>
 
 <div class="callout"><div class="stat">0.09px</div><div class="lab">The per-dot nudge. Invisible on screen and in print, exact on read-back at three decimals — the whole key is a field of these.</div></div>
@@ -278,27 +278,28 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 <pre>&lt;metadata id="vseal"&gt;{
   <span class="k">"scheme"</span>:<span class="s">"vseal-cert-1"</span>, <span class="k">"registry"</span>:<span class="s">"SAS-2026-0007"</span>,
   <span class="k">"content_hash"</span>:<span class="s">"e16764c1…"</span>, <span class="k">"commit"</span>:<span class="s">"5310f561…"</span>,
-  <span class="k">"dots"</span>:913, <span class="k">"delta"</span>:0.09,
+  <span class="k">"dots"</span>:888, <span class="k">"delta"</span>:0.09, <span class="k">"state_image"</span>:<span class="s">"a6fddf19…"</span>,
   <span class="k">"grid"</span>:{…}, <span class="k">"vbase"</span>:{…}, <span class="k">"finding"</span>:{…}
 }&lt;/metadata&gt;</pre>
 
 <!-- 06 -->
 <h2 class="section-h2" id="s6"><span class="section-num">06</span>The verification rule</h2>
-<p class="section-sub">Three checks, all must hold</p>
+<p class="section-sub">Four checks, all must hold</p>
 <p>Verification re-derives the key from the seed inputs and runs the pipeline forward, comparing against the file. It is <strong>exact-offset</strong>: each dot's measured offset must equal the expected <code>±DELTA</code> within a tight epsilon (0.03&nbsp;px), so any move — not just a sign flip — fails.</p>
 <ul class="clean">
-<li><strong>Field</strong> — every trace reproduces from the key (coin: 385/385; certificate: 913/913).</li>
+<li><strong>Field</strong> — every trace reproduces from the key (coin: 457/457; certificate: 888/888).</li>
 <li><strong>Commitment</strong> — <code>SHA-256(key)</code> equals the committed <code>C</code> (in the file, and ideally on-chain).</li>
 <li><strong>Content</strong> (certificate) — every printed level matches the sealed finding, catching a forger who edits only the visible text.</li>
+<li><strong>State image</strong> — SHA-256 over every written coordinate equals the sealed <code>state_image</code>: the artwork's visual state is committed as a whole, not only through the key.</li>
 </ul>
 
 <div class="scroll"><table class="tbl">
 <tr><th>Scenario</th><th>Field</th><th>Commitment</th><th>Printed = sealed</th><th>Verdict</th></tr>
-<tr><td>Authentic</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">PASS · device reveals</td></tr>
-<tr><td>One microdot moved</td><td class="bad">912 / 913 ✗</td><td class="ok">✓</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
-<tr><td>Printed score edited</td><td class="ok">913 / 913 ✓</td><td class="ok">✓</td><td class="bad">✗ (S5)</td><td class="bad">FAIL</td></tr>
-<tr><td>Sealed finding altered</td><td class="bad">234 / 913 ✗</td><td class="bad">✗</td><td class="bad">✗</td><td class="bad">FAIL</td></tr>
-<tr><td>Wrong seed</td><td class="bad">225 / 913 ✗</td><td class="bad">✗</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
+<tr><td>Authentic</td><td class="ok">888 / 888 ✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">PASS · device reveals</td></tr>
+<tr><td>One microdot moved</td><td class="bad">887 / 888 ✗</td><td class="ok">✓</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
+<tr><td>Printed score edited</td><td class="ok">888 / 888 ✓</td><td class="ok">✓</td><td class="bad">✗ (S5)</td><td class="bad">FAIL</td></tr>
+<tr><td>Sealed finding altered</td><td class="bad">220 / 888 ✗</td><td class="bad">✗</td><td class="bad">✗</td><td class="bad">FAIL</td></tr>
+<tr><td>Wrong seed</td><td class="bad">221 / 888 ✗</td><td class="bad">✗</td><td class="ok">✓</td><td class="bad">FAIL</td></tr>
 </table></div>
 <p>These rows are the actual self-test outcomes for the certificate. On a pass, the verifier lights the device along its stigmergic trail and activates the medallion; on a fail, it flashes the desynced dots.</p>
 
@@ -319,7 +320,7 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 <ul class="clean">
 <li><strong>DELTA (0.09&nbsp;px)</strong> — the nudge magnitude. Larger survives coarser re-encoding but risks visibility; smaller is safer visually but more fragile. Keep well below cell spacing.</li>
 <li><strong>Decimal precision (3)</strong> — coordinates must be written with enough decimals to preserve DELTA on read-back. Two decimals is the floor; one decimal destroys the signal.</li>
-<li><strong>Dot count</strong> — more dots = more capacity and a crisper V. Coin ≈385, certificate ≈913.</li>
+<li><strong>Dot count</strong> — more dots = more capacity and a crisper V. Coin 457, certificate 888.</li>
 <li><strong>SVGO / optimizers</strong> — aggressive coordinate rounding to one decimal erases the field, which correctly reads as "seal broken." Keep ≥2-decimal precision in the pipeline, or treat the on-chain commitment as the durable proof and the field as the bound-to-art layer.</li>
 <li><strong>Optional hardening</strong> — add Reed–Solomon/repetition coding across the field to tolerate light re-encoding, or raise DELTA to ~0.2&nbsp;px where print tolerances demand it.</li>
 </ul>
@@ -329,27 +330,28 @@ assessor|method|anchor|<b>result</b>|<b>overall</b>|S1:3|S2:2|S3:2|S4:3|S5:2|S6:
 <p class="section-sub">Encode · verify · self-test · anchor · customise</p>
 
 <h3>A · Seal a coin credential</h3>
-<pre><span class="c"># master secret + registry no.  → writes sas-coin-silver-keyed.svg</span>
-python3 vseal.py encode <span class="s">"SAS-master-demo"</span> <span class="s">"SAS-2026-0007"</span>
-<span class="c"># prints: seedK, commitment C, dot count, device-dot count</span></pre>
+<pre><span class="c"># master secret + registry no.  → sealed coin (scheme vseal-1)</span>
+python3 standard/vseal.py encode-coin <span class="s">"SAS-master-demo"</span> <span class="s">"SAS-2026-0007"</span> site/brand/coin-sealed-demo.svg
+<span class="c"># prints: K, commitment C, dot count, device-dot count, state image</span></pre>
 
-<h3>B · Seal a certificate (Bill of Assessment)</h3>
-<pre><span class="c"># edit the finding F at the top of vseal_cert.py, then:</span>
-python3 vseal_cert.py encode <span class="s">"SAS-master-demo"</span>   <span class="c"># → sas-bill-sealed.svg</span>
-<span class="c"># prints: K, Kf, commit, content_hash, dots</span></pre>
+<h3>B · Seal a certificate</h3>
+<pre><span class="c"># a finding as JSON (subject, registry, assessor, result, overall, S1–S7 levels…) → sealed certificate (vseal-cert-1)</span>
+python3 standard/vseal.py encode-cert <span class="s">"SAS-master-demo"</span> finding.json site/brand/certificate-SAS-2026-0007.svg
+python3 standard/vseal.py encode-cert <span class="s">"SAS-master-demo"</span> demo --template   <span class="c"># → the unsealed template</span>
+<span class="c"># prints: K, Kf, commit, content_hash, dots, device dots, state image</span></pre>
 
 <h3>C · Verify</h3>
-<pre><span class="c"># command line</span>
-python3 vseal.py       verify sas-coin-silver-keyed.svg &lt;seedK-hex&gt;
-python3 vseal_cert.py  verify sas-bill-sealed.svg <span class="s">"SAS-master-demo"</span>
+<pre><span class="c"># command line — with the master, or with the per-token seed</span>
+python3 standard/vseal.py verify site/brand/coin-sealed-demo.svg <span class="s">"SAS-master-demo"</span>
+python3 standard/vseal.py verify site/brand/certificate-sealed-demo.svg --seed &lt;Kf-hex&gt;
 
-<span class="c"># in a browser (offline, WebCrypto) — open and enter the passphrase:</span>
-sas-vseal-verifier.html      <span class="c"># coin: device emerges, 385/385</span>
-sas-cert-verifier.html       <span class="c"># certificate: 3 checks, device + medallion</span></pre>
+<span class="c"># in a browser (offline, WebCrypto) — open, drop the file, enter the seed:</span>
+site/brand/verify.html      <span class="c"># four checks; the device lights on a pass, desynced dots flash on a fail</span></pre>
 
 <h3>D · Self-test (proves the guarantees)</h3>
-<pre>python3 vseal.py      selftest   <span class="c"># authentic PASS · tamper FAIL · wrong-seed FAIL</span>
-python3 vseal_cert.py selftest   <span class="c"># + edited-score FAIL · altered-finding FAIL</span></pre>
+<pre>python3 standard/vseal.py selftest
+<span class="c"># coin: authentic PASS · one dot moved FAIL · wrong seed FAIL</span>
+<span class="c"># cert: authentic PASS · printed score edited FAIL · sealed finding altered FAIL · wrong seed FAIL</span></pre>
 
 <h3>E · Anchor on-chain</h3>
 <ul class="clean">
@@ -374,20 +376,20 @@ python3 vseal_cert.py selftest   <span class="c"># + edited-score FAIL · altere
 <p class="section-sub">The moving parts</p>
 <div class="scroll"><table class="tbl">
 <tr><th>File</th><th>Role</th></tr>
-<tr><td><code>vseal.py</code></td><td>Coin encoder + verifier + self-test</td></tr>
-<tr><td><code>vseal_cert.py</code></td><td>Certificate encoder + verifier + self-test (content-bound)</td></tr>
-<tr><td><code>sas-coin-silver-keyed.svg</code></td><td>Sealed coin credential (visually identical to the plain coin)</td></tr>
-<tr><td><code>sas-bill-sealed.svg</code></td><td>Sealed certificate with the guilloché security field</td></tr>
-<tr><td><code>sas-vseal-verifier.html</code></td><td>Offline browser verifier — coin</td></tr>
-<tr><td><code>sas-cert-verifier.html</code></td><td>Offline browser verifier — certificate</td></tr>
-<tr><td><code>V-SEAL-spec.md</code></td><td>Terse technical spec (companion to this guide)</td></tr>
+<tr><td><code>standard/vseal.py</code></td><td>Reference encoder, verifier and self-test for both profiles; also generates the logo, coin and certificate artwork</td></tr>
+<tr><td><code>site/brand/medallion.svg</code></td><td>The mark as a dot field — the same geometry the seal is written into</td></tr>
+<tr><td><code>site/brand/coin-sealed-demo.svg</code></td><td>Sealed coin credential, scheme <code>vseal-1</code>, registry SAS-2026-0007, demo master</td></tr>
+<tr><td><code>site/brand/certificate-template.svg</code></td><td>Unsealed certificate template with the field laid out</td></tr>
+<tr><td><code>site/brand/certificate-sealed-demo.svg</code></td><td>Sealed certificate, scheme <code>vseal-cert-1</code>, finding bound into the key</td></tr>
+<tr><td><code>site/brand/verify.html</code></td><td>Offline browser verifier for both profiles</td></tr>
+<tr><td><code>site/brand/index.html</code></td><td>Mark &amp; usage kit, which links all of the above</td></tr>
 </table></div>
 <div class="scroll"><table class="tbl">
 <tr><th>Parameter</th><th>Value</th><th>Where</th></tr>
 <tr><td>DELTA</td><td>0.09 px</td><td>both encoders</td></tr>
 <tr><td>coordinate decimals</td><td>3</td><td>both encoders</td></tr>
 <tr><td>exact-offset epsilon</td><td>0.03 px</td><td>both verifiers</td></tr>
-<tr><td>dots</td><td>385 (coin) · 913 (cert)</td><td>derived from art / grid</td></tr>
+<tr><td>dots</td><td>457 (coin) · 888 (cert)</td><td>derived from art / grid</td></tr>
 <tr><td>hash / MAC</td><td>SHA-256 · HMAC-SHA-256</td><td>everywhere</td></tr>
 </table></div>
 
@@ -408,7 +410,7 @@ python3 vseal_cert.py selftest   <span class="c"># + edited-score FAIL · altere
 <div class="disclaimer">This is a design and provenance prototype for watermarking your own artwork — not a substitute for a smart-contract audit or a formal cryptographic review before production use. The scheme authenticates and binds; it does not encrypt. Its guarantees hold only when the commitment is anchored outside the file (on-chain) and the master secret is kept secret. Coordinate-rounding optimizers will invalidate a seal by design; keep the artwork on a controlled pipeline or rely on the on-chain commitment as the durable proof.</div>
 
 <div class="foot">
-  <p><b>Sovereign AI Standard — The V-Seal.</b> Methodology &amp; Implementation Guide, Rev 1. Schemes <code>vseal-1</code> (coin) and <code>vseal-cert-1</code> (certificate). Companion files: <code>vseal.py</code>, <code>vseal_cert.py</code>, the sealed SVGs, and the two browser verifiers.</p>
+  <p><b>Sovereign AI Standard — The V-Seal.</b> Methodology &amp; Implementation Guide, Rev 1. Schemes <code>vseal-1</code> (coin) and <code>vseal-cert-1</code> (certificate). Companion files: <code>standard/vseal.py</code>, the sealed demo SVGs and the browser verifier in <code>site/brand/</code>.</p>
 </div>
 
 </div>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sovereign AI — V-Seal verifier</title>
+<meta name="description" content="Offline verifier for V-Sealed coins and certificates: rebuilds the field from the seed and compares.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090B;--well:#0A0C0F;--panel:#0C0E12;--panel-2:#11141A;--ink:#D4DAE2;--ink-2:#9299A5;--ink-3:#6A727D;--ink-4:#414954;--edge:#3C434D;--edge-2:#2A303A;--edge-hi:#98A1AD;--champ:#CBAE76;--ok:#8FE3B0;--bad:#E38F97;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--mono);background:var(--bg);color:var(--ink);font-size:13.5px;line-height:1.68}
+a{color:var(--ink);border-bottom:1px solid var(--edge);text-decoration:none}
+.mast{border-bottom:1px solid var(--edge-2)}.mast .in,.wrap{max-width:1060px;margin:0 auto;padding:0 clamp(18px,4vw,44px)}.mast .in{display:flex;align-items:center;gap:12px;min-height:60px}
+.mast b{font-weight:700;letter-spacing:.16em;font-size:13px}.mast span.s{font-size:9px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;display:block;line-height:1.2}.mast .ref{margin-left:auto;font-size:9.5px;letter-spacing:.12em;color:var(--ink-4);text-transform:uppercase}.mast .ref a{border:0;color:var(--ink-3)}
+h1{font-size:clamp(20px,3vw,30px);font-weight:600;margin:40px 0 10px}.lede{color:var(--ink-2);max-width:72ch;margin-bottom:26px}
+.box{position:relative;border:1px solid var(--edge);background:var(--panel);padding:30px 26px 26px;margin-top:34px}.box>.t{position:absolute;top:0;left:22px;transform:translateY(-50%);background:var(--bg);padding:0 12px;font-size:11px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase}.box>.t i{color:var(--edge-hi);font-style:normal;font-weight:600}
+label{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 6px}
+input[type=text],input[type=password]{width:100%;max-width:520px;font-family:var(--mono);font-size:13px;background:var(--well);border:1px solid var(--edge);color:var(--ink);padding:9px 12px;outline:none}input:focus{border-color:var(--edge-hi)}
+input[type=file]{font-family:var(--mono);color:var(--ink-2)}
+button{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:12px 20px;border:1px solid transparent;background:linear-gradient(135deg,#EEF2F6,#9AA3AE 24%,#F3F6F9 46%,#828C98 62%,#CBD2DA 82%,#7E8894);color:#0B0C0F;font-weight:600;cursor:pointer;margin-top:18px}
+.checks{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--edge-2);background:var(--well);margin-top:22px}@media(max-width:760px){.checks{grid-template-columns:1fr 1fr}}
+.checks div{padding:16px 18px;border-right:1px solid var(--edge-2)}.checks div:last-child{border-right:0}.checks .k{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}.checks .v{font-size:20px;font-weight:600;margin-top:6px}.ok{color:var(--ok)}.bad{color:var(--bad)}.wait{color:var(--ink-4)}
+.verdict{margin-top:18px;font-size:16px;font-weight:600}.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+#art{margin-top:22px;border:1px solid var(--edge-2);background:var(--well);padding:14px;overflow:auto}#art svg{max-width:100%;height:auto;display:block;margin:0 auto}
+#art svg circle.lit{fill:var(--champ)!important;r:2.4}#art svg circle.bad{fill:var(--bad)!important;r:2.4;animation:blink 1s steps(2) infinite}@keyframes blink{50%{opacity:.15}}
+.note{color:var(--ink-3);font-size:12px;margin-top:14px;max-width:80ch}.note b{color:var(--ink-2)}
+pre{background:var(--well);border:1px solid var(--edge-2);padding:12px 14px;font-size:11.5px;color:var(--ink-2);overflow:auto;margin-top:12px;white-space:pre-wrap}
+footer{border-top:1px solid var(--edge-2);margin-top:60px;padding:20px 0;font-size:10.5px;letter-spacing:.08em;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<header class="mast"><div class="in"><img src="glyph.svg" width="20" height="20" alt=""><div><b>SOVEREIGN&nbsp;AI&nbsp;STANDARD</b><span class="s">V-Seal verifier · offline</span></div><div class="ref"><a href="index.html">← Mark &amp; usage kit</a> &nbsp;·&nbsp; <a href="../v-seal-guide.html">Method</a></div></div></header>
+<div class="wrap">
+  <h1>Re-walk the field. See what emerges.</h1>
+  <p class="lede">Drop a V-Sealed coin or certificate and enter the issuer's seed. The verifier rebuilds every dot from the seed, compares it to the file, checks the commitment, the state image and, for a certificate, that every printed result matches the sealed finding. Nothing leaves this page: the computation is WebCrypto in your browser.</p>
+  <div class="box"><div class="t"><i>§ 01</i> · Input</div>
+    <label>Sealed SVG</label><input type="file" id="file" accept=".svg,image/svg+xml">
+    <label>Issuer master secret (or the per-token seed as hex)</label><input type="password" id="secret" placeholder="passphrase, or 64 hex characters" value="">
+    <button id="go">Verify</button>
+    <p class="note">The demo files in this kit were sealed with the passphrase <b>SAS-master-demo</b>. A real issuer never publishes its master; it publishes the per-token seed, or runs verification as a service, and the commitment is anchored on the register.</p>
+  </div>
+  <div class="box"><div class="t"><i>§ 02</i> · Checks</div>
+    <div class="checks">
+      <div><div class="k">Field</div><div class="v wait" id="c-field">–</div></div>
+      <div><div class="k">Commitment</div><div class="v wait" id="c-commit">–</div></div>
+      <div><div class="k">State image</div><div class="v wait" id="c-state">–</div></div>
+      <div><div class="k">Printed = sealed</div><div class="v wait" id="c-content">–</div></div>
+    </div>
+    <div class="verdict wait" id="verdict">Waiting for a file.</div>
+    <div id="art"></div>
+    <pre id="log" hidden></pre>
+  </div>
+</div>
+<footer><div class="wrap">◈ SOVEREIGN AI STANDARD · V-SEAL VERIFIER · SCHEMES vseal-1 · vseal-cert-1</div></footer>
+<script>
+const DELTA=0.09, EPS=0.03, DIMS=["S1","S2","S3","S4","S5","S6","S7"], ORDER=["subject","version","operator","jurisdiction","registry","assessed","standard","assessor","method","anchor","result","overall"];
+const enc=new TextEncoder();
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+const sha=async d=>new Uint8Array(await crypto.subtle.digest("SHA-256",d));
+async function hmac(keyBytes,msg){const k=await crypto.subtle.importKey("raw",keyBytes,{name:"HMAC",hash:"SHA-256"},false,["sign"]);return new Uint8Array(await crypto.subtle.sign("HMAC",k,msg));}
+const cat=(a,b)=>{const o=new Uint8Array(a.length+b.length);o.set(a);o.set(b,a.length);return o;};
+const u32=i=>new Uint8Array([i&255,(i>>8)&255,(i>>16)&255,(i>>>24)&255]);
+const canonical=f=>ORDER.map(k=>String(f[k])).join("|")+"|"+DIMS.map(d=>d+":"+f.levels[d]).join("|");
+function coinGrid(g){const p=[];const n=Math.floor(g.r_max/g.spacing);for(let j=-n;j<=n;j++)for(let i=-n;i<=n;i++){const x=100+i*g.spacing,y=100+j*g.spacing;if(Math.hypot(x-100,y-100)<=g.r_max)p.push([x,y]);}for(let k=0;k<g.rim_n;k++){const a=2*Math.PI*k/g.rim_n;p.push([100+g.rim_r*Math.cos(a),100+g.rim_r*Math.sin(a)]);}return p;}
+function bandGrid(g){const p=[];for(let j=0;j<g.ny;j++)for(let i=0;i<g.nx;i++)p.push([g.x0+i*g.spacing,g.y0+j*g.spacing]);const [cx,cy,r,n]=g.ring;for(let k=0;k<n;k++)p.push([cx+r*Math.cos(2*Math.PI*k/n),cy+r*Math.sin(2*Math.PI*k/n)]);return p;}
+function star(cx,cy,r,ri){const o=[];for(let i=0;i<8;i++){const a=Math.PI/2*(i/2)-Math.PI/2,rr=i%2?ri:r;o.push([cx+rr*Math.cos(a),cy+rr*Math.sin(a)]);}return o;}
+function segd(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1];const t=(dx===0&&dy===0)?0:Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(dx*dx+dy*dy)));return Math.hypot(p[0]-(a[0]+t*dx),p[1]-(a[1]+t*dy));}
+function inPoly(p,poly){let ins=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const [x1,y1]=poly[i],[x2,y2]=poly[j];if((y1>p[1])!==(y2>p[1])&&p[0]<(x2-x1)*(p[1]-y1)/(y2-y1)+x1)ins=!ins;}return ins;}
+function onDevice(p,dp){const L=72-dp.span_dx,R=128+dp.span_dx;const segs=[[[L,86],[R,86]],[[R,86],[109,132]],[[109,132],[91,132]],[[91,132],[L,86]],[[100,66],[100,144]],[[86,144],[114,144]]];const st=star(100,60+dp.apex_dy,8,2.9);return segs.some(s=>segd(p,s[0],s[1])<=3.4)||inPoly(p,st)||Math.hypot(p[0]-100,p[1]-(st[0][1]+8))<=6.5;}
+const $=id=>document.getElementById(id);
+function mark(id,ok,text){const e=$(id);e.className="v "+(ok?"ok":"bad");e.textContent=text;}
+$("go").addEventListener("click",async()=>{
+  const f=$("file").files[0]; if(!f){$("verdict").textContent="Choose a sealed SVG first.";return;}
+  const text=await f.text(); const mm=text.match(/<metadata id="vseal">([\s\S]*?)<\/metadata>/); if(!mm){$("verdict").textContent="No V-Seal metadata in this file.";$("verdict").className="verdict bad";return;}
+  const meta=JSON.parse(mm[1]); const cert=meta.scheme==="vseal-cert-1";
+  const pts=[...text.matchAll(/<circle class="d" cx="([-\d.]+)" cy="([-\d.]+)"/g)].map(m=>[+m[1],+m[2]]);
+  const sec=$("secret").value.trim(); let key;
+  if(/^[0-9a-f]{64}$/i.test(sec)){key=new Uint8Array(sec.match(/../g).map(h=>parseInt(h,16)));}
+  else{const K=await hmac(enc.encode(sec),enc.encode("SAS|"+meta.registry));key=cert?await hmac(K,enc.encode(hex(await sha(enc.encode(canonical(meta.finding)))))):K;}
+  const base=meta.grid.type==="coin"?coinGrid(meta.grid):bandGrid(meta.grid);
+  let ok=0;const bad=[];
+  for(let i=0;i<base.length;i++){const b=(await sha(cat(key,u32(i))))[0];const dx=(b&1?DELTA:-DELTA),dy=(b&2?DELTA:-DELTA);const p=pts[i];if(p&&Math.abs(p[0]-(base[i][0]+dx))<=EPS&&Math.abs(p[1]-(base[i][1]+dy))<=EPS)ok++;else bad.push(i);}
+  const fieldOk=ok===base.length&&pts.length===base.length; mark("c-field",fieldOk,ok+" / "+base.length);
+  const commitOk=hex(await sha(key))===meta.commit; mark("c-commit",commitOk,commitOk?"✓":"✗");
+  const stateOk=hex(await sha(enc.encode(pts.map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)).join("\n"))))===meta.state_image; mark("c-state",stateOk,stateOk?"✓":"✗");
+  let contentOk=true, mism=[];
+  if(cert){const ch=hex(await sha(enc.encode(canonical(meta.finding))));const exp={};DIMS.forEach(d=>exp[d]=String(meta.finding.levels[d]));exp.overall=String(meta.finding.overall);exp.result=String(meta.finding.result);
+    const printed={};for(const m of text.matchAll(/class="lv" data-dim="([A-Za-z0-9]+)"[^>]*>([^<]*)</g))printed[m[1]]=m[2];
+    mism=Object.keys(exp).filter(k=>printed[k]!==exp[k]); contentOk=ch===meta.content_hash&&mism.length===0; mark("c-content",contentOk,contentOk?"✓":"✗ "+mism.join(","));}
+  else{const e=$("c-content");e.className="v wait";e.textContent="n/a";}
+  const all=fieldOk&&commitOk&&stateOk&&contentOk; const v=$("verdict"); v.className="verdict "+(all?"ok":"bad"); v.textContent=all?"PASS — the field reproduces, the commitment holds, the state image is intact"+(cert?", every printed result matches the sealed finding.":"."):"FAIL — "+(fieldOk?"":"the field does not reproduce; ")+(commitOk?"":"the commitment does not match; ")+(stateOk?"":"the artwork state has changed; ")+(contentOk?"":"printed results differ from the sealed finding ("+mism.join(", ")+"); ");
+  // show the artwork and light the device (pass) or flash the desynchronised dots (fail)
+  const art=$("art"); art.innerHTML=text; const circles=art.querySelectorAll('circle.d');
+  const g=await sha(cat(key,enc.encode("VGLYPH"))); const dp={apex_dy:(g[0]/255-.5)*2,span_dx:(g[1]/255-.5)*4}; const vb=meta.vbase;
+  if(all){base.forEach((p,i)=>{const q=[(p[0]-vb.cx)/vb.scale+100,(p[1]-vb.cy)/vb.scale+100];if(onDevice(q,dp)&&circles[i])circles[i].classList.add("lit");});}
+  else{bad.forEach(i=>{if(circles[i])circles[i].classList.add("bad");});}
+  $("log").hidden=false; $("log").textContent=JSON.stringify({scheme:meta.scheme,registry:meta.registry,dots:base.length,commit:meta.commit,state_image:meta.state_image,content_hash:meta.content_hash||null,desync:bad.slice(0,20)},null,1);
+});
+</script>
+</body>
+</html>
