@@ -2,21 +2,111 @@
   "_comment": "Launch gate for the Sovereign AI Standard, the Tensor site and the companion documents. Every placeholder marker in site/*.html carries data-gate=<id>; standard/check-consistency.py fails on a marker with no gate, an unknown gate, or a gate already marked resolved. Recommendations and reasoning are in standard/launch-gate.md.",
   "content_as_of": "August 2026",
   "gates": [
-    {"id": "G01", "title": "Publication date",            "status": "resolved", "decision": "Every document is dated August 2026."},
-    {"id": "G02", "title": "Effective date",              "status": "resolved", "decision": "No effective date is stated anywhere."},
-    {"id": "G03", "title": "Domains",                     "status": "open",     "owner": "Standard, Tensor", "decision": "Standard: sovereignai.org, already used by every address on the site, available at GoDaddy. Tensor: tensordiligence.ai is used for every Tensor address and is not registered; tensordiligence.com is taken by someone else."},
-    {"id": "G04", "title": "Administering body",          "status": "resolved", "decision": "Sovereign Technology Systems Corporation (B Corp certification pending), through its research arm Sovereign AI Lab."},
-    {"id": "G05", "title": "Certification mark",          "status": "resolved", "decision": "SovereignAI, USPTO application Serial No. 99861987. Wording changed from 'registered' to 'registration pending' until the registration issues."},
-    {"id": "G06", "title": "Appeal function",             "status": "resolved", "decision": "Sovereign AI Lab Research Group.", "note": "See launch-gate.md: add at least one member from outside Sovereign Technology Systems Corporation to each appeal panel."},
-    {"id": "G07", "title": "Assessor accreditation",      "status": "open",     "owner": "Standard", "note": "Proposal in launch-gate.md: granting body, criteria, fees, surveillance, ISO/IEC 17065 timeline."},
-    {"id": "G08", "title": "Complaint route",             "status": "open",     "owner": "Standard", "note": "Proposal in launch-gate.md."},
-    {"id": "G09", "title": "Register opening",            "status": "resolved", "decision": "Opened 3 June 2026.", "note": "The register page still shows fictional example rows and the footer still says no certificates have been issued. Either publish real entries or empty the table."},
-    {"id": "G10", "title": "EU AI Act citations",         "status": "open",     "owner": "Standard, counsel", "note": "The compliance attachment referred to in the brief did not arrive. Markers stay until it does."},
-    {"id": "G11", "title": "Tensor certification terms",  "status": "open",     "owner": "Tensor", "note": "Proposal in launch-gate.md: term, notice window, fees, founding cohort."},
-    {"id": "G12", "title": "Tensor diligence pricing",    "status": "open",     "owner": "Tensor", "note": "Proposal in launch-gate.md."},
-    {"id": "G13", "title": "Tensor trust page policies",  "status": "open",     "owner": "Tensor", "note": "Proposal in launch-gate.md consolidates nine markers into four published policies."},
-    {"id": "G14", "title": "Versioning",                  "status": "resolved", "decision": "Standard v1.0 (draft), August 2026, on every document. The Hallmark keeps Rev D and the V-Seal guide keeps Rev 1 as document revisions against that Standard version."},
-    {"id": "G15", "title": "Patent reference",            "status": "open",     "owner": "Tensor", "note": "U.S. application 19/418,922 could not be verified online; applications are unpublished for eighteen months. Confirm the number against the filing receipt."},
-    {"id": "G16", "title": "Track B consultation questions", "status": "open-by-design", "owner": "Standard", "note": "Consultation questions published with the draft on purpose. They close when v1.0 is finalised, not at launch."}
+    {
+      "id": "G01",
+      "title": "Publication date",
+      "status": "resolved",
+      "decision": "Every document is dated August 2026."
+    },
+    {
+      "id": "G02",
+      "title": "Effective date",
+      "status": "resolved",
+      "decision": "No effective date is stated anywhere."
+    },
+    {
+      "id": "G03",
+      "title": "Domains",
+      "status": "resolved",
+      "decision": "Primary domains are the .com of each brand, all held by the owner: sovereignai.com (Standard; register at register.sovereignai.com), sovereignailab.com (Lab), tensordiligence.com (Tensor). Every address on both sites now uses them. sovereign-ai.org, sovai.org, sovereignai.institute, sovereignai.dev and sovereignai.network redirect to sovereignai.com. Still worth registering as redirects: sovereignai.org, sovereignai.ai, tensordiligence.ai, sovereigntechnologysystems.com."
+    },
+    {
+      "id": "G04",
+      "title": "Administering body",
+      "status": "resolved",
+      "decision": "Sovereign Technology Systems Corporation (B Corp certification pending), through its research arm Sovereign AI Lab."
+    },
+    {
+      "id": "G05",
+      "title": "Certification mark",
+      "status": "resolved",
+      "decision": "SovereignAI, USPTO application Serial No. 99861987. Wording changed from 'registered' to 'registration pending' until the registration issues."
+    },
+    {
+      "id": "G06",
+      "title": "Appeal function",
+      "status": "resolved",
+      "decision": "Sovereign AI Lab Research Group.",
+      "note": "See launch-gate.md: add at least one member from outside Sovereign Technology Systems Corporation to each appeal panel."
+    },
+    {
+      "id": "G07",
+      "title": "Assessor accreditation",
+      "status": "open",
+      "owner": "Standard",
+      "note": "Proposal in launch-gate.md: granting body, criteria, fees, surveillance, ISO/IEC 17065 timeline."
+    },
+    {
+      "id": "G08",
+      "title": "Complaint route",
+      "status": "open",
+      "owner": "Standard",
+      "note": "Proposal in launch-gate.md."
+    },
+    {
+      "id": "G09",
+      "title": "Register opening",
+      "status": "resolved",
+      "decision": "Opened 3 June 2026.",
+      "note": "The register page still shows fictional example rows and the footer still says no certificates have been issued. Either publish real entries or empty the table."
+    },
+    {
+      "id": "G10",
+      "title": "EU AI Act citations",
+      "status": "open",
+      "owner": "Standard, counsel",
+      "note": "The compliance attachment referred to in the brief did not arrive. Markers stay until it does."
+    },
+    {
+      "id": "G11",
+      "title": "Tensor certification terms",
+      "status": "open",
+      "owner": "Tensor",
+      "note": "Proposal in launch-gate.md: term, notice window, fees, founding cohort."
+    },
+    {
+      "id": "G12",
+      "title": "Tensor diligence pricing",
+      "status": "open",
+      "owner": "Tensor",
+      "note": "Proposal in launch-gate.md."
+    },
+    {
+      "id": "G13",
+      "title": "Tensor trust page policies",
+      "status": "open",
+      "owner": "Tensor",
+      "note": "Proposal in launch-gate.md consolidates nine markers into four published policies."
+    },
+    {
+      "id": "G14",
+      "title": "Versioning",
+      "status": "resolved",
+      "decision": "Standard v1.0 (draft), August 2026, on every document. The Hallmark keeps Rev D and the V-Seal guide keeps Rev 1 as document revisions against that Standard version."
+    },
+    {
+      "id": "G15",
+      "title": "Patent reference",
+      "status": "open",
+      "owner": "Tensor",
+      "note": "U.S. application 19/418,922 could not be verified online; applications are unpublished for eighteen months. Confirm the number against the filing receipt."
+    },
+    {
+      "id": "G16",
+      "title": "Track B consultation questions",
+      "status": "open-by-design",
+      "owner": "Standard",
+      "note": "Consultation questions published with the draft on purpose. They close when v1.0 is finalised, not at launch."
+    }
   ]
 }

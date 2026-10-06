@@ -12,17 +12,21 @@ Companion to `launch-gate.json`. Content is current as of **August 2026**. Resol
 | G05 Mark | SovereignAI, USPTO application Serial No. 99861987. Until the registration issues the sites say "registration pending", never "registered". The certification statement is published on the governance page. |
 | G06 Appeal function | Sovereign AI Lab Research Group. |
 | G09 Register | Opened 3 June 2026. |
+| G03 Domains | See the section below. |
 | G14 Versioning | One line on everything: *Sovereign AI Standard v1.0 (draft) · August 2026*. The Hallmark keeps its own revision (Rev D) and the V-Seal guide its own (Rev 1), each stated as "for Standard v1.0". |
 
-## G03 Domains
+## G03 Domains — resolved
 
-Checked at GoDaddy on 5 October 2026.
+Checked at GoDaddy on 5 October 2026; ownership confirmed by the owner on 6 October 2026.
 
-**Standard.** Register `sovereignai.org`. It matches the mark exactly, `.org` reads as a standards body rather than a vendor, and it is already the domain in every address on the site. Add `sovereignai.net`, `sovereignai.ai`, `sovereignaistandard.org` and `sovereignaistandard.com` as redirects. Serve the register at `register.sovereignai.org` rather than a separate domain. `sovereignai.com` is taken; find out who holds it before the mark registration proceeds, since a `.com` in the same words is the most likely source of confusion.
+| Brand | Primary (owned) | Redirects (owned) | Worth registering |
+|---|---|---|---|
+| Standard | `sovereignai.com`, register at `register.sovereignai.com` | `sovereign-ai.org`, `sovai.org`, `sovereignai.institute`, `sovereignai.dev`, `sovereignai.network` | `sovereignai.org`, `sovereignai.ai` |
+| Lab | `sovereignailab.com` | | `sovereignailab.org`, `sovereignailab.ai` |
+| Corporation | | | `sovereigntechnologysystems.com` |
+| Tensor | `tensordiligence.com` | | `tensordiligence.ai` (the sites used it for every address until now; register it so old mail and links still arrive) |
 
-**Lab and corporation.** `sovereignailab.org` and `sovereignailab.ai` are available (`sovereignailab.com` is taken). `sovereigntechnologysystems.com` is available.
-
-**Tensor.** `tensordiligence.ai` is **not registered** and it is the domain of every Tensor email address on the site. Register it now. `tensordiligence.com` is held by someone else.
+Every address on both sites now uses the `.com`. Tensor's router keeps the relative link to the Standard for local preview and notes the production address in one place.
 
 ## G06 Appeals — a structural note
 
