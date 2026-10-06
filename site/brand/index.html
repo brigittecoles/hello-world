@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sovereign AI Standard — Mark &amp; usage kit</title>
+<meta name="description" content="The Sovereign AI mark: medallion, glyph, favicon and level badges as vector files, with the rules for using them.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090B;--well:#0A0C0F;--panel:#0C0E12;--panel-2:#11141A;--ink:#D4DAE2;--ink-2:#9299A5;--ink-3:#6A727D;--ink-4:#414954;--edge:#3C434D;--edge-2:#2A303A;--edge-hi:#98A1AD;--pewter:#8B939E;--sterling:#C6CDD6;--champ:#CBAE76;--paper:#F4F5F7;
+ --silver:linear-gradient(135deg,#EEF2F6 0%,#9AA3AE 24%,#F3F6F9 46%,#828C98 62%,#CBD2DA 82%,#7E8894 100%);--mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--mono);background:var(--bg);color:var(--ink);font-size:13.5px;line-height:1.68;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--edge)}a:hover{color:#fff;border-color:var(--edge-hi)}
+.metal{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mast{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge-2)}
+.mast .in,.wrap{max-width:1060px;margin:0 auto;padding:0 clamp(18px,4vw,44px)}
+.mast .in{display:flex;align-items:center;gap:12px;min-height:60px}
+.mast .gl{color:var(--edge-hi);font-size:16px}.mast b{font-weight:700;letter-spacing:.16em;font-size:13px}.mast span.s{font-size:9px;letter-spacing:.22px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;display:block;line-height:1.2}
+.mast .ref{margin-left:auto;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);text-align:right;line-height:1.5;border-left:1px solid var(--edge-2);padding-left:16px}.mast .ref b{color:var(--ink-2);font-weight:500;letter-spacing:.12em;font-size:9.5px}
+.mast .ref a{border:0;color:var(--ink-3)}
+.ctrl{border-bottom:1px solid var(--edge-2);background:var(--well)}.ctrl .in{max-width:1060px;margin:0 auto;padding:7px clamp(18px,4vw,44px);font-size:10px;letter-spacing:.14em;color:var(--ink-3);display:flex;gap:8px 20px;flex-wrap:wrap;text-transform:uppercase}.ctrl b{color:var(--ink-2);font-weight:500}.ctrl .sep{color:var(--ink-4)}
+.hero{padding:clamp(30px,5vw,56px) 0 10px}.rule{color:var(--edge);font-size:12px;letter-spacing:-.5px;overflow:hidden;white-space:nowrap;margin-bottom:22px;user-select:none}
+.eyebrow{font-size:10.5px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(22px,3.2vw,34px);font-weight:600;line-height:1.2;margin-bottom:14px}
+.lede{color:var(--ink-2);max-width:72ch;font-size:14px;line-height:1.72}.lede b{color:var(--ink)}
+section.box{position:relative;border:1px solid var(--edge);background:var(--panel);padding:36px 26px 28px;margin:clamp(40px,5vw,58px) auto 0;max-width:1060px}
+section.box>.t{position:absolute;top:0;left:22px;transform:translateY(-50%);background:var(--bg);padding:0 12px;font-size:11px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}section.box>.t i{color:var(--edge-hi);font-style:normal;font-weight:600}
+.cn{position:absolute;background:var(--bg);color:var(--ink-4);font-size:12px;line-height:1;padding:0 1px}.cn.tl{top:-6px;left:-6px}.cn.tr{top:-6px;right:-6px}.cn.bl{bottom:-6px;left:-6px}.cn.br{bottom:-6px;right:-6px}
+.box h2{font-size:clamp(17px,2.2vw,23px);font-weight:600;margin-bottom:10px}.box .sub{color:var(--ink-2);max-width:74ch;margin-bottom:22px;font-size:13px}.box .sub b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid.two{grid-template-columns:1fr 1fr}@media(max-width:820px){.grid,.grid.two{grid-template-columns:1fr}}
+.card{border:1px solid var(--edge-2);background:var(--well)}.card .pv{display:flex;align-items:center;justify-content:center;padding:22px;min-height:150px;border-bottom:1px solid var(--edge-2)}.card .pv.paper{background:var(--paper)}
+.card .pv img{max-width:100%;max-height:150px}.card .bd{padding:12px 14px}.card .k{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}.card .dl{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px}
+.rows{border-top:1px solid var(--edge-2)}.r{display:grid;grid-template-columns:230px 1fr;gap:26px;padding:16px 0;border-bottom:1px solid var(--edge-2)}.r .k{font-weight:600;font-size:12.5px}.r .v{color:var(--ink-2);font-size:13px;max-width:70ch}.r .v b{color:var(--ink)}@media(max-width:720px){.r{grid-template-columns:1fr;gap:6px}}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--edge-2);background:var(--well)}@media(max-width:720px){.duo{grid-template-columns:1fr}}
+.duo>div{padding:18px 20px}.duo>div:first-child{border-right:1px solid var(--edge-2)}.duo h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}.duo ul{list-style:none}.duo li{position:relative;padding-left:16px;margin-bottom:8px;color:var(--ink-2);font-size:13px}.duo li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--sterling)}.duo>div:last-child li::before{background:var(--pewter);opacity:.6}
+.claim{background:var(--well);border:1px solid var(--edge-2);padding:16px 18px;color:var(--ink-2);font-size:13px;line-height:1.7;max-width:none}.claim b{color:var(--ink)}
+.ornrule{color:var(--edge);text-align:center;font-size:13px;letter-spacing:-.5px;margin:clamp(46px,6vw,80px) 0 0;overflow:hidden;white-space:nowrap;user-select:none}.ornrule b{color:var(--edge-hi)}
+footer{border-top:1px solid var(--edge-2);margin-top:26px;background:var(--well)}footer .in{max-width:1060px;margin:0 auto;padding:22px clamp(18px,4vw,44px);display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:10.5px;letter-spacing:.08em;color:var(--ink-3)}footer .gl{color:var(--edge-hi);font-size:14px}footer b{color:var(--ink-2);letter-spacing:.14em}footer .r2{margin-left:auto;color:var(--ink-4);text-align:right;line-height:1.7;text-transform:uppercase;letter-spacing:.1em}
+.champ{color:var(--champ)}
+</style>
+</head>
+<body>
+<header class="mast"><div class="in"><span class="gl">&#9672;</span><div><b>SOVEREIGN&nbsp;AI&nbsp;STANDARD</b><span class="s">Mark &amp; usage kit</span></div><div class="ref"><b>DOC</b> SAS-1.0 · KIT&nbsp;&nbsp;<b>STATUS</b> REV A<br><a href="../sovereign-ai-standard.html#/">← Back to the Standard</a></div></div></header>
+<div class="ctrl"><div class="in"><span><b>OFFICIAL PUBLICATION</b></span><span class="sep">·</span><span>SOVEREIGN AI STANDARD — v1.0</span><span class="sep">·</span><span>MARK &amp; USAGE KIT — AUGUST 2026</span><span class="sep">·</span><span>CLASSIFICATION — PUBLIC</span></div></div>
+
+<div class="wrap hero">
+  <div class="rule" aria-hidden="true">════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════</div>
+  <div class="eyebrow">The mark, as files</div>
+  <h1>One mark, three forms, <span class="metal">struck in vector.</span></h1>
+  <p class="lede">The Sovereign AI mark is a struck seal: a <b>medallion</b> for documents and certificates, a <b>glyph</b> for favicons and inline lockups, and a <b>level badge</b> for the products that carry a certificate. Every file here is SVG, scales without limit, and comes in the two finishes the Hallmark permits: silver on graphite, and single-colour graphite on paper.</p>
+</div>
+
+<section class="box"><div class="t"><i>§ 01</i> · The medallion</div>
+  <h2>The full mark.</h2>
+  <p class="sub">A milled rim, an engraved ring, and the device: the Greek letter Ψ fused with the P&amp;ID compressor wedge. Three prongs for the three levels, a wedge that narrows as control tightens, and the apex star above. Use it on certificates, the register, official documents and anywhere the Standard itself speaks. It is the Standard's device, not a vendor's: a certified product displays a <b>level badge</b>, never the medallion.</p>
+  <div class="grid two">
+    <div class="card"><div class="pv"><img src="medallion.svg" alt="Medallion, silver on graphite" width="150" height="150"></div><div class="bd"><div class="k">Silver on graphite · primary</div><div class="dl"><a href="medallion.svg" download>medallion.svg</a></div></div></div>
+    <div class="card"><div class="pv paper"><img src="medallion-mono.svg" alt="Medallion, single colour on paper" width="150" height="150"></div><div class="bd"><div class="k">Single colour · print and paper</div><div class="dl"><a href="medallion-mono.svg" download>medallion-mono.svg</a><span style="color:var(--ink-4)">uses currentColor, recolour by CSS</span></div></div></div>
+  </div>
+</section>
+
+<section class="box"><div class="t"><i>§ 02</i> · The glyph &amp; favicon</div>
+  <h2>The medallion, reduced to one character.</h2>
+  <p class="sub">◈ is the mark at small sizes: the lockup beside the wordmark, the favicon, the colophon rule. The favicon sits on a graphite tile so it reads on light and dark browser chrome alike.</p>
+  <div class="grid">
+    <div class="card"><div class="pv"><img src="glyph.svg" alt="Glyph, silver" width="72" height="72"></div><div class="bd"><div class="k">Glyph · silver</div><div class="dl"><a href="glyph.svg" download>glyph.svg</a></div></div></div>
+    <div class="card"><div class="pv paper"><img src="glyph-mono.svg" alt="Glyph, single colour" width="72" height="72"></div><div class="bd"><div class="k">Glyph · single colour</div><div class="dl"><a href="glyph-mono.svg" download>glyph-mono.svg</a></div></div></div>
+    <div class="card"><div class="pv"><img src="favicon.svg" alt="Favicon tile" width="72" height="72"></div><div class="bd"><div class="k">Favicon · tile</div><div class="dl"><a href="favicon.svg" download>favicon.svg</a><a href="favicon-32.png" download>32</a><a href="favicon-180.png" download>180</a><a href="favicon-512.png" download>512</a></div></div></div>
+  </div>
+</section>
+
+<section class="box"><div class="t"><i>§ 03</i> · Level badges</div>
+  <h2>What a certified product displays.</h2>
+  <p class="sub">The device carries the metal and the level: pewter for Level 1, sterling for Level 2, champagne for Level 3. <b>The apex is the only warm strike</b>; everything below it stays cool, which is what makes Level 3 read as rare. Each badge comes in a dark and a light version so it sits on either kind of page without alteration.</p>
+  <div class="grid">
+    <div class="card"><div class="pv"><img src="badge-level-1-dark.svg" alt="Level 1 badge, dark" width="300" height="56"></div><div class="pv paper"><img src="badge-level-1-light.svg" alt="Level 1 badge, light" width="300" height="56"></div><div class="bd"><div class="k">Level 1 · Disclosed · pewter</div><div class="dl"><a href="badge-level-1-dark.svg" download>dark</a><a href="badge-level-1-light.svg" download>light</a></div></div></div>
+    <div class="card"><div class="pv"><img src="badge-level-2-dark.svg" alt="Level 2 badge, dark" width="300" height="56"></div><div class="pv paper"><img src="badge-level-2-light.svg" alt="Level 2 badge, light" width="300" height="56"></div><div class="bd"><div class="k">Level 2 · Controlled · sterling</div><div class="dl"><a href="badge-level-2-dark.svg" download>dark</a><a href="badge-level-2-light.svg" download>light</a></div></div></div>
+    <div class="card"><div class="pv"><img src="badge-level-3-dark.svg" alt="Level 3 badge, dark" width="300" height="56"></div><div class="pv paper"><img src="badge-level-3-light.svg" alt="Level 3 badge, light" width="300" height="56"></div><div class="bd"><div class="k"><span class="champ">Level 3 · Sovereign · champagne</span></div><div class="dl"><a href="badge-level-3-dark.svg" download>dark</a><a href="badge-level-3-light.svg" download>light</a></div></div></div>
+  </div>
+</section>
+
+<section class="box"><div class="t"><i>§ 04</i> · Rules of use</div>
+  <h2>The mark means one thing. Keep it meaning that.</h2>
+  <div class="rows">
+    <div class="r"><div class="k">Who may use it</div><div class="v">Only an organisation holding a <b>current certificate</b>, only for the <b>product named on the certificate</b>, and only at the <b>level held</b>. Use that implies an uncertified product in the same portfolio is covered is a withdrawal condition, not a warning.</div></div>
+    <div class="r"><div class="k">Always state the level</div><div class="v">The badge carries the level and the level name. Do not crop the badge to the device alone, and do not use the medallion or the bare glyph in place of a badge: those are the Standard's marks, not a certificate holder's.</div></div>
+    <div class="r"><div class="k">Colour</div><div class="v">Silver on graphite, or single-colour graphite on paper. The dark and light badge files already carry the right values. <b>Never recolour</b>, never add a second accent, and never apply champagne to anything but Level 3.</div></div>
+    <div class="r"><div class="k">Clear space &amp; minimum size</div><div class="v">Clear space on every side equals the height of the glyph in the badge, roughly a quarter of the badge height. Minimum sizes: badge 180 px wide on screen, 40 mm in print; medallion 48 px or 12 mm; glyph 16 px.</div></div>
+    <div class="r"><div class="k">Proportions &amp; effects</div><div class="v">Scale uniformly. No stretching, rotation, outlines, drop shadows, gradients of your own, or placement over busy imagery. The files are vector; use them as supplied.</div></div>
+    <div class="r"><div class="k">Where it links</div><div class="v">On a web page the badge links to the holder's entry on the <b>public register</b>, so a buyer can verify the claim in one click without contacting anyone.</div></div>
+    <div class="r"><div class="k">When it stops</div><div class="v">On expiry, suspension or withdrawal the badge comes down within <b>ten business days</b>. The register shows the status either way.</div></div>
+  </div>
+</section>
+
+<section class="box"><div class="t"><i>§ 05</i> · Permitted claims</div>
+  <h2>Say exactly what the certificate says.</h2>
+  <p class="sub">The wording a marketing or sales team may use alongside the badge. Anything beyond it needs the Standard's written agreement.</p>
+  <div class="duo">
+    <div><h3>Say</h3><ul>
+      <li>"[Product] is Sovereign AI Certified at Level 2 (Controlled) against Sovereign AI Standard v1.0."</li>
+      <li>"Independently assessed by [accredited assessor]; certificate [number], valid to [date]."</li>
+      <li>"Verify on the public register at register.sovereignai.com."</li>
+      <li>"Certified across all seven dimensions of AI control: model, data, provenance, operational, infrastructure, exit and evaluation."</li>
+    </ul></div>
+    <div><h3>Do not say</h3><ul>
+      <li>"Sovereign AI approved", "endorsed", "accredited" or "compliant". The certificate evidences criteria; it endorses nothing.</li>
+      <li>"Safe", "accurate", "unbiased" or "fit for purpose". The Standard certifies control, not quality.</li>
+      <li>"EU AI Act compliant" or "regulator recognised". No regulator has recognised the Standard.</li>
+      <li>"[Company] is certified". Certification is product-scoped.</li>
+    </ul></div>
+  </div>
+  <p class="claim" style="margin-top:14px"><b>The mark.</b> SovereignAI is a certification mark of Sovereign Technology Systems Corporation, USPTO application Serial No. 99861987, registration pending. The mark is licensed to certificate holders under the Standard's mark usage terms, whichever accredited assessor issued the certificate, and is not owned by any assessor. The certification statement as filed: "Artificial Intelligence programs, algorithms, and tools that are architected to maximize the privacy, self-determination, and sovereignty of the user over their data, knowledge, and cognitive models."</p>
+</section>
+
+<div class="ornrule" aria-hidden="true">──────────────────────────────────────────────  <b>&#9672;</b>  ──────────────────────────────────────────────</div>
+<footer><div class="in"><span class="gl">&#9672;</span> <b>SOVEREIGN AI STANDARD</b> · SAS-1.0 · MARK &amp; USAGE KIT · REV A<span class="r2">Public standard · draft for consultation<br>Controlled document — uncontrolled when printed</span></div></footer>
+<script>document.querySelectorAll('section.box').forEach(function(box){[['tl','┌'],['tr','┐'],['bl','└'],['br','┘']].forEach(function(c){var s=document.createElement('span');s.className='cn '+c[0];s.setAttribute('aria-hidden','true');s.textContent=c[1];box.appendChild(s);});});</script>
+</body>
+</html>

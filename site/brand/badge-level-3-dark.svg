@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" width="300" height="56" role="img" aria-label="Sovereign AI Certified, Level 3, Sovereign">
+  <title>Sovereign AI Certified · Level 3 · Sovereign</title>
+  <rect x=".5" y=".5" width="299" height="55" fill="#11141A" stroke="#CBAE76"/>
+  <line x1="64" y1="1" x2="64" y2="55" stroke="#CBAE76"/>
+  <g transform="translate(16 20)" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="15" font-weight="700" fill="#CBAE76"><text x="-2" y="13">[</text><g transform="translate(9 0)"><path transform="translate(4.5 8)" d="M0.00,-7.00 L1.70,-1.70 L7.00,0.00 L1.70,1.70 L0.00,7.00 L-1.70,1.70 L-7.00,0.00 L-1.70,-1.70 Z" fill="#CBAE76"/><rect x="11" y="0" width="9" height="16" fill="#CBAE76"/></g><text x="32" y="13">]</text></g>
+  <text x="80" y="25" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="13" font-weight="700" letter-spacing="2" fill="#D4DAE2">SOVEREIGN AI</text>
+  <text x="80" y="41" font-family="'IBM Plex Mono',ui-monospace,Menlo,monospace" font-size="8.5" letter-spacing="1.4" fill="#6A727D">CERTIFIED · LEVEL 3 · SOVEREIGN</text>
+</svg>
