@@ -5,6 +5,8 @@
 > people use it for — and, for reuse/composition decisions, how you connect to it, what it
 > needs, and what it combines with.
 
+**Last reconciled:** 2026-11-06 · run `python3 tools/reconcile.py` to re-check status and coverage against the live ASF data; `python3 tools/build_inventory.py` rebuilds the data file (`apache_inventory.json`) and the interactive finder (`apache_inventory.html`).
+
 ---
 
 ## How to read this inventory
