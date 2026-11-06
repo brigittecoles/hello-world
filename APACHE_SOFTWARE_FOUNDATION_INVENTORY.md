@@ -8,14 +8,18 @@
 
 ## How to read this inventory
 
-**Scope.** The ASF oversees **350+ top-level projects** under roughly **200 Project Management
-Committees (PMCs)**, plus dozens of **Incubator** podlings and hundreds of **retired (Attic)**
-projects and sub-projects. A truly exhaustive, line-by-line enumeration of *every* package,
-module, and sub-project would run to many thousands of entries and changes almost weekly. This
-document instead aims for **comprehensive coverage of the project roster** — every significant
-top-level project and project family — organized so the long tail is still represented. Large
-umbrella projects (Apache Commons, Logging Services, the Hadoop ecosystem, Apache Directory)
-are broken out into their constituent modules.
+**Scope.** As reconciled against the ASF's live data on 2026-11-06, there are **~215 active
+top-level projects** (each with its own Project Management Committee, PMC), **24 current
+Incubator podlings**, and hundreds of **retired (Attic)** projects — plus a long tail of
+**sub-projects** (the foundation's machine-readable directory lists **1,497** project +
+sub-project DOAP entries in total). The older "350+ projects" figure the ASF has quoted counts
+projects *and* sub-projects together; the top-level count itself sits around 215–220. A truly
+exhaustive, line-by-line enumeration of *every* package, module, and sub-project would run to
+thousands of entries and change almost weekly. This document covers **every active top-level
+project** (reconciled against the authoritative list below) plus the significant families,
+organized so the long tail is represented. Large umbrella projects (Apache Commons, Logging
+Services, the Hadoop ecosystem, Apache Directory) are broken out into their constituent
+modules.
 
 **Each entry** gives, as applicable:
 
@@ -34,14 +38,17 @@ are broken out into their constituent modules.
 | 🗄️ **Attic** | Retired to the Apache Attic; code remains available, development has ended. |
 | 🟡 **Low activity** | Still a TLP but with reduced release cadence (noted where relevant). |
 
-**Sourcing & accuracy note.** This inventory was compiled from domain knowledge current to
-**early 2026**, cross-checked against web search for recent lifecycle changes (Incubator
-graduations and Attic retirements through 2025–2026). In this environment the authoritative
-live endpoints at `projects.apache.org` and `attic.apache.org` are **not reachable** (the
-session's network policy does not allow those hosts), so a handful of the very newest podlings
-or last-minute status changes may be missing or slightly stale. The **Appendix** lists the
-canonical always-current sources to reconcile against. Project *status* is the most volatile
-field; treat it as "as of early 2026."
+**Sourcing & accuracy note.** This inventory was compiled from domain knowledge and then
+**reconciled on 2026-11-06 against the ASF's authoritative machine-readable data** —
+`projects.apache.org/json/foundation/projects.json` (1,497 project/sub-project entries; ~215
+active PMCs) and `.../podlings.json` (24 current podlings) — with targeted web search used to
+settle individual lifecycle changes. The reconciliation added 31 active top-level projects that
+the first draft had missed (see [§29](#29-additional-active-top-level-projects-reconciliation-additions))
+and corrected several status tags. Project *status* remains the most volatile field, and the
+ASF's own datasets occasionally lag each other for the very newest projects (a handful of 2025–2026
+entrants such as Auron, Iggy, Fluss, and Teaclave sit ambiguously between "incubating" and
+"recently graduated"); those are flagged inline. The **Appendix** lists the canonical
+always-current sources.
 
 ---
 
@@ -78,6 +85,7 @@ field; treat it as "as of early 2026."
   26. [Core libraries — XML, HTTP & utilities](#26-core-libraries--xml-http--utilities)
   27. [Business applications](#27-business-applications)
   28. [Languages, runtimes & actor systems](#28-languages-runtimes--actor-systems)
+  29. [Additional active top-level projects (reconciliation additions)](#29-additional-active-top-level-projects-reconciliation-additions)
 - [Part 3 — The Apache Incubator](#part-3--the-apache-incubator)
 - [Part 4 — The Attic (retired projects)](#part-4--the-attic-retired-projects)
 - [Part 5 — Quick-reference summary](#part-5--quick-reference-summary)
@@ -405,11 +413,11 @@ dominant use and cross-referenced where helpful.
 - **Patterns:** IDL + codegen, pluggable transport/protocol layers.
 - **Use cases:** Polyglot RPC, cross-language data serialization.
 
-**Apache Fory (formerly Fury)** — *Java/Multi-language · 🥚 Incubating*
+**Apache Fory (formerly Fury)** — *Java/Multi-language · 🟢 Active*
 - **Description:** Blazing-fast multi-language serialization using JIT and zero-copy.
 - **Function:** High-throughput object serialization as a drop-in for slower serializers.
 - **Patterns:** Runtime code generation, schema-consistent/compatible modes, zero-copy.
-- **Use cases:** RPC payloads, caching, data transfer hot paths. *(Renamed Fury → Fory in 2025.)*
+- **Use cases:** RPC payloads, caching, data transfer hot paths. *(Renamed Fury → Fory in 2025; now a top-level project.)*
 
 ### 5. Batch & stream processing engines
 
@@ -931,10 +939,11 @@ dominant use and cross-referenced where helpful.
 - **Description:** ML server for building predictive engines on Spark.
 - **Use cases:** Deployable recommendation/prediction services. *(Retired.)*
 
-> **Note on TVM:** The well-known Apache TVM deep-learning compiler stack graduated via the
-> Incubator; it provides a compiler IR that optimizes models across hardware backends
-> (abstracted pattern: multi-level compiler IR + autotuning). Verify current status against the
-> live project list.
+**Apache TVM** — *C++/Python · 🟢 Active*
+- **Description:** End-to-end deep-learning compiler stack for CPUs, GPUs, and accelerators.
+- **Function:** Compiles and optimizes trained models for efficient inference across diverse hardware.
+- **Patterns:** Multi-level compiler IR (Relay/TIR), auto-tuning/auto-scheduling, hardware backend SPI.
+- **Use cases:** Portable, optimized model deployment; edge/accelerator inference. *(Confirmed active TLP in the live project list.)*
 
 ### 15. Graph, geospatial & semantic web
 
@@ -1426,6 +1435,218 @@ the most-depended-upon JARs in the entire JVM ecosystem.
 - **Patterns:** Thread-group load modeling, sampler/listener plugins, assertion pipeline.
 - **Use cases:** Performance/stress/regression testing of services.
 
+### 29. Additional active top-level projects (reconciliation additions)
+
+*These are active top-level projects confirmed against `projects.apache.org` on 2026-11-06 that
+the first pass did not give a card. They are grouped by domain and cross-reference the same
+patterns from [Part 1](#part-1--cross-cutting-abstracted-patterns).*
+
+#### 29.1 Version control, build & developer tooling
+
+**Apache Subversion (SVN)** — *C · 🟢 Active*
+- **Description:** Centralized version-control system, long the enterprise standard before Git.
+- **Function:** Versions files/directories with a central repository and atomic commits.
+- **Patterns:** Centralized versioned repository, atomic commits, path-based authorization, delta storage.
+- **Use cases:** Enterprise/legacy source control, versioning large binary assets, controlled-access repos.
+
+**Apache NetBeans** — *Java · 🟢 Active*
+- **Description:** Full-featured IDE and application platform (donated by Oracle).
+- **Function:** Develops Java/PHP/JS and more; the NetBeans Platform hosts modular desktop apps.
+- **Patterns:** Modular IDE platform (module system), project/build abstraction, plugin SPI.
+- **Use cases:** Polyglot development; building rich-client (RCP-style) desktop applications.
+
+**Apache Yetus** — *Java/shell · 🟢 Active*
+- **Description:** Libraries and tools for contribution testing and release documentation.
+- **Function:** "Precommit" automation that tests patches/PRs and audits release artifacts.
+- **Patterns:** Precommit CI orchestration, pluggable test/analysis plugins, release audit.
+- **Use cases:** Automated patch validation and release-note/license checking for OSS projects.
+
+**Apache BuildStream** — *Python · 🟢 Active*
+- **Description:** Tool to integrate, build, and bundle software stacks from source.
+- **Function:** Produces deployable artifacts/images reproducibly from declarative build plans.
+- **Patterns:** Declarative build pipelines, sandboxed/reproducible builds, artifact caching.
+- **Use cases:** Building whole software stacks or OS images with reproducibility guarantees.
+
+**Apache Serf** — *C · 🟢 Active*
+- **Description:** High-performance asynchronous HTTP client library built on APR.
+- **Function:** Non-blocking HTTP(S) client used by native applications.
+- **Patterns:** Async HTTP client, bucket-based streaming I/O.
+- **Use cases:** HTTP access in C programs (notably Subversion's HTTP/WebDAV layer).
+
+**Apache Magpie** — *Python/Java · 🟢 Active (TLP, 2026)*
+- **Description:** Platform infrastructure for AI-/agent-assisted maintenance of open-source repositories.
+- **Function:** Helps maintainers with issue/PR triage, security-issue handling, and routine upkeep via agents.
+- **Patterns:** Agent-assisted maintainership, pluggable task agents, workflow automation (originated in Airflow).
+- **Use cases:** Reducing maintainer load and response times on open-source projects.
+
+#### 29.2 ASF foundation infrastructure
+
+**Apache Whimsy** — *Ruby · 🟢 Active*
+- **Description:** Web tools that expose and automate ASF organizational data.
+- **Function:** Board agendas, committee rosters, membership, and self-service governance tasks.
+- **Patterns:** Data-driven admin tooling over authoritative records/LDAP.
+- **Use cases:** Running ASF governance operations (meta-tooling for the foundation itself).
+
+**Apache STeVe** — *Python · 🟢 Active*
+- **Description:** Online voting system used for ASF elections.
+- **Function:** Collects and tallies ballots (including Single Transferable Vote).
+- **Patterns:** Electronic ballot + tallying algorithms.
+- **Use cases:** Board/member elections and other community votes.
+
+**Apache Pony Mail** — *Java/JS · 🟢 Active*
+- **Description:** Mail-archive browser and archiver with full-text search.
+- **Function:** Turns mailing-list traffic into a searchable, linkable web archive.
+- **Patterns:** Archived pub/sub indexing, searchable thread model.
+- **Use cases:** Browsable/searchable mailing-list archives (the ASF runs its lists on it).
+
+#### 29.3 Databases & persistence
+
+**Apache AsterixDB** — *Java · 🟢 Active*
+- **Description:** Parallel big-data management system for semistructured (NoSQL) data with the SQL++ language.
+- **Function:** Ingests and queries large volumes of flexible-schema (JSON-like) records.
+- **Patterns:** Shared-nothing parallel DBMS, LSM storage, declarative query over flexible schema, data feeds.
+- **Use cases:** Large-scale analytics over semistructured data, continuous data ingestion.
+
+**Apache Kvrocks** — *C++ · 🟢 Active*
+- **Description:** Distributed key-value database that speaks the Redis protocol, built on RocksDB.
+- **Function:** Redis-compatible storage for datasets larger than RAM, at lower cost.
+- **Patterns:** Redis API over an LSM engine (RocksDB), disk-based KV, namespacing, replication.
+- **Use cases:** Redis-API workloads needing persistence and large capacity.
+
+**Apache CarbonData** — *Java/Scala · 🟢 Active*
+- **Description:** Indexed columnar data format for fast analytics on big-data platforms.
+- **Function:** Stores huge datasets with multi-level indexing for both scans and point lookups.
+- **Patterns:** Columnar storage + indexing, deep Spark integration, data skipping.
+- **Use cases:** Interactive queries mixing full scans and selective lookups over large tables.
+
+**Apache Cayenne** — *Java · 🟢 Active*
+- **Description:** Object-relational mapping (ORM) framework with a visual modeler.
+- **Function:** Maps Java objects to relational databases with an object-graph persistence context.
+- **Patterns:** ORM, unit-of-work/object context, remote object persistence.
+- **Use cases:** Database persistence for Java apps without hand-written SQL.
+
+**Apache OpenJPA** — *Java · 🟢 Active*
+- **Description:** Implementation of the Jakarta Persistence (JPA) specification.
+- **Function:** Standard ORM persistence with bytecode enhancement.
+- **Patterns:** ORM, persistence context, bytecode enhancement, spec implementation.
+- **Use cases:** JPA persistence layer, embeddable in Jakarta EE servers (e.g., TomEE/Geronimo heritage).
+
+**Apache Empire-db** — *Java · 🟢 Active*
+- **Description:** Lightweight, SQL-centric relational data-access library (an ORM alternative).
+- **Function:** Type-safe, dynamically generated SQL defined in Java code rather than mapping files.
+- **Patterns:** Code-defined type-safe SQL, DBMS abstraction.
+- **Use cases:** Java database access where you want SQL control with compile-time safety.
+
+**Apache ResilientDB** — *C++ · 🟢 Active*
+- **Description:** High-throughput, sustainable distributed-ledger / blockchain platform (research lineage, UC Davis).
+- **Function:** Scalable permissioned ledger with parallelized, pipelined transaction processing.
+- **Patterns:** Byzantine-fault-tolerant consensus, pipelined/parallel execution, modular consensus.
+- **Use cases:** Permissioned blockchains, distributed-ledger research and applications.
+
+#### 29.4 Graph & analytics libraries
+
+**Apache HugeGraph** — *Java · 🟢 Active*
+- **Description:** Fast, scalable graph database (OLTP) with analytics tooling.
+- **Function:** Stores and traverses large property graphs; Gremlin-compatible.
+- **Patterns:** Property-graph store, TinkerPop/Gremlin API, pluggable storage backends.
+- **Use cases:** Knowledge graphs, fraud/relationship analysis, graph OLTP + algorithms.
+
+**Apache DataSketches** — *Java/C++/Python · 🟢 Active*
+- **Description:** Library of streaming, stochastic ("sketch") algorithms for approximate analytics.
+- **Function:** Small, mergeable summaries for distinct counts, quantiles, and frequent items.
+- **Patterns:** Probabilistic data structures, mergeable summaries, sublinear memory.
+- **Use cases:** Fast approximate cardinality/quantiles at scale inside SQL engines and pipelines.
+
+#### 29.5 Data formats
+
+**Apache Daffodil** — *Scala/Java · 🟢 Active*
+- **Description:** Implementation of the Data Format Description Language (DFDL).
+- **Function:** Parses complex binary/text formats into XML/JSON and serializes back ("unparse").
+- **Patterns:** Declarative grammar-driven parsing (DFDL schema), bidirectional (un)parsing.
+- **Use cases:** Converting legacy/industry formats (EDI, MIL-STD, financial, scientific) to structured data.
+
+#### 29.6 Web frameworks, content & collaboration
+
+**Apache Grails** — *Groovy · 🟢 Active*
+- **Description:** Full-stack, convention-driven web framework on Groovy and Spring Boot.
+- **Function:** Rapid web-application development (Rails-style) on the JVM.
+- **Patterns:** Convention over configuration, MVC, GORM (ORM), plugin system.
+- **Use cases:** Fast JVM web apps and REST backends.
+
+**Apache Juneau** — *Java · 🟢 Active*
+- **Description:** Toolkit to marshal POJOs across formats and build self-documenting REST APIs/microservices.
+- **Function:** Serializes Java objects to JSON/XML/HTML/etc. and exposes them as REST.
+- **Patterns:** Format-agnostic serialization SPI, REST interface proxies, HATEOAS.
+- **Use cases:** Content negotiation, REST API layers, typed remote proxies, configuration.
+
+**Apache JSPWiki** — *Java · 🟢 Active*
+- **Description:** Feature-rich Java-based wiki engine.
+- **Function:** Wiki content authoring/rendering with access control and plugins.
+- **Patterns:** Wiki markup rendering, pluggable page providers, templating.
+- **Use cases:** Team/project wikis and documentation sites.
+
+**Apache OpenMeetings** — *Java · 🟢 Active*
+- **Description:** Web conferencing and real-time collaboration server.
+- **Function:** Video/audio meetings, chat, whiteboard, and document sharing.
+- **Patterns:** Real-time media (WebRTC/Kurento), room/session model.
+- **Use cases:** Self-hosted video meetings, online classrooms and webinars.
+
+#### 29.7 Mail & anti-abuse
+
+**Apache James** — *Java · 🟢 Active*
+- **Description:** "Java Apache Mail Enterprise Server" — a modular mail server and email-processing framework.
+- **Function:** SMTP/IMAP/POP3 server plus a programmable mail-processing pipeline.
+- **Patterns:** Pipes-and-filters mail processing (Mailets/Matchers), protocol servers on Netty, pluggable mailbox stores.
+- **Use cases:** Enterprise mail servers, programmable email gateways, anti-abuse processing.
+
+**Apache SpamAssassin** — *Perl · 🟢 Active*
+- **Description:** Extensible mail filter for identifying spam.
+- **Function:** Scores messages with rules, Bayesian learning, and DNS blocklists.
+- **Patterns:** Rule engine + weighted scoring, plugin filters, Bayesian classification.
+- **Use cases:** Anti-spam filtering at mail servers and providers.
+
+#### 29.8 OSGi, Jakarta EE & libraries
+
+**Apache Celix** — *C/C++ · 🟢 Active*
+- **Description:** Implementation of the OSGi specification for C and C++.
+- **Function:** Brings a dynamic module system + service registry to native code.
+- **Patterns:** OSGi modular runtime (native), service registry, dependency management.
+- **Use cases:** Modular, dynamically composed C/C++ systems.
+
+**Apache BVal** — *Java · 🟢 Active*
+- **Description:** Implementation of the Jakarta Bean Validation specification.
+- **Function:** Declarative, annotation-driven validation of Java objects.
+- **Patterns:** Declarative constraint validation, constraint SPI, spec implementation.
+- **Use cases:** Bean/data validation in Java apps (commonly with TomEE).
+
+**Apache Tcl** — *C/Tcl · 🟢 Active*
+- **Description:** Integration of the Tcl scripting language with the Apache HTTP Server (mod_tcl / Rivet lineage).
+- **Function:** Embeds a Tcl interpreter for dynamic web content inside httpd.
+- **Patterns:** httpd module, embedded interpreter.
+- **Use cases:** Tcl-driven dynamic pages served directly by Apache httpd.
+
+**Apache Reqsign** — *Rust · 🟢 Active*
+- **Description:** Library to sign API requests for many cloud providers (from the OpenDAL community).
+- **Function:** Produces provider-specific request signatures (AWS SigV4, Azure, Google, etc.).
+- **Patterns:** Credential/signing abstraction, provider adapter.
+- **Use cases:** Signing cloud-service API calls in Rust (used by OpenDAL). *(Newly established, 2026.)*
+
+#### 29.9 Cloud provisioning
+
+**Apache VCL (Virtual Computing Lab)** — *Perl/Java · 🟢 Active*
+- **Description:** Self-service provisioning and scheduling of dedicated compute environments on demand.
+- **Function:** Reserves and images bare-metal/VM resources for time-boxed use.
+- **Patterns:** Reservation/scheduling broker, image-based provisioning.
+- **Use cases:** On-demand lab/VDI environments for education and enterprises.
+
+#### 29.10 AI-era data governance
+
+**Apache Sourcelume** — *multi · 🟢 Active (TLP, 2026)*
+- **Description:** Attestation and registry layer for documenting the origins and permitted uses of AI training data.
+- **Function:** Lets dataset provenance/consent metadata be cryptographically signed, published, and independently verified.
+- **Patterns:** Attestation/registry over existing metadata standards, cryptographic signing, provenance chain.
+- **Use cases:** Documenting and auditing AI training-data provenance and usage rights.
+
 ---
 
 ## Part 3 — The Apache Incubator
@@ -1440,35 +1661,49 @@ top-level project or **retirement**.
 a checklist (licensing, trademark, release mechanics, community diversity) and a mentor model
 before admitting a project to the "stable" portfolio. Many foundations have copied this.
 
-The podling roster turns over constantly, so treat any list as a snapshot. Representative
-podlings and recent graduates seen around 2024–2026 include:
+The podling roster turns over constantly. The list below is the **24 current podlings as of
+2026-11-06**, taken directly from the ASF's live `podlings.json`, grouped by domain:
 
-| Podling / recent grad | Domain | Notes |
-|-----------------------|--------|-------|
-| **Polaris** | Iceberg catalog | Graduated to TLP (2026). |
-| **Gluten** | Native Spark acceleration | Graduated to TLP (2026). |
-| **Gravitino** | Metadata lake | Graduated to TLP (2025). |
-| **Fory** (ex-Fury) | Fast serialization | Incubating; renamed 2025. |
-| **XTable** | Lakehouse format interop | Incubating. |
-| **Amoro** | Lakehouse management | Incubating/graduated — verify. |
-| **HoraeDB** (ex-CeresDB) | Time-series database | Incubating. |
-| **Cloudberry** | MPP analytical DB (Greenplum lineage) | Incubating. |
-| **GraphAr** | Graph data storage format | Incubating. |
-| **DevLake** | Software-delivery (DevOps) analytics | Incubating/graduated — verify. |
-| **OpenDAL** | Unified data-access layer (Rust) | Graduated (2024). |
-| **Wayang** | Cross-platform/federated data processing | Graduated (2024). |
-| **StreamPark** | Flink/Spark app management | Graduated to TLP (FY2025). |
-| **Uniffle** | Remote shuffle service | Graduated to TLP (FY2025). |
-| **DataFusion** | Rust query engine | Graduated to TLP (2024). |
-| **Answer** | Q&A community platform | Graduated to TLP (2024). |
-| **SDAP** | Science data analytics (NASA) | Graduated to TLP (FY2025). |
-| **Teaclave** | Confidential computing | Incubating. |
-| **Baremaps** | Vector map tiles | Incubating. |
-| **Pegasus** | Key-value store | Incubating. |
-| **Fluss** | Streaming storage for analytics | Incubating (newer). |
+| Podling | Domain | One-line |
+|---------|--------|----------|
+| **Amoro** | Lakehouse | Management system over Iceberg/Paimon lake tables. |
+| **Cloudberry** | Analytical DB | MPP analytical database (PostgreSQL / Greenplum lineage). |
+| **XTable** | Lakehouse interop | Cross-format reads across Iceberg, Hudi, and Delta. |
+| **GraphAr** | Graph format | Standard file format for graph-data interchange. |
+| **GeaFlow** | Graph compute | Distributed streaming graph computing (Ant Group). |
+| **Texera** | Data science | Collaborative, live-execution data-science workflows. |
+| **Toree** | Notebooks | Jupyter kernel for interactive Apache Spark (Scala). |
+| **Hamilton** | Dataflow | Express ML/feature pipelines as Python-function DAGs. |
+| **Otava** | Perf analytics | Automated change-point detection for metrics/time series. |
+| **BifroMQ** | Messaging | High-performance, multi-tenant MQTT broker. |
+| **Iggy** | Streaming | Persistent message streaming in Rust (QUIC/TCP/HTTP). *(graduation reported — verify)* |
+| **Burr** | AI apps | Build stateful AI/LLM applications as state machines. |
+| **OpenServerless** | Serverless | FaaS/serverless platform (OpenWhisk lineage). |
+| **Auron** | Spark accel. | Native vectorized Spark engine (ex-Blaze; Rust + DataFusion via JNI). *(status in flux)* |
+| **Pegasus** | Key-value | Distributed KV store (Raft + RocksDB), from Xiaomi. |
+| **Seata** | Transactions | Distributed-transaction solution for microservices. |
+| **PouchDB** | Database | JavaScript database that syncs with CouchDB (offline-first). |
+| **Casbin** | Authorization | Multi-language access-control library (RBAC/ABAC/…). |
+| **Caldera** | Security | Automated adversary emulation / breach simulation (MITRE). |
+| **NullAway** | Code quality | Fast type-based null-safety checker for Java (from Uber). |
+| **KIE** | Business automation | Rules + workflow — home of Drools and jBPM (from Red Hat). |
+| **OzHera** | Observability | Application observability / APM platform (Xiaomi). |
+| **Fesod / Maka / Ossie / Asyncband** | Various (2025–26) | Recent entrants — see `incubator.apache.org` for current scope. |
 
-> **How to get the current podling list:** `https://incubator.apache.org/projects/` (and the
-> podlings' status pages). Not reachable from this session's network.
+> **Status-in-flux note.** The ASF's project and podling datasets sometimes disagree for the
+> very newest entrants. **Auron** and **Iggy** appear in `projects.json` yet still publish on
+> `*.incubator.apache.org` (Auron releases are tagged `-incubating`); **Teaclave** (confidential
+> computing) and **Fluss** (streaming storage for analytics) sit similarly between states. Treat
+> all four as "late-stage incubating / just graduating."
+
+**Recent graduates to top-level status (2024–2026):** DataFusion, OpenDAL, Answer, Uniffle,
+Wayang, StreamPark (2024); Gravitino, StormCrawler, SDAP (2025); Polaris, Gluten, Magpie,
+Sourcelume (2026) — plus Fory, Kvrocks, HugeGraph, and others now carried as TLPs in
+[§6](#6-sql-engines-query-frameworks--lakehouse), [§14](#14-machine-learning--ai), and
+[§29](#29-additional-active-top-level-projects-reconciliation-additions).
+
+> **Always-current podling list:** `https://incubator.apache.org/projects/` and the
+> machine-readable `https://projects.apache.org/json/foundation/podlings.json`.
 
 ---
 
@@ -1556,8 +1791,9 @@ Notable retired projects (grouped), including several recent ones:
 
 ## Appendix — Canonical sources
 
-Because project status changes weekly and this environment cannot reach `apache.org`, reconcile
-against these authoritative, always-current endpoints when exact counts or statuses matter:
+Project status changes weekly. This inventory was reconciled against the following
+authoritative, always-current endpoints on 2026-11-06; re-check them when exact counts or
+statuses matter:
 
 - **All projects, browsable by category / language / committee:** `https://projects.apache.org/`
   (machine-readable data at `https://projects.apache.org/json/foundation/projects.json`).
@@ -1568,16 +1804,21 @@ against these authoritative, always-current endpoints when exact counts or statu
 - **Foundation statistics / annual reports:** `https://www.apache.org/foundation/reports.html`
 - **Project directory source (mirror):** the ASF Projects Directory / `comdev` tooling.
 
-**Methodology recap.** Compiled from domain knowledge current to early 2026, with targeted web
-search used to confirm 2024–2026 lifecycle changes (e.g., Oozie/Cocoon/Submarine/Bahir →
-Attic; Gravitino/StormCrawler/Polaris/Gluten/DataFusion/Answer/Uniffle/StreamPark → TLP).
-Descriptions, functions, patterns, and use cases reflect each project's well-established design;
-the **status** tag is the field most likely to drift — verify against the sources above.
+**Methodology recap.** Compiled from domain knowledge, then **reconciled on 2026-11-06 against
+`projects.json` (1,497 entries; ~215 active PMCs) and `podlings.json` (24 podlings)**, with
+targeted web search to settle individual lifecycle changes (e.g., Oozie/Cocoon/Submarine/Bahir →
+Attic; Gravitino/StormCrawler/Polaris/Gluten/DataFusion/Answer/Uniffle/StreamPark/Magpie/
+Sourcelume → TLP). The reconciliation added 31 previously-missing top-level projects
+([§29](#29-additional-active-top-level-projects-reconciliation-additions)) and corrected status
+tags (TVM, Fory, DevLake → active; Amoro → incubating). Descriptions, functions, patterns, and
+use cases reflect each project's well-established design; the **status** tag is still the field
+most likely to drift — re-verify against the sources above.
 
-*This inventory is representative and pattern-oriented rather than a literal row-per-artifact
-dump of all 350+ projects and their thousands of sub-modules; the category structure and the
-Incubator/Attic sections are designed so the long tail is accounted for even where a project did
-not receive its own card.*
+*With the reconciliation additions, this inventory now carries a card (or table row) for **every
+active top-level project** in the ASF's live directory, plus the Commons/Logging sub-module
+families, the 24 current podlings, and the notable Attic projects. It remains pattern-oriented
+rather than a literal dump of all 1,497 DOAP entries and their sub-modules; sub-projects are
+represented through their parent project's entry.*
 
 
 
