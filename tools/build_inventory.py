@@ -124,7 +124,38 @@ def split_list(value: str):
     return [i.strip() for i in items if i.strip()]
 
 
+def normalize_name(s: str) -> str:
+    s = re.sub(r"^Apache ", "", s)
+    s = re.sub(r"\([^)]*\)", "", s)
+    return re.sub(r"\s+", " ", s).strip().lower()
+
+
+AVOID_ROW = re.compile(r"^\|\s*\*\*(.+?)\*\*\s*\|(.+?)\|(.+?)\|\s*$")
+
+
+def parse_avoid_when(md: str) -> dict:
+    """Map normalized project name -> 'avoid … → prefer …' from the §6.6 table."""
+    out = {}
+    in66 = False
+    for line in md.split("\n"):
+        if re.match(r"^###\s+6\.6\b", line):
+            in66 = True
+            continue
+        if in66 and re.match(r"^(##\s|###\s)", line):
+            break
+        if in66:
+            m = AVOID_ROW.match(line)
+            if m and "Avoid it when" not in line:
+                name = normalize_name(clean(m.group(1)))
+                avoid = clean(m.group(2))
+                prefer = clean(m.group(3))
+                if name and avoid:
+                    out[name] = f"{avoid} → prefer {prefer}"
+    return out
+
+
 def finalize(rec: dict) -> dict:
+    rec.setdefault("avoid_when", "")
     rec["form"] = derive_form(rec.get("interfaces", ""), rec.get("needs", ""))
     for k in ("pairs_with", "alternatives", "standards", "languages"):
         if k == "languages":
@@ -442,7 +473,7 @@ function sortRecs(a,b){
 var FIELDS=[["function","Function"],["patterns","Patterns"],["use_cases","Use cases"],
   ["interfaces","Interfaces"],["needs","Needs"],["pairs_with","Pairs with"],
   ["alternatives","Alternatives"],["standards","Standards"],["maturity","Maturity"],
-  ["leverage_note","Leverage note"]];
+  ["avoid_when","Avoid when"],["leverage_note","Leverage note"]];
 
 function card(r,terms){
   var pills='<span class="pill st-'+r.status+'">'+esc(r.status_label||r.status)+'</span>';
@@ -541,6 +572,12 @@ def main():
         return 1
     md = MD.read_text(encoding="utf-8")
     records = parse(md)
+    amap = parse_avoid_when(md)
+    for r in records:
+        key = normalize_name(r["name"])
+        if key in amap:
+            r["avoid_when"] = amap[key]
+            r["search"] += " " + amap[key].lower()
     records.sort(key=lambda r: (r["category_num"], r["name"].lower()))
     JSON_OUT.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     generated = datetime.date.today().isoformat()

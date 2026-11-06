@@ -113,6 +113,8 @@ always-current sources.
   - [6.2 Head-to-head selection matrix](#62-head-to-head-selection-matrix)
   - [6.3 Shared-substrate / dependency map](#63-shared-substrate--dependency-map)
   - [6.4 Protocol / format / standard index](#64-protocol--format--standard-index)
+  - [6.5 Decision guides](#65-decision-guides)
+  - [6.6 "Avoid when" — the obvious pick's blind spots](#66-avoid-when--the-obvious-picks-blind-spots)
 - [Appendix — Canonical sources](#appendix--canonical-sources)
 
 ---
@@ -2531,6 +2533,67 @@ composable without glue code.
 - **DFDL (data format description):** Daffodil.
 - **ODF / OOXML (office documents):** OpenOffice (ODF), POI (OOXML), PDFBox (PDF), FOP (XSL-FO→PDF).
 - **WebDAV:** httpd (`mod_dav`), Subversion, Jackrabbit.
+
+### 6.5 Decision guides
+
+Short decision trees for the forks people hit most. Follow the first branch that matches;
+every name is an ASF project unless marked *(ext)*.
+
+**Moving data between systems**
+- Need an event stream others subscribe to and can replay? → **Kafka** (or **Pulsar** for multi-tenant / geo-replicated).
+- Continuous change-data-capture into a lake? → Debezium/Kafka Connect *(ext)* or **SeaTunnel** → **Hudi** / **Paimon**.
+- Bulk sync across many sources & sinks? → **SeaTunnel** or **InLong** (visual flow + provenance → **NiFi**).
+- Mediating request/response systems & protocols (EIP routing/transformation)? → **Camel**.
+- Collecting from field/IoT devices? → **PLC4X** / MQTT → **MiNiFi/NiFi** → **Kafka**.
+
+**Picking a lakehouse table format**
+- Record-level upserts, CDC, GDPR deletes are the core workload? → **Hudi**.
+- Flink-native streaming lakehouse? → **Paimon**.
+- Want the broadest engine & vendor support ("just pick the standard")? → **Iceberg**.
+- Must read one dataset as several formats / avoid lock-in? → any of the three + **XTable**.
+- Need a governance catalog over the tables? → **Polaris** (Iceberg-focused) or **Gravitino** (multi-catalog).
+
+**Which messaging / streaming system**
+- Durable, replayable event log with the biggest ecosystem? → **Kafka**.
+- Multi-tenant, geo-replication, tiered storage, queues + streams in one? → **Pulsar**.
+- Transactional / strictly-ordered messaging at e-commerce scale? → **RocketMQ**.
+- Classic JMS, or IoT protocols (MQTT/AMQP/STOMP)? → **ActiveMQ** (use Artemis for new).
+- Standards-pure AMQP interop? → **Qpid**.
+
+**Where should SQL run**
+- Embed a fast engine in your own app / Rust service? → **DataFusion**. Schema-free files? → **Drill**.
+- MPP over Hadoop/Kudu/object storage? → **Impala**.
+- Multi-tenant SQL gateway over Spark/Flink/Trino? → **Kyuubi**.
+- Sub-second cubes? → **Kylin**. Event-time OLAP serving? → **Druid** / **Pinot** / **Doris**.
+- Just need a planner/optimizer inside your own engine? → **Calcite** (library, not a server).
+
+### 6.6 "Avoid when" — the obvious pick's blind spots
+
+The popular choice isn't always right. Each row names when to *not* reach for the default and
+what to prefer instead. *(Editorial; all are reasonable defaults in their lane.)*
+
+| Project | Avoid it when… | Prefer instead |
+|---------|----------------|----------------|
+| **Hadoop (HDFS/YARN)** | starting fresh on cloud object storage | Spark/Flink on S3 + an open table format (skip HDFS/YARN) |
+| **Spark** | you need millisecond streaming, or jobs that fit one node | **Flink** (streaming); DuckDB/**DataFusion** (single-node) |
+| **Flink** | it's a simple Kafka→Kafka transform | **Kafka Streams** (a library, no cluster) |
+| **Kafka** | you need per-message TTL/priority queues, or built-in multi-tenancy/geo | **Pulsar**, or a classic broker (**ActiveMQ**/**RocketMQ**) |
+| **Cassandra** | you need strong single-key consistency with range scans, or joins | **HBase**; a relational DB for joins |
+| **HBase** | you can't run HDFS+ZooKeeper, or want masterless multi-DC | **Cassandra** |
+| **ZooKeeper** | you only need config / service discovery | etcd / Consul *(ext)*; and always use **Curator**, never the raw client |
+| **Hive (as engine)** | you want interactive/low-latency SQL | **Impala**, Trino *(ext)*, or Spark SQL — keep the Hive Metastore |
+| **Airflow** | you need sub-minute, event-driven, or data-asset-centric runs | Dagster/Prefect/Argo *(ext)*; **DolphinScheduler** for low-code |
+| **Lucene** | you need a distributed search *service* with ops tooling | **Solr**, OpenSearch *(ext)* |
+| **Solr** | you just need embedded search inside one app | **Lucene** directly |
+| **Tomcat** | you need full Jakarta EE (CDI/JPA/JMS/EJB) | **TomEE** |
+| **Maven** | highly dynamic/polyglot builds or a large monorepo | Gradle / Bazel *(ext)* |
+| **Camel** | a single Kafka pipeline is all you need | **Kafka Connect/Streams** (less framework) |
+| **NiFi** | you want code-first, versioned, unit-tested pipelines | **Camel**, or dbt/Airflow *(ext/ASF)* |
+| **Iceberg** | upsert-heavy CDC is the primary pattern | **Hudi** |
+| **Druid** | you need ad-hoc joins across large tables | **Doris**, Trino *(ext)* |
+| **Dubbo** | you're polyglot and cloud-native-first | gRPC + a service mesh *(ext)* |
+| **Groovy** | you want static typing / null-safety by default | Kotlin *(ext)* |
+| **OpenOffice** | you want the more actively developed suite | LibreOffice *(ext)* |
 
 ---
 

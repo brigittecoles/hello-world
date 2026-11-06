@@ -23,6 +23,7 @@
     "maturity": "Widely adopted; commercial/managed option from API7. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "etcd",
@@ -69,6 +70,7 @@
     "maturity": "Mature, popular self-hosted bastion. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Tomcat",
@@ -109,6 +111,7 @@
     "maturity": "Ubiquitous, decades-mature; available on every host/cloud. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Tomcat/app servers (mod_proxy/mod_jk)",
@@ -151,6 +154,7 @@
     "maturity": "Growing; reactive (WebFlux) core. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Dubbo",
@@ -193,6 +197,7 @@
     "maturity": "Ubiquitous, mature; managed on most PaaS. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need full Jakarta EE (CDI/JPA/JMS/EJB) → prefer TomEE",
     "form": "both",
     "pairs_with_list": [
       "httpd front end",
@@ -210,7 +215,7 @@
       "Jakarta Servlet/JSP/EL/WebSocket",
       "JMX"
     ],
-    "search": "apache tomcat web serving, proxies & api gateways  servlet container and reference implementation of jakarta servlet/jsp/websocket/el specs. runs java web applications (war files); http front end for servlet-based apps. container/lifecycle management, connector abstraction (bio/nio/apr), valve pipeline. backbone of countless java web deployments; embedded in spring boot via embedded tomcat. http(s)/ajp; deploys war; servlet/jsp/websocket apis; jmx management. both (server + embeddable). jvm; no asf deps. httpd front end, spring boot (embedded), tomee (adds full ee). tomee (asf, adds ee); jetty, undertow, wildfly (external). jakarta servlet/jsp/el/websocket, jmx. ubiquitous, mature; managed on most paas. apache-2.0.  java"
+    "search": "apache tomcat web serving, proxies & api gateways  servlet container and reference implementation of jakarta servlet/jsp/websocket/el specs. runs java web applications (war files); http front end for servlet-based apps. container/lifecycle management, connector abstraction (bio/nio/apr), valve pipeline. backbone of countless java web deployments; embedded in spring boot via embedded tomcat. http(s)/ajp; deploys war; servlet/jsp/websocket apis; jmx management. both (server + embeddable). jvm; no asf deps. httpd front end, spring boot (embedded), tomee (adds full ee). tomee (asf, adds ee); jetty, undertow, wildfly (external). jakarta servlet/jsp/el/websocket, jmx. ubiquitous, mature; managed on most paas. apache-2.0.  java you need full jakarta ee (cdi/jpa/jms/ejb) → prefer tomee"
   },
   {
     "name": "Apache Traffic Control",
@@ -235,6 +240,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retiring — avoid for new builds; run Traffic Server with a current control plane, or use a commercial/CDN-managed control plane instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -263,6 +269,7 @@
     "maturity": "Mature; proven at CDN scale (Yahoo/Comcast/Verizon). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "httpd/origin servers",
@@ -304,6 +311,7 @@
     "maturity": "Stable, niche (OSGi enterprise). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Karaf",
@@ -344,6 +352,7 @@
     "maturity": "Mature but low cadence. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "OpenWebBeans/Weld",
@@ -382,6 +391,7 @@
     "maturity": "Mature reference-grade OSGi impl. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Karaf",
@@ -420,6 +430,7 @@
     "maturity": "Low activity as a server; spec JARs still widely used. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "TomEE and most JVM EE projects (consume its spec JARs)"
@@ -454,6 +465,7 @@
     "maturity": "Mature, lightweight. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "TomEE",
@@ -492,6 +504,7 @@
     "maturity": "Mature; the default home for OSGi integration apps. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Camel",
@@ -532,6 +545,7 @@
     "maturity": "Mature; the CDI engine in TomEE. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "TomEE",
@@ -568,6 +582,7 @@
     "maturity": "Mature, certified; lighter than full EE servers. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "both",
     "pairs_with_list": [
       "OpenWebBeans",
@@ -610,6 +625,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (Flash is EOL) — migrate to Apache Royale or a modern JS framework.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -638,6 +654,7 @@
     "maturity": "Mature, widely used. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Struts",
@@ -677,6 +694,7 @@
     "maturity": "Mature spec impl. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tomcat/TomEE",
@@ -713,6 +731,7 @@
     "maturity": "Niche; mainly a Flex-migration path. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       "legacy Flex codebases (migration target)"
@@ -749,6 +768,7 @@
     "maturity": "Mature but legacy-leaning; note historical RCE CVEs — keep patched. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Tomcat",
@@ -787,6 +807,7 @@
     "maturity": "Mature, smaller community. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tomcat",
@@ -824,6 +845,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — avoid for new work; use template inheritance in Thymeleaf/FreeMarker or a component framework instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -852,6 +874,7 @@
     "maturity": "Legacy, low activity. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Torque (ORM)",
@@ -889,6 +912,7 @@
     "maturity": "Mature, slow cadence. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Struts",
@@ -927,6 +951,7 @@
     "maturity": "Mature, stable community. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tomcat",
@@ -965,6 +990,7 @@
     "maturity": "Foundational, very widely adopted. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "DataFusion",
@@ -1005,6 +1031,7 @@
     "maturity": "Ubiquitous in streaming/Hadoop. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Kafka (+ Schema Registry)",
@@ -1046,6 +1073,7 @@
     "maturity": "Newer TLP (renamed Fury→Fory 2025); fast-growing. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "RPC frameworks",
@@ -1085,6 +1113,7 @@
     "maturity": "Mature; strongest in Hive-centric stacks. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Hive (ACID)",
@@ -1123,6 +1152,7 @@
     "maturity": "De-facto analytics file format. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Iceberg/Hudi/Paimon",
@@ -1160,6 +1190,7 @@
     "maturity": "Mature; gRPC now more common for new builds. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "HBase/Cassandra (Thrift gateways",
@@ -1199,6 +1230,7 @@
     "maturity": "Mature; the open model behind Google Dataflow. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       "Flink/Spark runners",
@@ -1237,6 +1269,7 @@
     "maturity": "Growing; used for elastic Spark on k8s. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark",
@@ -1275,6 +1308,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use Spark/Beam DataFrames/pipelines for new work.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -1304,6 +1338,7 @@
     "maturity": "Leading streaming engine; managed (Ververica, AWS Managed Flink). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "it's a simple Kafka→Kafka transform → prefer Kafka Streams (a library, no cluster)",
     "form": "service",
     "pairs_with_list": [
       "Kafka/Pulsar",
@@ -1322,7 +1357,7 @@
       "Parquet/Arrow",
       "connectors to many systems"
     ],
-    "search": "apache flink batch & stream processing engines  stateful stream-processing engine (with batch as bounded streaming). low-latency, exactly-once processing of unbounded data with large managed state. event-time + watermarks, checkpointing/savepoints, dataflow dag. real-time analytics, fraud/anomaly detection, cep, streaming etl. java/scala/python apis + flink sql; rest job api. cluster service + client. jvm; scheduler (yarn/kubernetes/standalone); state backend (rocksdb) + checkpoint storage. kafka/pulsar, paimon/iceberg/hudi, hive metastore, calcite (sql). spark structured streaming, kafka streams, storm/samza (asf); beam runner. sql, parquet/arrow; connectors to many systems. leading streaming engine; managed (ververica, aws managed flink). apache-2.0.  java scala"
+    "search": "apache flink batch & stream processing engines  stateful stream-processing engine (with batch as bounded streaming). low-latency, exactly-once processing of unbounded data with large managed state. event-time + watermarks, checkpointing/savepoints, dataflow dag. real-time analytics, fraud/anomaly detection, cep, streaming etl. java/scala/python apis + flink sql; rest job api. cluster service + client. jvm; scheduler (yarn/kubernetes/standalone); state backend (rocksdb) + checkpoint storage. kafka/pulsar, paimon/iceberg/hudi, hive metastore, calcite (sql). spark structured streaming, kafka streams, storm/samza (asf); beam runner. sql, parquet/arrow; connectors to many systems. leading streaming engine; managed (ververica, aws managed flink). apache-2.0.  java scala it's a simple kafka→kafka transform → prefer kafka streams (a library, no cluster)"
   },
   {
     "name": "Apache Gluten",
@@ -1347,6 +1382,7 @@
     "maturity": "New TLP (2026), fast-moving; big performance wins. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Spark",
@@ -1387,6 +1423,7 @@
     "maturity": "Mature; managed as EMR/Dataproc/HDInsight. On-prem use declining vs object-store lakes. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "starting fresh on cloud object storage → prefer Spark/Flink on S3 + an open table format (skip HDFS/YARN)",
     "form": "service",
     "pairs_with_list": [
       "Hive",
@@ -1406,7 +1443,7 @@
       "YARN",
       "Kerberos auth"
     ],
-    "search": "apache hadoop batch & stream processing engines  foundational big-data platform: hdfs (distributed file system), yarn (resource manager), and mapreduce. reliable storage and batch computation across commodity clusters. master/worker, mapreduce, data-locality scheduling, replicated block storage. data lakes, large-scale etl, the substrate under hive/hbase/spark/tez. hdfs api + hadoop fs/s3a; yarn rest/rpc; mapreduce api. cluster service + client libs. jvm; zookeeper (ha); a cluster of nodes. hive, hbase, spark, tez, ranger/knox, ambari, zookeeper. object storage + spark/flink; cloud emr/dataproc (external). hdfs/s3a, yarn; kerberos auth. mature; managed as emr/dataproc/hdinsight. on-prem use declining vs object-store lakes. apache-2.0.  java"
+    "search": "apache hadoop batch & stream processing engines  foundational big-data platform: hdfs (distributed file system), yarn (resource manager), and mapreduce. reliable storage and batch computation across commodity clusters. master/worker, mapreduce, data-locality scheduling, replicated block storage. data lakes, large-scale etl, the substrate under hive/hbase/spark/tez. hdfs api + hadoop fs/s3a; yarn rest/rpc; mapreduce api. cluster service + client libs. jvm; zookeeper (ha); a cluster of nodes. hive, hbase, spark, tez, ranger/knox, ambari, zookeeper. object storage + spark/flink; cloud emr/dataproc (external). hdfs/s3a, yarn; kerberos auth. mature; managed as emr/dataproc/hdinsight. on-prem use declining vs object-store lakes. apache-2.0.  java starting fresh on cloud object storage → prefer spark/flink on s3 + an open table format (skip hdfs/yarn)"
   },
   {
     "name": "Apache Pig",
@@ -1430,6 +1467,7 @@
     "maturity": "Legacy, low activity. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "Hadoop",
@@ -1468,6 +1506,7 @@
     "maturity": "Mature, niche (LinkedIn-scale heritage). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Kafka (tight)",
@@ -1507,6 +1546,7 @@
     "maturity": "Dominant batch/ETL engine; managed as Databricks/EMR/Dataproc. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need millisecond streaming, or jobs that fit one node → prefer Flink (streaming); DuckDB/DataFusion (single-node)",
     "form": "service",
     "pairs_with_list": [
       "Iceberg/Hudi/Paimon",
@@ -1527,7 +1567,7 @@
       "JDBC",
       "Parquet/ORC/Arrow"
     ],
-    "search": "apache spark batch & stream processing engines  unified analytics engine for batch, sql, streaming, ml, and graph. in-memory distributed computation over rdd/dataframe abstractions. dag execution, resilient distributed datasets (lineage-based recovery), catalyst optimizer. etl, data science (pyspark), ml (mllib), near-real-time (structured streaming). scala/java/python/r apis + spark sql; spark connect (grpc); jdbc via thrift server. cluster service + client. jvm; a scheduler (yarn/kubernetes/standalone) + storage. iceberg/hudi/paimon, kafka, hive metastore, celeborn/uniffle (shuffle), gluten (accel). flink (asf, streaming-first); dask, ray, trino (external). sql, jdbc, parquet/orc/arrow. dominant batch/etl engine; managed as databricks/emr/dataproc. apache-2.0.  scala jvm python"
+    "search": "apache spark batch & stream processing engines  unified analytics engine for batch, sql, streaming, ml, and graph. in-memory distributed computation over rdd/dataframe abstractions. dag execution, resilient distributed datasets (lineage-based recovery), catalyst optimizer. etl, data science (pyspark), ml (mllib), near-real-time (structured streaming). scala/java/python/r apis + spark sql; spark connect (grpc); jdbc via thrift server. cluster service + client. jvm; a scheduler (yarn/kubernetes/standalone) + storage. iceberg/hudi/paimon, kafka, hive metastore, celeborn/uniffle (shuffle), gluten (accel). flink (asf, streaming-first); dask, ray, trino (external). sql, jdbc, parquet/orc/arrow. dominant batch/etl engine; managed as databricks/emr/dataproc. apache-2.0.  scala jvm python you need millisecond streaming, or jobs that fit one node → prefer flink (streaming); duckdb/datafusion (single-node)"
   },
   {
     "name": "Apache Storm",
@@ -1552,6 +1592,7 @@
     "maturity": "Mature but largely succeeded by Flink. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Kafka",
@@ -1590,6 +1631,7 @@
     "maturity": "Mature; tied to Hadoop/Hive deployments. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Hive",
@@ -1626,6 +1668,7 @@
     "maturity": "TLP (2024); production at Tencent-scale. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark",
@@ -1663,6 +1706,7 @@
     "maturity": "Mature; the standard \"SQL brain\" library in the JVM world. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Flink",
@@ -1704,6 +1748,7 @@
     "maturity": "Fast-growing; the go-to embeddable Rust engine. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Arrow",
@@ -1745,6 +1790,7 @@
     "maturity": "Mature, modest activity. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "files/object stores",
@@ -1784,6 +1830,7 @@
     "maturity": "TLP (2025); broader scope than a single-format catalog. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Iceberg",
@@ -1825,6 +1872,7 @@
     "maturity": "Mature; the Metastore is near-universal even where HiveQL isn't. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you want interactive/low-latency SQL → prefer Impala, Trino (ext), or Spark SQL — keep the Hive Metastore",
     "form": "service",
     "pairs_with_list": [
       "Spark/Trino/Flink (via Metastore)",
@@ -1842,7 +1890,7 @@
       "JDBC/ODBC",
       "Hive Metastore API"
     ],
-    "search": "apache hive sql engines, query frameworks & lakehouse  sql-on-hadoop data warehouse with the de-facto hive metastore. compiles sql (hiveql) to distributed jobs; central metadata catalog. sql→dag compilation, metastore catalog, partitioning. batch warehousing on data lakes; the metastore underpins spark/trino/presto. hiveql; jdbc/odbc via hiveserver2 (thrift); metastore thrift api. service + catalog. jvm; hadoop/yarn or tez; a metastore db (derby/mysql/postgres). spark/trino/flink (via metastore), tez, ranger, orc/parquet. trino/presto, spark sql (asf/external); polaris/gravitino as newer catalogs. sql, jdbc/odbc, hive metastore api. mature; the metastore is near-universal even where hiveql isn't. apache-2.0.  java"
+    "search": "apache hive sql engines, query frameworks & lakehouse  sql-on-hadoop data warehouse with the de-facto hive metastore. compiles sql (hiveql) to distributed jobs; central metadata catalog. sql→dag compilation, metastore catalog, partitioning. batch warehousing on data lakes; the metastore underpins spark/trino/presto. hiveql; jdbc/odbc via hiveserver2 (thrift); metastore thrift api. service + catalog. jvm; hadoop/yarn or tez; a metastore db (derby/mysql/postgres). spark/trino/flink (via metastore), tez, ranger, orc/parquet. trino/presto, spark sql (asf/external); polaris/gravitino as newer catalogs. sql, jdbc/odbc, hive metastore api. mature; the metastore is near-universal even where hiveql isn't. apache-2.0.  java you want interactive/low-latency sql → prefer impala, trino (ext), or spark sql — keep the hive metastore"
   },
   {
     "name": "Apache Hudi",
@@ -1866,6 +1914,7 @@
     "maturity": "Mature; strongest for upsert/CDC lakes. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "format",
     "pairs_with_list": [
       "Spark/Flink",
@@ -1907,6 +1956,7 @@
     "maturity": "The emerging lakehouse standard; supported by every major engine/warehouse. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "upsert-heavy CDC is the primary pattern → prefer Hudi",
     "form": "format",
     "pairs_with_list": [
       "Spark/Flink/Trino",
@@ -1922,7 +1972,7 @@
       "Iceberg table spec + REST catalog",
       "Parquet/ORC/Avro"
     ],
-    "search": "apache iceberg sql engines, query frameworks & lakehouse  open table format for huge analytic datasets. adds acid snapshots, schema/partition evolution, and time travel over data-lake files. open table format, snapshot isolation (mvcc), hidden partitioning, catalog abstraction. lakehouse tables queried by spark/flink/trino/dremio/snowflake. table format + libraries (java/python/rust/go); rest catalog api. library + catalog spec. object/file storage; a catalog (polaris/gravitino/hive/glue); an engine. spark/flink/trino, parquet/orc/avro, polaris/gravitino. hudi, paimon (asf); delta lake (external). iceberg table spec + rest catalog; parquet/orc/avro. the emerging lakehouse standard; supported by every major engine/warehouse. apache-2.0.  java multi-language"
+    "search": "apache iceberg sql engines, query frameworks & lakehouse  open table format for huge analytic datasets. adds acid snapshots, schema/partition evolution, and time travel over data-lake files. open table format, snapshot isolation (mvcc), hidden partitioning, catalog abstraction. lakehouse tables queried by spark/flink/trino/dremio/snowflake. table format + libraries (java/python/rust/go); rest catalog api. library + catalog spec. object/file storage; a catalog (polaris/gravitino/hive/glue); an engine. spark/flink/trino, parquet/orc/avro, polaris/gravitino. hudi, paimon (asf); delta lake (external). iceberg table spec + rest catalog; parquet/orc/avro. the emerging lakehouse standard; supported by every major engine/warehouse. apache-2.0.  java multi-language upsert-heavy cdc is the primary pattern → prefer hudi"
   },
   {
     "name": "Apache Impala",
@@ -1947,6 +1997,7 @@
     "maturity": "Mature (Cloudera stacks). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Kudu",
@@ -1987,6 +2038,7 @@
     "maturity": "Mature; cube-build model is heavier than newer OLAP stores. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Hive",
@@ -2026,6 +2078,7 @@
     "maturity": "Growing; popular for multi-tenant lakehouse SQL. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark",
@@ -2067,6 +2120,7 @@
     "maturity": "Newer TLP; strong Flink-native streaming lakehouse. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "format",
     "pairs_with_list": [
       "Flink (tight)",
@@ -2106,6 +2160,7 @@
     "maturity": "Mature within HBase shops. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "HBase",
@@ -2143,6 +2198,7 @@
     "maturity": "New TLP (2026); backed by Snowflake/Dremio. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Iceberg",
@@ -2182,6 +2238,7 @@
     "maturity": "Incubating; solves real format lock-in. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Iceberg",
@@ -2220,6 +2277,7 @@
     "maturity": "Mature; strong in government/high-security settings. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Hadoop",
@@ -2257,6 +2315,7 @@
     "maturity": "Very mature; managed as Astra/Keyspaces/Cosmos. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need strong single-key consistency with range scans, or joins → prefer HBase; a relational DB for joins",
     "form": "service",
     "pairs_with_list": [
       "Spark (analytics connector)",
@@ -2274,7 +2333,7 @@
       "CQL (own)",
       "native protocol"
     ],
-    "search": "apache cassandra databases & data stores  wide-column, masterless distributed nosql database. highly available, linearly scalable storage with tunable consistency. consistent-hashing ring, lsm storage, gossip membership, quorum reads/writes, paxos lwts. always-on, write-heavy workloads across data centers (messaging, iot, time series). cql over native protocol; drivers for most languages. cluster service. jvm; a multi-node cluster; no external coordinator (gossip). spark (analytics connector), kafka (sink), solr/lucene (search, via distros). hbase, accumulo (asf); scylladb, dynamodb (external). cql (own); native protocol. very mature; managed as astra/keyspaces/cosmos. apache-2.0.  java"
+    "search": "apache cassandra databases & data stores  wide-column, masterless distributed nosql database. highly available, linearly scalable storage with tunable consistency. consistent-hashing ring, lsm storage, gossip membership, quorum reads/writes, paxos lwts. always-on, write-heavy workloads across data centers (messaging, iot, time series). cql over native protocol; drivers for most languages. cluster service. jvm; a multi-node cluster; no external coordinator (gossip). spark (analytics connector), kafka (sink), solr/lucene (search, via distros). hbase, accumulo (asf); scylladb, dynamodb (external). cql (own); native protocol. very mature; managed as astra/keyspaces/cosmos. apache-2.0.  java you need strong single-key consistency with range scans, or joins → prefer hbase; a relational db for joins"
   },
   {
     "name": "Apache CouchDB",
@@ -2298,6 +2357,7 @@
     "maturity": "Mature; Cloudant is a managed variant. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "PouchDB (browser sync)",
@@ -2336,6 +2396,7 @@
     "maturity": "Mature; great for embedded/test. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "any JVM app",
@@ -2375,6 +2436,7 @@
     "maturity": "Mature, fast-growing; SelectDB is the managed form. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Flink/Spark (load)",
@@ -2417,6 +2479,7 @@
     "maturity": "Mature; VMware GemFire is the commercial twin. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spring (Spring Data)",
@@ -2456,6 +2519,7 @@
     "maturity": "Mature; managed options on major clouds. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you can't run HDFS+ZooKeeper, or want masterless multi-DC → prefer Cassandra",
     "form": "service",
     "pairs_with_list": [
       "Phoenix (SQL)",
@@ -2473,7 +2537,7 @@
       "none specific",
       "Thrift/REST gateways"
     ],
-    "search": "apache hbase databases & data stores  distributed, sorted wide-column store on hdfs (a bigtable clone). random real-time read/write access to very large tables. lsm + wal, region sharding, master/region-server, zookeeper coordination. massive sparse tables, time-series, serving layers (often with phoenix on top). java client api; thrift & rest gateways; shell. cluster service (embeddable for tests). hdfs + zookeeper; jvm; a cluster. phoenix (sql), spark/mapreduce (bulk), kafka (ingest), ranger (authz). cassandra, accumulo (asf); bigtable, scylladb (external). none specific; thrift/rest gateways. mature; managed options on major clouds. apache-2.0.  java"
+    "search": "apache hbase databases & data stores  distributed, sorted wide-column store on hdfs (a bigtable clone). random real-time read/write access to very large tables. lsm + wal, region sharding, master/region-server, zookeeper coordination. massive sparse tables, time-series, serving layers (often with phoenix on top). java client api; thrift & rest gateways; shell. cluster service (embeddable for tests). hdfs + zookeeper; jvm; a cluster. phoenix (sql), spark/mapreduce (bulk), kafka (ingest), ranger (authz). cassandra, accumulo (asf); bigtable, scylladb (external). none specific; thrift/rest gateways. mature; managed options on major clouds. apache-2.0.  java you can't run hdfs+zookeeper, or want masterless multi-dc → prefer cassandra"
   },
   {
     "name": "Apache Ignite",
@@ -2497,6 +2561,7 @@
     "maturity": "Mature; GridGain is the commercial/managed form. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "RDBMS (cache-through)",
@@ -2536,6 +2601,7 @@
     "maturity": "Growing; strong in industrial IoT. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "language",
     "pairs_with_list": [
       "Flink/Spark (analytics)",
@@ -2578,6 +2644,7 @@
     "maturity": "Mature (Cloudera). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Impala (SQL)",
@@ -2617,6 +2684,7 @@
     "maturity": "Mature; widely used for RDBMS scale-out. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "MySQL/PostgreSQL",
@@ -2656,6 +2724,7 @@
     "maturity": "Mature; the default JMS broker (use Artemis for new). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Camel (routing)",
@@ -2696,6 +2765,7 @@
     "maturity": "Mature; the default JVM integration toolkit. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "a single Kafka pipeline is all you need → prefer Kafka Connect/Streams (less framework)",
     "form": "framework",
     "pairs_with_list": [
       "ActiveMQ/Kafka",
@@ -2713,7 +2783,7 @@
       "EIP",
       "speaks dozens of protocols via components"
     ],
-    "search": "apache camel messaging, streaming platforms & integration  the leading integration framework implementing the enterprise integration patterns; includes camel k (kubernetes) and camel quarkus. routes and transforms messages between 300+ systems via a routing dsl. pipes-and-filters, eip catalog, component/endpoint spi, dsl-defined routes. system-to-system integration, api/protocol mediation, etl glue. java/xml/yaml route dsl; 300+ component connectors; runs embedded, in spring boot, quarkus, or karaf. library/framework. jvm (or quarkus native); a host runtime. activemq/kafka, cxf, karaf, spring boot, quarkus. spring integration, mule, kafka connect (external/asf). eip; speaks dozens of protocols via components. mature; the default jvm integration toolkit. apache-2.0.  java"
+    "search": "apache camel messaging, streaming platforms & integration  the leading integration framework implementing the enterprise integration patterns; includes camel k (kubernetes) and camel quarkus. routes and transforms messages between 300+ systems via a routing dsl. pipes-and-filters, eip catalog, component/endpoint spi, dsl-defined routes. system-to-system integration, api/protocol mediation, etl glue. java/xml/yaml route dsl; 300+ component connectors; runs embedded, in spring boot, quarkus, or karaf. library/framework. jvm (or quarkus native); a host runtime. activemq/kafka, cxf, karaf, spring boot, quarkus. spring integration, mule, kafka connect (external/asf). eip; speaks dozens of protocols via components. mature; the default jvm integration toolkit. apache-2.0.  java a single kafka pipeline is all you need → prefer kafka connect/streams (less framework)"
   },
   {
     "name": "Apache EventMesh",
@@ -2737,6 +2807,7 @@
     "maturity": "Growing; useful as an eventing abstraction layer. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "RocketMQ/Kafka/Pulsar",
@@ -2775,6 +2846,7 @@
     "maturity": "Industry-standard event backbone; managed as MSK/Confluent. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need per-message TTL/priority queues, or built-in multi-tenancy/geo → prefer Pulsar, or a classic broker (ActiveMQ/RocketMQ)",
     "form": "service",
     "pairs_with_list": [
       "Flink/Spark/Samza",
@@ -2792,7 +2864,7 @@
       "Kafka protocol (de-facto)",
       "many clients re-implement it"
     ],
-    "search": "apache kafka messaging, streaming platforms & integration  distributed event streaming platform (durable, partitioned commit log). high-throughput pub/sub + storage of event streams; kafka streams and connect add processing/integration. append-only partitioned log, consumer groups, pull-based consumption, log compaction; modern kraft (raft) metadata. event backbones, log aggregation, stream processing, cdc, microservice eventing. kafka binary protocol; clients in most languages; connect (connectors), streams api, schema registry. cluster service. jvm; kraft (modern) or zookeeper (legacy); a broker cluster. flink/spark/samza, connect (jdbc/debezium), avro/schema registry, iceberg/hudi sinks. pulsar, rocketmq (asf); redpanda, aws kinesis (external). kafka protocol (de-facto); many clients re-implement it. industry-standard event backbone; managed as msk/confluent. apache-2.0.  java scala"
+    "search": "apache kafka messaging, streaming platforms & integration  distributed event streaming platform (durable, partitioned commit log). high-throughput pub/sub + storage of event streams; kafka streams and connect add processing/integration. append-only partitioned log, consumer groups, pull-based consumption, log compaction; modern kraft (raft) metadata. event backbones, log aggregation, stream processing, cdc, microservice eventing. kafka binary protocol; clients in most languages; connect (connectors), streams api, schema registry. cluster service. jvm; kraft (modern) or zookeeper (legacy); a broker cluster. flink/spark/samza, connect (jdbc/debezium), avro/schema registry, iceberg/hudi sinks. pulsar, rocketmq (asf); redpanda, aws kinesis (external). kafka protocol (de-facto); many clients re-implement it. industry-standard event backbone; managed as msk/confluent. apache-2.0.  java scala you need per-message ttl/priority queues, or built-in multi-tenancy/geo → prefer pulsar, or a classic broker (activemq/rocketmq)"
   },
   {
     "name": "Apache Pulsar",
@@ -2816,6 +2888,7 @@
     "maturity": "Mature; managed by StreamNative. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "BookKeeper (storage)",
@@ -2857,6 +2930,7 @@
     "maturity": "Mature; the reference for standards-pure AMQP. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "JMS apps",
@@ -2895,6 +2969,7 @@
     "maturity": "Mature; proven at Alibaba Singles-Day scale. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Flink/Spark connectors",
@@ -2934,6 +3009,7 @@
     "maturity": "Low activity; superseded by Camel-on-Karaf. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       "Camel",
@@ -2972,6 +3048,7 @@
     "maturity": "Low activity. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Axis2",
@@ -3008,6 +3085,7 @@
     "maturity": "",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -3036,6 +3114,7 @@
     "maturity": "Mature; battle-tested at Baidu scale. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Protobuf",
@@ -3075,6 +3154,7 @@
     "maturity": "Mature; huge in China-origin microservice stacks. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you're polyglot and cloud-native-first → prefer gRPC + a service mesh (ext)",
     "form": "framework",
     "pairs_with_list": [
       "ZooKeeper/Nacos",
@@ -3090,7 +3170,7 @@
       "gRPC (Triple)",
       "own Dubbo protocol"
     ],
-    "search": "apache dubbo rpc, microservices & service frameworks  high-performance rpc and microservice framework (from alibaba). remote service invocation with registry-based discovery and governance. rpc proxy/stub, service discovery, client-side load balancing, spi extensibility. large-scale java microservice fabrics, service governance. dubbo/triple (grpc-compatible) protocols; java/go sdks; registry integrations. library/framework. jvm (or go); a registry (zookeeper/nacos). zookeeper/nacos, shenyu/apisix (gateway), skywalking. grpc, spring cloud (external); servicecomb (asf). grpc (triple), own dubbo protocol. mature; huge in china-origin microservice stacks. apache-2.0.  java"
+    "search": "apache dubbo rpc, microservices & service frameworks  high-performance rpc and microservice framework (from alibaba). remote service invocation with registry-based discovery and governance. rpc proxy/stub, service discovery, client-side load balancing, spi extensibility. large-scale java microservice fabrics, service governance. dubbo/triple (grpc-compatible) protocols; java/go sdks; registry integrations. library/framework. jvm (or go); a registry (zookeeper/nacos). zookeeper/nacos, shenyu/apisix (gateway), skywalking. grpc, spring cloud (external); servicecomb (asf). grpc (triple), own dubbo protocol. mature; huge in china-origin microservice stacks. apache-2.0.  java you're polyglot and cloud-native-first → prefer grpc + a service mesh (ext)"
   },
   {
     "name": "Apache ServiceComb",
@@ -3114,6 +3194,7 @@
     "maturity": "Mature, smaller community than Dubbo. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "its service center",
@@ -3153,6 +3234,7 @@
     "maturity": "Approached the Attic, then revived; tied to on-prem Hadoop. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Hadoop",
@@ -3193,6 +3275,7 @@
     "maturity": "Mature; the open Hadoop-distro builder. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "Hadoop/Hive/HBase/Spark (packages them)",
@@ -3229,6 +3312,7 @@
     "maturity": "Mature; proven under Pulsar. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Pulsar (its storage layer)",
@@ -3265,6 +3349,7 @@
     "maturity": "Mature; the correct way to use ZooKeeper. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "ZooKeeper (always)",
@@ -3301,6 +3386,7 @@
     "maturity": "Mature, niche (build-your-own-distributed-system). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Pinot",
@@ -3338,6 +3424,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2021) — use Kubernetes (optionally with YuniKorn, ASF) for new cluster scheduling.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -3366,6 +3453,7 @@
     "maturity": "Mature embeddable Raft for the JVM. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Ozone",
@@ -3404,6 +3492,7 @@
     "maturity": "Ubiquitous coordination primitive; very mature. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you only need config / service discovery → prefer etcd / Consul (ext); and always use Curator, never the raw client",
     "form": "service",
     "pairs_with_list": [
       "HBase",
@@ -3420,7 +3509,7 @@
     "standards_list": [
       "none (own protocol)"
     ],
-    "search": "apache zookeeper coordination, consensus & cluster management  centralized service for configuration, naming, synchronization, and group membership. provides a consistent, watchable hierarchical namespace (znodes) for coordination. replicated state machine (zab), leader election, watches/ephemeral nodes. coordination backbone for hbase, kafka (legacy), solr, and countless distributed systems. zookeeper client protocol; java/c clients; zkcli. standalone service (ensemble). jvm; an odd-sized ensemble (3/5 nodes). hbase, solr, kafka (legacy), accumulo, helix — usually via curator. etcd, consul (external); ratis (asf) for embedding raft. none (own protocol). ubiquitous coordination primitive; very mature. apache-2.0.  java"
+    "search": "apache zookeeper coordination, consensus & cluster management  centralized service for configuration, naming, synchronization, and group membership. provides a consistent, watchable hierarchical namespace (znodes) for coordination. replicated state machine (zab), leader election, watches/ephemeral nodes. coordination backbone for hbase, kafka (legacy), solr, and countless distributed systems. zookeeper client protocol; java/c clients; zkcli. standalone service (ensemble). jvm; an odd-sized ensemble (3/5 nodes). hbase, solr, kafka (legacy), accumulo, helix — usually via curator. etcd, consul (external); ratis (asf) for embedding raft. none (own protocol). ubiquitous coordination primitive; very mature. apache-2.0.  java you only need config / service discovery → prefer etcd / consul (ext); and always use curator, never the raw client"
   },
   {
     "name": "Apache Lucene",
@@ -3444,6 +3533,7 @@
     "maturity": "Foundational; the most-used search library. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need a distributed search service with ops tooling → prefer Solr, OpenSearch (ext)",
     "form": "library",
     "pairs_with_list": [
       "Solr/Elasticsearch/OpenSearch (built on it)",
@@ -3459,7 +3549,7 @@
       "none (own index format)",
       "HNSW for vectors"
     ],
-    "search": "apache lucene search & information retrieval  the foundational full-text search library. builds and queries inverted indexes with ranking, analysis, and (now) vector search. inverted index, segment-based immutable index + merge, analyzer pipeline, pluggable codecs. embedded search; the engine under solr, elasticsearch/opensearch. java library api; index files on disk. embeddable library. jvm; local storage. solr/elasticsearch/opensearch (built on it), tika (extraction), geode (indexing). tantivy, xapian (external); pylucene/lucene.net (asf ports). none (own index format); hnsw for vectors. foundational; the most-used search library. apache-2.0.  java"
+    "search": "apache lucene search & information retrieval  the foundational full-text search library. builds and queries inverted indexes with ranking, analysis, and (now) vector search. inverted index, segment-based immutable index + merge, analyzer pipeline, pluggable codecs. embedded search; the engine under solr, elasticsearch/opensearch. java library api; index files on disk. embeddable library. jvm; local storage. solr/elasticsearch/opensearch (built on it), tika (extraction), geode (indexing). tantivy, xapian (external); pylucene/lucene.net (asf ports). none (own index format); hnsw for vectors. foundational; the most-used search library. apache-2.0.  java you need a distributed search service with ops tooling → prefer solr, opensearch (ext)"
   },
   {
     "name": "Apache Lucene.NET / PyLucene",
@@ -3484,6 +3574,7 @@
     "maturity": "Lucene.NET active; PyLucene stable. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       ".NET/Python apps needing embedded search"
@@ -3520,6 +3611,7 @@
     "maturity": "Mature, niche (secure enterprise search ingest). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Solr/Elasticsearch",
@@ -3557,6 +3649,7 @@
     "maturity": "Mature batch crawler. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "Solr/Elasticsearch",
@@ -3598,6 +3691,7 @@
     "maturity": "Mature; strong in enterprise/site search. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you just need embedded search inside one app → prefer Lucene directly",
     "form": "service",
     "pairs_with_list": [
       "Lucene (core)",
@@ -3615,7 +3709,7 @@
       "REST/JSON",
       "Lucene index"
     ],
-    "search": "apache solr search & information retrieval  distributed search platform built on lucene. rest/json search server with faceting, sharding, and replication (solrcloud). scatter-gather distributed search, sharding/replication via zookeeper, schema + request handlers. site/enterprise search, faceted navigation, log/analytics search. rest/json + solrj client; admin ui. standalone service. jvm; zookeeper (solrcloud); storage. lucene (core), manifoldcf (secure ingest), tika, nutch, zookeeper. elasticsearch/opensearch (external); plain lucene (asf, embedded). rest/json; lucene index. mature; strong in enterprise/site search. apache-2.0.  java"
+    "search": "apache solr search & information retrieval  distributed search platform built on lucene. rest/json search server with faceting, sharding, and replication (solrcloud). scatter-gather distributed search, sharding/replication via zookeeper, schema + request handlers. site/enterprise search, faceted navigation, log/analytics search. rest/json + solrj client; admin ui. standalone service. jvm; zookeeper (solrcloud); storage. lucene (core), manifoldcf (secure ingest), tika, nutch, zookeeper. elasticsearch/opensearch (external); plain lucene (asf, embedded). rest/json; lucene index. mature; strong in enterprise/site search. apache-2.0.  java you just need embedded search inside one app → prefer lucene directly"
   },
   {
     "name": "Apache StormCrawler",
@@ -3639,6 +3733,7 @@
     "maturity": "Mature; TLP 2025; preferred for low-latency crawling. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Storm",
@@ -3679,6 +3774,7 @@
     "maturity": "Mature. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "FOP (SVG in PDF)",
@@ -3715,6 +3811,7 @@
     "maturity": "Mature in clinical-NLP research. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "UIMA",
@@ -3753,6 +3850,7 @@
     "maturity": "Mature; the open XSL-FO engine. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Xalan/Saxon (XSLT)",
@@ -3793,6 +3891,7 @@
     "maturity": "Mature classic NLP (pre-transformer). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tika",
@@ -3831,6 +3930,7 @@
     "maturity": "Mature; the standard JVM PDF library. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tika (extraction)",
@@ -3868,6 +3968,7 @@
     "maturity": "Mature; the standard JVM Office library. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Tika (extraction)",
@@ -3905,6 +4006,7 @@
     "maturity": "Mature; the default extraction layer. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "both",
     "pairs_with_list": [
       "Solr/Elasticsearch (ingest)",
@@ -3944,6 +4046,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "cTAKES",
@@ -3981,6 +4084,7 @@
     "maturity": "Dominant orchestrator; managed as MWAA/Cloud Composer/Astronomer. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you need sub-minute, event-driven, or data-asset-centric runs → prefer Dagster/Prefect/Argo (ext); DolphinScheduler for low-code",
     "form": "service",
     "pairs_with_list": [
       "Spark/Flink",
@@ -3998,7 +4102,7 @@
       "REST",
       "provider connectors"
     ],
-    "search": "apache airflow workflow orchestration & scheduling  the de-facto platform to programmatically author, schedule, and monitor workflows. defines pipelines as python dags; schedules, retries, and tracks task runs. dag-of-tasks, scheduler/executor split, operator/provider plugin model. data-engineering etl orchestration, ml pipelines, batch job scheduling. python dag api; web ui; rest api; 1,000+ provider operators. standalone service. python; a metadata db (postgres); an executor (celery/kubernetes). spark/flink, dbt, cloud services (via providers), kubernetes. dagster, prefect, argo workflows (external); dolphinscheduler (asf). rest; provider connectors. dominant orchestrator; managed as mwaa/cloud composer/astronomer. apache-2.0.  python"
+    "search": "apache airflow workflow orchestration & scheduling  the de-facto platform to programmatically author, schedule, and monitor workflows. defines pipelines as python dags; schedules, retries, and tracks task runs. dag-of-tasks, scheduler/executor split, operator/provider plugin model. data-engineering etl orchestration, ml pipelines, batch job scheduling. python dag api; web ui; rest api; 1,000+ provider operators. standalone service. python; a metadata db (postgres); an executor (celery/kubernetes). spark/flink, dbt, cloud services (via providers), kubernetes. dagster, prefect, argo workflows (external); dolphinscheduler (asf). rest; provider connectors. dominant orchestrator; managed as mwaa/cloud composer/astronomer. apache-2.0.  python you need sub-minute, event-driven, or data-asset-centric runs → prefer dagster/prefect/argo (ext); dolphinscheduler for low-code"
   },
   {
     "name": "Apache DolphinScheduler",
@@ -4022,6 +4126,7 @@
     "maturity": "Mature; popular where a low-code UI is wanted. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark/Flink/Hive",
@@ -4060,6 +4165,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use Airflow + an ML platform (Kubeflow/MLflow, external) instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4088,6 +4194,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2025) — migrate to Airflow or DolphinScheduler (ASF).",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4117,6 +4224,7 @@
     "maturity": "Mature but low momentum (the early Hadoop-ML project). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Spark"
@@ -4154,6 +4262,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2023) — use PyTorch/TensorFlow/JAX (external); TVM (ASF) for compilation.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4182,6 +4291,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use a current serving stack (MLflow/BentoML/KServe, external).",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4211,6 +4321,7 @@
     "maturity": "Niche vs mainstream DL frameworks. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "medical-imaging/research pipelines"
@@ -4248,6 +4359,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2025) — use Kubeflow/MLflow or a cloud ML platform (external).",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4277,6 +4389,7 @@
     "maturity": "Mature, research-strong, niche adoption. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Spark",
@@ -4315,6 +4428,7 @@
     "maturity": "Mature, widely used DL compiler. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       "PyTorch/TF/ONNX (front ends)",
@@ -4352,6 +4466,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use Spark GraphX/GraphFrames, or GraphAr+engines (ASF, incubating) for new graph analytics.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4380,6 +4495,7 @@
     "maturity": "Mature; the reference JVM RDF toolkit. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "ontologies/OWL",
@@ -4422,6 +4538,7 @@
     "maturity": "Mature; the standard big-geospatial engine. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Spark/Flink",
@@ -4461,6 +4578,7 @@
     "maturity": "Mature, standards-focused. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Sedona",
@@ -4500,6 +4618,7 @@
     "maturity": "Mature; the vendor-neutral graph API. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "JanusGraph",
@@ -4538,6 +4657,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use MiNiFi (ASF) or a current edge runtime instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -4566,6 +4686,7 @@
     "maturity": "Mature, niche (BLE-focused). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "NimBLE (BLE)",
@@ -4603,6 +4724,7 @@
     "maturity": "Mature; strong for IoT/edge logistics. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you want code-first, versioned, unit-tested pipelines → prefer Camel, or dbt/Airflow (ext/ASF)",
     "form": "service",
     "pairs_with_list": [
       "Kafka",
@@ -4621,7 +4743,7 @@
       "many via processors",
       "site-to-site protocol"
     ],
-    "search": "apache nifi iot, edge & embedded / rtos  dataflow automation tool with a visual, flow-based programming ui; includes minifi (edge agent) and nifi registry. routes, transforms, and tracks data between systems with full provenance. flow-based programming (processors + connections), back-pressure, data provenance lineage. edge-to-cloud ingestion, iot collection, etl, inter-system data logistics. web ui (drag-and-drop) + rest api; 300+ processors; minifi edge agents. standalone service + edge agent. jvm; storage for repositories. kafka, hdfs/object stores, plc4x, kudu, databases (via processors). camel (code-first, asf); streamsets, fivetran (external). many via processors; site-to-site protocol. mature; strong for iot/edge logistics. apache-2.0.  java"
+    "search": "apache nifi iot, edge & embedded / rtos  dataflow automation tool with a visual, flow-based programming ui; includes minifi (edge agent) and nifi registry. routes, transforms, and tracks data between systems with full provenance. flow-based programming (processors + connections), back-pressure, data provenance lineage. edge-to-cloud ingestion, iot collection, etl, inter-system data logistics. web ui (drag-and-drop) + rest api; 300+ processors; minifi edge agents. standalone service + edge agent. jvm; storage for repositories. kafka, hdfs/object stores, plc4x, kudu, databases (via processors). camel (code-first, asf); streamsets, fivetran (external). many via processors; site-to-site protocol. mature; strong for iot/edge logistics. apache-2.0.  java you want code-first, versioned, unit-tested pipelines → prefer camel, or dbt/airflow (ext/asf)"
   },
   {
     "name": "Apache NuttX",
@@ -4645,6 +4767,7 @@
     "maturity": "Mature; shipped in large consumer-device volumes. Apache-2.0 (+ BSD-licensed imports).",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "firmware",
     "pairs_with_list": [
       "PX4 (drones)",
@@ -4685,6 +4808,7 @@
     "maturity": "Mature; the open industrial-protocol bridge. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "NiFi/MiNiFi",
@@ -4730,6 +4854,7 @@
     "maturity": "Growing; domain-expert-friendly IIoT. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Kafka/MQTT",
@@ -4770,6 +4895,7 @@
     "maturity": "Mature; strongest as an embeddable test directory + LDAP API. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "both",
     "pairs_with_list": [
       "Syncope/Shiro (consume it)",
@@ -4811,6 +4937,7 @@
     "maturity": "Mature; standard Hadoop perimeter gateway. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Hadoop/Hive/HBase/Ranger",
@@ -4849,6 +4976,7 @@
     "maturity": "Mature; the standard Hadoop authorization layer. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Hive",
@@ -4893,6 +5021,7 @@
     "maturity": "Mature; the reference XML-security library. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "CXF/WSS4J (WS-Security)",
@@ -4928,6 +5057,7 @@
     "maturity": "Mature; the lightweight alternative to Spring Security. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "any JVM web app",
@@ -4965,6 +5095,7 @@
     "maturity": "Mature; open-source IGA. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "LDAP/AD",
@@ -5005,6 +5136,7 @@
     "maturity": "Incubating; research-leaning. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "confidential-computing deployments",
@@ -5043,6 +5175,7 @@
     "maturity": "Niche (usability research). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Elasticsearch/Kibana",
@@ -5078,6 +5211,7 @@
     "maturity": "Growing; agentless niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Grafana",
@@ -5118,6 +5252,7 @@
     "maturity": "Mature; a leading open APM. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "language",
     "pairs_with_list": [
       "OpenTelemetry",
@@ -5160,6 +5295,7 @@
     "maturity": "Mature in research-computing niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "HPC schedulers (Slurm/PBS)",
@@ -5197,6 +5333,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "cloud providers",
@@ -5233,6 +5370,7 @@
     "maturity": "Mature; popular with service providers. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "KVM/VMware",
@@ -5269,6 +5407,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use provider SDKs or Terraform/Pulumi; for storage abstraction consider OpenDAL (ASF).",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -5297,6 +5436,7 @@
     "maturity": "Mature; stable. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "multi-cloud automation scripts"
@@ -5333,6 +5473,7 @@
     "maturity": "Mature; strong for batch-on-k8s. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark/Flink on k8s",
@@ -5371,6 +5512,7 @@
     "maturity": "Mature, legacy-leaning. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "Ivy (dependencies)",
@@ -5407,6 +5549,7 @@
     "maturity": "Low activity; Nexus/Artifactory dominate. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Maven/Ivy/Gradle clients"
@@ -5442,6 +5585,7 @@
     "maturity": "Low activity. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "ASF projects (historically)"
@@ -5476,6 +5620,7 @@
     "maturity": "Mature; tied to Ant. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Ant",
@@ -5511,6 +5656,7 @@
     "maturity": "Ubiquitous JVM build standard. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "highly dynamic/polyglot builds or a large monorepo → prefer Gradle / Bazel (ext)",
     "form": "tool",
     "pairs_with_list": [
       "Maven Central",
@@ -5527,7 +5673,7 @@
     "standards_list": [
       "Maven coordinates/repository layout (de-facto)"
     ],
-    "search": "apache maven build, dependency & release tooling  the dominant java build and project-management tool. declarative builds with transitive dependency management and a plugin-driven lifecycle. convention over configuration, declarative lifecycle phases, dependency resolution graph, plugin spi. building/packaging/publishing jvm projects; the maven central coordinate system. pom.xml; cli; plugin & extension apis; reads/writes maven repositories. build tool. jdk. maven central, archiva/nexus, ci systems, nearly all jvm projects. gradle, bazel, sbt (external); ant+ivy (asf). maven coordinates/repository layout (de-facto). ubiquitous jvm build standard. apache-2.0.  java"
+    "search": "apache maven build, dependency & release tooling  the dominant java build and project-management tool. declarative builds with transitive dependency management and a plugin-driven lifecycle. convention over configuration, declarative lifecycle phases, dependency resolution graph, plugin spi. building/packaging/publishing jvm projects; the maven central coordinate system. pom.xml; cli; plugin & extension apis; reads/writes maven repositories. build tool. jdk. maven central, archiva/nexus, ci systems, nearly all jvm projects. gradle, bazel, sbt (external); ant+ivy (asf). maven coordinates/repository layout (de-facto). ubiquitous jvm build standard. apache-2.0.  java highly dynamic/polyglot builds or a large monorepo → prefer gradle / bazel (ext)"
   },
   {
     "name": "Apache Maven Doxia / plugins",
@@ -5551,6 +5697,7 @@
     "maturity": "Mature; part of the Maven ecosystem. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "Maven (always)"
@@ -5583,6 +5730,7 @@
     "maturity": "Mature; runs SourceForge. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Solr (search)",
@@ -5621,6 +5769,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2025) — use a modern web framework or static-site/XSLT toolchain.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -5649,6 +5798,7 @@
     "maturity": "Mature; Oak powers AEM at scale. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Sling",
@@ -5687,6 +5837,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired (2025) — use Liferay or a modern SPA + API gateway instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -5715,6 +5866,7 @@
     "maturity": "Mature spec RI, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "portlet apps",
@@ -5750,6 +5902,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Tomcat",
@@ -5787,6 +5940,7 @@
     "maturity": "Mature; the engine under AEM. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Jackrabbit Oak",
@@ -5823,6 +5977,7 @@
     "maturity": "",
     "leverage_note": "🗄️ All retired — avoid for new work; use current CMS/widget/identity stacks.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -5852,6 +6007,7 @@
     "maturity": "Mature; losing ground to RN/Flutter/Capacitor. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "Ionic",
@@ -5892,6 +6048,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use React Native, Flutter, or Cordova/Capacitor (ASF/external).",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -5920,6 +6077,7 @@
     "maturity": "TLP (2024); easy single-binary deploy. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "auth/SSO providers",
@@ -5956,6 +6114,7 @@
     "maturity": "Very mature, hugely popular. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Superset (uses it)",
@@ -5995,6 +6154,7 @@
     "maturity": "Low activity; Kyuubi/Spark Connect are newer. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark",
@@ -6032,6 +6192,7 @@
     "maturity": "Mature; leading OSS BI; managed as Preset. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Trino/Hive/Druid/Pinot/Doris",
@@ -6072,6 +6233,7 @@
     "maturity": "Mature; strong Spark integration. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark",
@@ -6110,6 +6272,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6143,6 +6306,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6176,6 +6340,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6209,6 +6374,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6242,6 +6408,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6275,6 +6442,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6308,6 +6476,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6341,6 +6510,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6374,6 +6544,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6407,6 +6578,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6440,6 +6612,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6473,6 +6646,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6506,6 +6680,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6539,6 +6714,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6572,6 +6748,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6605,6 +6782,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6638,6 +6816,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6671,6 +6850,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6704,6 +6884,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6737,6 +6918,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6770,6 +6952,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6803,6 +6986,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6836,6 +7020,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6869,6 +7054,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6902,6 +7088,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6935,6 +7122,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -6968,6 +7156,7 @@
     "maturity": "Among the most-depended-on JVM libraries. Apache-2.0.",
     "leverage_note": "",
     "source": "commons-table",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "virtually every JVM project"
@@ -7001,6 +7190,7 @@
     "maturity": "Niche desktop tool. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "Log4j"
@@ -7033,6 +7223,7 @@
     "maturity": "Ubiquitous. Security note: the 2021 \"Log4Shell\" (CVE-2021-44228) JNDI RCE — keep ≥ 2.17.x; it reshaped OSS supply-chain security. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "SLF4J",
@@ -7074,6 +7265,7 @@
     "maturity": "Mature, lower cadence. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "runtime",
     "pairs_with_list": [
       ".NET/C++ apps"
@@ -7108,6 +7300,7 @@
     "maturity": "Low activity; use CXF instead. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Rampart (WS-Security)",
@@ -7143,6 +7336,7 @@
     "maturity": "",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -7171,6 +7365,7 @@
     "maturity": "Mature; the main JVM SOAP+REST framework. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "WSS4J/Santuario (WS-Security)",
@@ -7212,6 +7407,7 @@
     "maturity": "Mature; widely embedded. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "CXF",
@@ -7250,6 +7446,7 @@
     "maturity": "Mature; SSHD widely embedded. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "both",
     "pairs_with_list": [
       "custom protocol servers",
@@ -7287,6 +7484,7 @@
     "maturity": "Mature, niche (SOAP security). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "CXF",
@@ -7323,6 +7521,7 @@
     "maturity": "Low activity (stuck at XSLT 1.0; Saxon for 2/3). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "FOP",
@@ -7362,6 +7561,7 @@
     "maturity": "Mature, foundational. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Xalan/FOP",
@@ -7400,6 +7600,7 @@
     "maturity": "Mature, niche (DDD/naked-objects). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Spring Boot",
@@ -7437,6 +7638,7 @@
     "maturity": "Mature; widely used in financial inclusion. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Mifos X web/mobile apps",
@@ -7475,6 +7677,7 @@
     "maturity": "Mature at Tencent scale. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "Pulsar/Kafka",
@@ -7515,6 +7718,7 @@
     "maturity": "Mature; common in Chinese data platforms. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Spark/Hive/Flink/Presto",
@@ -7553,6 +7757,7 @@
     "maturity": "Mature; heavyweight but complete. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "a relational DB",
@@ -7590,6 +7795,7 @@
     "maturity": "Growing fast; broad connector catalog. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Kafka",
@@ -7629,6 +7835,7 @@
     "maturity": "Mature, niche (open CDP). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "CMSes (Jahia)",
@@ -7667,6 +7874,7 @@
     "maturity": "Very mature; huge via Gradle/Jenkins. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you want static typing / null-safety by default → prefer Kotlin (ext)",
     "form": "library",
     "pairs_with_list": [
       "Gradle",
@@ -7682,7 +7890,7 @@
     "standards_list": [
       "JVM bytecode"
     ],
-    "search": "apache groovy languages, runtimes & actor systems  dynamic + static jvm language with concise syntax and strong java interop. scripting, dsls, and full applications on the jvm. metaprogramming (mop), builder dsls, optional static compilation. build scripts (gradle, jenkins pipelines), testing (spock), dsls, scripting. jvm language; embeddable groovyshell; compiles to bytecode. language + embeddable library. jvm. gradle, jenkins, spock, grails (asf). kotlin, scala, clojure (external/jvm). jvm bytecode. very mature; huge via gradle/jenkins. apache-2.0.  java groovy"
+    "search": "apache groovy languages, runtimes & actor systems  dynamic + static jvm language with concise syntax and strong java interop. scripting, dsls, and full applications on the jvm. metaprogramming (mop), builder dsls, optional static compilation. build scripts (gradle, jenkins pipelines), testing (spock), dsls, scripting. jvm language; embeddable groovyshell; compiles to bytecode. language + embeddable library. jvm. gradle, jenkins, spock, grails (asf). kotlin, scala, clojure (external/jvm). jvm bytecode. very mature; huge via gradle/jenkins. apache-2.0.  java groovy you want static typing / null-safety by default → prefer kotlin (ext)"
   },
   {
     "name": "Apache JMeter",
@@ -7706,6 +7914,7 @@
     "maturity": "Mature; the classic JVM load tester. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "CI pipelines",
@@ -7745,6 +7954,7 @@
     "maturity": "Mature but slower-moving than LibreOffice. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "you want the more actively developed suite → prefer LibreOffice (ext)",
     "form": "",
     "pairs_with_list": [
       "ODF workflows",
@@ -7759,7 +7969,7 @@
       "OpenDocument (ODF)",
       "reads OOXML"
     ],
-    "search": "apache openoffice languages, runtimes & actor systems  full office productivity suite (writer, calc, impress, draw, base, math). desktop documents, spreadsheets, presentations; odf-native. document component model, odf standard, uno component bridge. free desktop office suite (sibling to the libreoffice fork). desktop apps; uno automation api; command-line conversion. desktop application + automation api. a desktop os install. odf workflows; headless conversion in pipelines. libreoffice (external, more active fork); microsoft office. opendocument (odf); reads ooxml. mature but slower-moving than libreoffice. apache-2.0.  c java"
+    "search": "apache openoffice languages, runtimes & actor systems  full office productivity suite (writer, calc, impress, draw, base, math). desktop documents, spreadsheets, presentations; odf-native. document component model, odf standard, uno component bridge. free desktop office suite (sibling to the libreoffice fork). desktop apps; uno automation api; command-line conversion. desktop application + automation api. a desktop os install. odf workflows; headless conversion in pipelines. libreoffice (external, more active fork); microsoft office. opendocument (odf); reads ooxml. mature but slower-moving than libreoffice. apache-2.0.  c java you want the more actively developed suite → prefer libreoffice (ext)"
   },
   {
     "name": "Apache OpenWhisk",
@@ -7784,6 +7994,7 @@
     "maturity": "Low activity; Knative/managed FaaS lead. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "Kubernetes",
@@ -7825,6 +8036,7 @@
     "maturity": "Maturing fork; the Apache-2.0 path off Akka's BSL. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Kafka (Pekko Connectors/Alpakka)",
@@ -7865,6 +8077,7 @@
     "maturity": "",
     "leverage_note": "🗄️ Retired — use modern RPC/service-discovery (gRPC, Dubbo (ASF), Consul) instead.",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -7893,6 +8106,7 @@
     "maturity": "Mature (research-grade BDMS). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "streaming data feeds (social/IoT)",
@@ -7931,6 +8145,7 @@
     "maturity": "Mature in GNOME/freedesktop builds. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "Flatpak/freedesktop SDKs",
@@ -7968,6 +8183,7 @@
     "maturity": "Mature spec impl. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "TomEE",
@@ -8004,6 +8220,7 @@
     "maturity": "Mature; strongest in Spark+HDFS. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "format",
     "pairs_with_list": [
       "Spark",
@@ -8040,6 +8257,7 @@
     "maturity": "Mature, stable. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "any JVM app + RDBMS"
@@ -8077,6 +8295,7 @@
     "maturity": "Mature, niche (native OSGi). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "native modular systems (robotics/DDS-adjacent)"
@@ -8114,6 +8333,7 @@
     "maturity": "Mature; the open DFDL implementation. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "NiFi (processor)",
@@ -8154,6 +8374,7 @@
     "maturity": "Mature; reused across many engines. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Druid",
@@ -8192,6 +8413,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "JVM apps wanting SQL control"
@@ -8228,6 +8450,7 @@
     "maturity": "Mature; stable Groovy web stack. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Spring Boot",
@@ -8267,6 +8490,7 @@
     "maturity": "Growing; OLTP property graph. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "TinkerPop tools",
@@ -8305,6 +8529,7 @@
     "maturity": "Mature; also a programmable mail framework. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "framework",
     "pairs_with_list": [
       "Cassandra (ASF)",
@@ -8346,6 +8571,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Tomcat",
@@ -8384,6 +8610,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "REST microservices",
@@ -8422,6 +8649,7 @@
     "maturity": "Mature; cost-effective Redis-API store. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Redis clients/tooling",
@@ -8460,6 +8688,7 @@
     "maturity": "New TLP (2026); early. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "GitHub/Git forges",
@@ -8497,6 +8726,7 @@
     "maturity": "Mature; solid Java/Maven IDE. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "Maven/Gradle/Ant",
@@ -8536,6 +8766,7 @@
     "maturity": "Mature spec impl, lower cadence. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "TomEE/Geronimo",
@@ -8572,6 +8803,7 @@
     "maturity": "Mature, niche self-hosted conferencing. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "LDAP",
@@ -8610,6 +8842,7 @@
     "maturity": "Mature (runs the ASF's own lists). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "mailing lists",
@@ -8646,6 +8879,7 @@
     "maturity": "New (2026); from the OpenDAL community. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "OpenDAL (ASF)",
@@ -8682,6 +8916,7 @@
     "maturity": "Research-grade; growing. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "blockchain apps",
@@ -8719,6 +8954,7 @@
     "maturity": "Mature, niche. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "library",
     "pairs_with_list": [
       "Subversion (its HTTP layer)",
@@ -8754,6 +8990,7 @@
     "maturity": "New TLP (2026); early. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "AI data pipelines",
@@ -8791,6 +9028,7 @@
     "maturity": "Mature; long-standing anti-spam standard. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "Postfix/Sendmail/Exim",
@@ -8828,6 +9066,7 @@
     "maturity": "Niche (ASF governance). Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "ASF elections"
@@ -8863,6 +9102,7 @@
     "maturity": "Mature, stable; largely displaced by Git. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "language",
     "pairs_with_list": [
       "httpd (mod_dav_svn)",
@@ -8902,6 +9142,7 @@
     "maturity": "Niche, legacy-leaning. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [
       "Apache httpd"
@@ -8939,6 +9180,7 @@
     "maturity": "Mature in higher-ed. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "platform",
     "pairs_with_list": [
       "campus IT",
@@ -8975,6 +9217,7 @@
     "maturity": "Mature; ASF-specific. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "service",
     "pairs_with_list": [
       "ASF LDAP",
@@ -9011,6 +9254,7 @@
     "maturity": "Mature; widely used inside the ASF. Apache-2.0.",
     "leverage_note": "",
     "source": "card",
+    "avoid_when": "",
     "form": "tool",
     "pairs_with_list": [
       "Git/GitHub/Jenkins",
@@ -9044,6 +9288,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9070,6 +9315,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9096,6 +9342,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9122,6 +9369,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9148,6 +9396,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9174,6 +9423,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9200,6 +9450,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9226,6 +9477,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9252,6 +9504,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9278,6 +9531,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9304,6 +9558,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9330,6 +9585,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9356,6 +9612,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9382,6 +9639,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9408,6 +9666,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9434,6 +9693,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9460,6 +9720,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9486,6 +9747,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9512,6 +9774,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9538,6 +9801,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9564,6 +9828,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9590,6 +9855,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9616,6 +9882,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9642,6 +9909,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
@@ -9668,6 +9936,7 @@
     "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
     "leverage_note": "",
     "source": "podling-table",
+    "avoid_when": "",
     "form": "",
     "pairs_with_list": [],
     "alternatives_list": [],
