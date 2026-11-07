@@ -154,6 +154,33 @@ def parse_avoid_when(md: str) -> dict:
     return out
 
 
+POD_ENRICH_RE = re.compile(r"^-\s+\*\*(.+?)\*\*\s+—\s+(.*)$")
+
+
+def parse_podling_enrich(md: str) -> dict:
+    """Map normalized podling name -> {pairs_with, alternatives} from the Part 3 notable list."""
+    out = {}
+    in3 = False
+    for line in md.split("\n"):
+        if re.match(r"^##\s+Part\s+3\b", line):
+            in3 = True
+            continue
+        if in3 and re.match(r"^##\s+Part\s+[4-9]", line):
+            break
+        if in3:
+            m = POD_ENRICH_RE.match(line)
+            if m:
+                name = normalize_name(clean(m.group(1)))
+                text = m.group(2)
+                pw = re.search(r"Pairs with:\s*(.+?)\.(?:\s|$)", text)
+                alt = re.search(r"Alternative to:\s*(.+?)\.(?:\s|$)", text)
+                out[name] = {
+                    "pairs_with": clean(pw.group(1)) if pw else "",
+                    "alternatives": clean(alt.group(1)) if alt else "",
+                }
+    return out
+
+
 def finalize(rec: dict) -> dict:
     rec.setdefault("avoid_when", "")
     rec["form"] = derive_form(rec.get("interfaces", ""), rec.get("needs", ""))
@@ -254,7 +281,7 @@ def parse(md: str):
                         "status_label": "Incubating", "description": clean(cells[2]),
                         "function": "", "patterns": "", "use_cases": "",
                         "interfaces": "", "needs": "", "pairs_with": "", "alternatives": "",
-                        "standards": "", "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+                        "standards": "", "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
                         "leverage_note": "", "source": "podling-table",
                     }
                     records.append(finalize(rec))
@@ -578,6 +605,18 @@ def main():
         if key in amap:
             r["avoid_when"] = amap[key]
             r["search"] += " " + amap[key].lower()
+    penrich = parse_podling_enrich(md)
+    for r in records:
+        if r.get("source") == "podling-table":
+            e = penrich.get(normalize_name(r["name"]))
+            if e:
+                if e["pairs_with"]:
+                    r["pairs_with"] = e["pairs_with"]
+                    r["pairs_with_list"] = split_list(e["pairs_with"])
+                if e["alternatives"]:
+                    r["alternatives"] = e["alternatives"]
+                    r["alternatives_list"] = split_list(e["alternatives"])
+                r["search"] += " " + (e["pairs_with"] + " " + e["alternatives"]).lower()
     records.sort(key=lambda r: (r["category_num"], r["name"].lower()))
     JSON_OUT.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     generated = datetime.date.today().isoformat()

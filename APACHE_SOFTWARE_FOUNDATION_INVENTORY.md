@@ -5,7 +5,7 @@
 > people use it for — and, for reuse/composition decisions, how you connect to it, what it
 > needs, and what it combines with.
 
-**Last reconciled:** 2026-11-06 · run `python3 tools/reconcile.py` to re-check status and coverage against the live ASF data; `python3 tools/build_inventory.py` rebuilds the data file (`apache_inventory.json`) and the interactive finder (`apache_inventory.html`).
+**Last reconciled:** 2026-11-07 · run `python3 tools/reconcile.py` to re-check status and coverage against the live ASF data; `python3 tools/build_inventory.py` rebuilds the data file (`apache_inventory.json`) and the interactive finder (`apache_inventory.html`).
 
 ---
 
@@ -115,6 +115,7 @@ always-current sources.
   - [6.4 Protocol / format / standard index](#64-protocol--format--standard-index)
   - [6.5 Decision guides](#65-decision-guides)
   - [6.6 "Avoid when" — the obvious pick's blind spots](#66-avoid-when--the-obvious-picks-blind-spots)
+- [Part 7 — ASF-adjacent projects (non-ASF)](#part-7--asf-adjacent-projects-non-asf)
 - [Appendix — Canonical sources](#appendix--canonical-sources)
 
 ---
@@ -2315,6 +2316,28 @@ The podling roster turns over constantly. The list below is the **24 current pod
 | **OzHera** | Observability | Application observability / APM platform (Xiaomi). |
 | **Fesod / Maka / Ossie / Asyncband** | Various (2025–26) | Recent entrants — see `incubator.apache.org` for current scope. |
 
+**Evaluating a podling?** Incubation is a risk signal, not just a label: APIs are pre-1.0 and can
+break, governance and release cadence are still forming, and a minority of podlings retire rather
+than graduate. Pin versions, expect churn, and keep a fallback. With that caveat, here is what the
+notable current podlings would combine with or replace:
+
+- **Amoro** — Lakehouse management over Iceberg/Paimon. Pairs with: Iceberg, Paimon, Flink, Spark. Alternative to: Tabular/Dremio Arctic, Unity Catalog (ext).
+- **Cloudberry** — MPP analytical database (Greenplum lineage). Pairs with: Postgres tooling, BI tools. Alternative to: Greenplum, ClickHouse (ext), Doris (ASF).
+- **XTable** — Lakehouse format interop. Pairs with: Iceberg, Hudi, Delta. Alternative to: Delta UniForm (ext).
+- **GraphAr** — Graph data file format. Pairs with: Spark, GraphScope, graph databases. Alternative to: bespoke CSV/Parquet graph dumps.
+- **GeaFlow** — Streaming graph computing. Pairs with: Flink, Kafka. Alternative to: Flink Gelly, graph-on-Spark.
+- **Seata** — Distributed transactions for microservices. Pairs with: Dubbo, Spring Cloud, ShardingSphere. Alternative to: Narayana, bespoke saga code (ext).
+- **PouchDB** — In-browser database that syncs with CouchDB. Pairs with: CouchDB, offline-first web apps. Alternative to: RxDB, local-first stores (ext).
+- **Casbin** — Authorization library (RBAC/ABAC). Pairs with: apps needing authz in many languages. Alternative to: OPA, Cedar (ext); Shiro (ASF, broader).
+- **Caldera** — Automated adversary emulation. Pairs with: security test pipelines. Alternative to: Atomic Red Team, Metasploit (ext).
+- **NullAway** — Fast null-safety checker for Java. Pairs with: Error Prone, Gradle/Maven builds. Alternative to: the Checker Framework, Kotlin null types (ext).
+- **KIE (Drools / jBPM)** — Business rules and workflow. Pairs with: Java/Quarkus apps. Alternative to: Camunda, bespoke rule engines (ext).
+- **Pegasus** — Distributed key-value store. Pairs with: Raft/RocksDB stacks. Alternative to: HBase (ASF), TiKV, Cassandra (ext/ASF).
+- **Hamilton** — Dataflow/feature pipelines as Python functions. Pairs with: pandas/Spark, Airflow. Alternative to: dbt-for-Python, bespoke DAG code (ext).
+- **Burr** — Stateful AI/LLM apps as state machines. Pairs with: LLM SDKs, Hamilton. Alternative to: LangGraph (ext).
+- **OzHera** — Application observability/APM. Pairs with: microservices, Prometheus/Grafana. Alternative to: SkyWalking (ASF), Datadog (ext).
+- **Toree** — Jupyter kernel for Spark. Pairs with: Jupyter, Spark. Alternative to: Zeppelin (ASF), Spark Connect (ASF).
+
 > **Status-in-flux note.** The ASF's project and podling datasets sometimes disagree for the
 > very newest entrants. **Auron** and **Iggy** appear in `projects.json` yet still publish on
 > `*.incubator.apache.org` (Auron releases are tagged `-incubating`); **Teaclave** (confidential
@@ -2594,6 +2617,37 @@ what to prefer instead. *(Editorial; all are reasonable defaults in their lane.)
 | **Dubbo** | you're polyglot and cloud-native-first | gRPC + a service mesh *(ext)* |
 | **Groovy** | you want static typing / null-safety by default | Kotlin *(ext)* |
 | **OpenOffice** | you want the more actively developed suite | LibreOffice *(ext)* |
+
+---
+
+## Part 7 — ASF-adjacent projects (non-ASF)
+
+Real stacks rarely stay inside one foundation. These widely-used projects are **not** ASF
+projects (so they are not among the finder's 269), but they constantly combine with the ones
+above — usually named in an entry's *Pairs with* or *Alternatives*. Licensing and governance
+vary; check each project's own terms.
+
+| Project (non-ASF) | What it is | How it meets the ASF stack |
+|-------------------|-----------|----------------------------|
+| **Trino / Presto** | Distributed SQL query engine | Queries Iceberg/Hudi/Delta through the Hive Metastore or Polaris; the common lakehouse query layer |
+| **Elasticsearch / OpenSearch** | Distributed search & analytics engine | Built on **Lucene**; fed by Tika / ManifoldCF / StormCrawler |
+| **Delta Lake** | Lakehouse table format (Databricks) | Interops with Iceberg/Hudi via **XTable**; read/written by Spark & Flink |
+| **Netty** | Async network I/O framework | The transport under Kafka, Pulsar, Flink, Cassandra, James and many ASF services |
+| **Akka** | Actor toolkit (BSL-licensed) | **Pekko** is the Apache-2.0 fork — same model and APIs |
+| **Debezium** | Change-data-capture connectors | Runs on Kafka Connect; feeds Hudi / Paimon / Iceberg |
+| **Kubernetes** | Container orchestration | Runs Spark/Flink/Kafka/Pulsar; batch-scheduled by **YuniKorn**; replaced **Mesos** |
+| **Prometheus / Grafana** | Metrics & dashboards | Scrape and visualize IoTDB, HertzBeat and SkyWalking exports |
+| **dbt** | SQL transformation / modeling | Orchestrated by **Airflow**; runs on Spark/Trino/Hive SQL |
+| **Ray** | Distributed compute for ML / Python | Alternative or complement to Spark for ML workloads |
+| **DuckDB** | In-process analytical SQL | Single-node alternative to Spark/Impala; reads Parquet/Iceberg |
+| **Polars** | Fast DataFrame library (Rust/Python) | Built on **Arrow**; alternative to pandas/Spark for mid-size data |
+| **RabbitMQ** | AMQP message broker | Alternative to **ActiveMQ** / **Qpid** |
+| **Keycloak** | Identity & SSO | Complements **Syncope** / **Directory**; OIDC/SAML for **Knox** / **APISIX** |
+| **RocksDB** | Embedded LSM key-value store | The storage engine under **Kvrocks**, Flink state, Kafka Streams, Pegasus |
+| **etcd** | Consensus key-value store | Alternative to **ZooKeeper**; the config store for **APISIX** |
+| **ClickHouse / StarRocks** | Real-time OLAP databases | Alternatives to **Druid** / **Pinot** / **Doris** |
+| **Protobuf / gRPC** | IDL + RPC framework | Alternative to **Thrift** / Avro RPC; **Dubbo** (Triple) and **Arrow Flight** speak gRPC |
+| **Velox** | Native vectorized execution (Meta) | The C++ backend under **Gluten** |
 
 ---
 

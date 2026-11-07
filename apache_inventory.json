@@ -9282,18 +9282,26 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Iceberg, Paimon, Flink, Spark",
+    "alternatives": "Tabular/Dremio Arctic, Unity Catalog (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Iceberg",
+      "Paimon",
+      "Flink",
+      "Spark"
+    ],
+    "alternatives_list": [
+      "Tabular/Dremio Arctic",
+      "Unity Catalog (ext)"
+    ],
     "standards_list": [],
-    "search": "apache amoro incubator podling lakehouse management system over iceberg/paimon lake tables.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache amoro incubator podling lakehouse management system over iceberg/paimon lake tables.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   iceberg, paimon, flink, spark tabular/dremio arctic, unity catalog (ext)"
   },
   {
     "name": "Apache Asyncband",
@@ -9312,7 +9320,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9320,7 +9328,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache asyncband incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache asyncband incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache Auron",
@@ -9339,7 +9347,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9347,7 +9355,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache auron incubator podling spark accel. native vectorized spark engine (ex-blaze; rust + datafusion via jni). (status in flux)         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache auron incubator podling spark accel. native vectorized spark engine (ex-blaze; rust + datafusion via jni). (status in flux)         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache BifroMQ",
@@ -9366,7 +9374,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9374,7 +9382,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache bifromq incubator podling messaging high-performance, multi-tenant mqtt broker.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache bifromq incubator podling messaging high-performance, multi-tenant mqtt broker.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache Burr",
@@ -9390,18 +9398,23 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "LLM SDKs, Hamilton",
+    "alternatives": "LangGraph (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "LLM SDKs",
+      "Hamilton"
+    ],
+    "alternatives_list": [
+      "LangGraph (ext)"
+    ],
     "standards_list": [],
-    "search": "apache burr incubator podling ai apps build stateful ai/llm applications as state machines.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache burr incubator podling ai apps build stateful ai/llm applications as state machines.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   llm sdks, hamilton langgraph (ext)"
   },
   {
     "name": "Apache Caldera",
@@ -9417,18 +9430,23 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "security test pipelines",
+    "alternatives": "Atomic Red Team, Metasploit (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "security test pipelines"
+    ],
+    "alternatives_list": [
+      "Atomic Red Team",
+      "Metasploit (ext)"
+    ],
     "standards_list": [],
-    "search": "apache caldera incubator podling security automated adversary emulation / breach simulation (mitre).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache caldera incubator podling security automated adversary emulation / breach simulation (mitre).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   security test pipelines atomic red team, metasploit (ext)"
   },
   {
     "name": "Apache Casbin",
@@ -9444,18 +9462,25 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "apps needing authz in many languages",
+    "alternatives": "OPA, Cedar (ext); Shiro (ASF, broader)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "apps needing authz in many languages"
+    ],
+    "alternatives_list": [
+      "OPA",
+      "Cedar (ext)",
+      "Shiro (ASF",
+      "broader)"
+    ],
     "standards_list": [],
-    "search": "apache casbin incubator podling authorization multi-language access-control library (rbac/abac/…).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache casbin incubator podling authorization multi-language access-control library (rbac/abac/…).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   apps needing authz in many languages opa, cedar (ext); shiro (asf, broader)"
   },
   {
     "name": "Apache Cloudberry",
@@ -9471,18 +9496,25 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Postgres tooling, BI tools",
+    "alternatives": "Greenplum, ClickHouse (ext), Doris (ASF)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Postgres tooling",
+      "BI tools"
+    ],
+    "alternatives_list": [
+      "Greenplum",
+      "ClickHouse (ext)",
+      "Doris (ASF)"
+    ],
     "standards_list": [],
-    "search": "apache cloudberry incubator podling analytical db mpp analytical database (postgresql / greenplum lineage).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache cloudberry incubator podling analytical db mpp analytical database (postgresql / greenplum lineage).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   postgres tooling, bi tools greenplum, clickhouse (ext), doris (asf)"
   },
   {
     "name": "Apache Fesod",
@@ -9501,7 +9533,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9509,7 +9541,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache fesod incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache fesod incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache GeaFlow",
@@ -9525,18 +9557,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Flink, Kafka",
+    "alternatives": "Flink Gelly, graph-on-Spark",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Flink",
+      "Kafka"
+    ],
+    "alternatives_list": [
+      "Flink Gelly",
+      "graph-on-Spark"
+    ],
     "standards_list": [],
-    "search": "apache geaflow incubator podling graph compute distributed streaming graph computing (ant group).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache geaflow incubator podling graph compute distributed streaming graph computing (ant group).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   flink, kafka flink gelly, graph-on-spark"
   },
   {
     "name": "Apache GraphAr",
@@ -9552,18 +9590,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Spark, GraphScope, graph databases",
+    "alternatives": "bespoke CSV/Parquet graph dumps",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Spark",
+      "GraphScope",
+      "graph databases"
+    ],
+    "alternatives_list": [
+      "bespoke CSV/Parquet graph dumps"
+    ],
     "standards_list": [],
-    "search": "apache graphar incubator podling graph format standard file format for graph-data interchange.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache graphar incubator podling graph format standard file format for graph-data interchange.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   spark, graphscope, graph databases bespoke csv/parquet graph dumps"
   },
   {
     "name": "Apache Hamilton",
@@ -9579,18 +9623,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "pandas/Spark, Airflow",
+    "alternatives": "dbt-for-Python, bespoke DAG code (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "pandas/Spark",
+      "Airflow"
+    ],
+    "alternatives_list": [
+      "dbt-for-Python",
+      "bespoke DAG code (ext)"
+    ],
     "standards_list": [],
-    "search": "apache hamilton incubator podling dataflow express ml/feature pipelines as python-function dags.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache hamilton incubator podling dataflow express ml/feature pipelines as python-function dags.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   pandas/spark, airflow dbt-for-python, bespoke dag code (ext)"
   },
   {
     "name": "Apache Iggy",
@@ -9609,7 +9659,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9617,7 +9667,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache iggy incubator podling streaming persistent message streaming in rust (quic/tcp/http). (graduation reported — verify)         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache iggy incubator podling streaming persistent message streaming in rust (quic/tcp/http). (graduation reported — verify)         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache KIE",
@@ -9633,18 +9683,23 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Java/Quarkus apps",
+    "alternatives": "Camunda, bespoke rule engines (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Java/Quarkus apps"
+    ],
+    "alternatives_list": [
+      "Camunda",
+      "bespoke rule engines (ext)"
+    ],
     "standards_list": [],
-    "search": "apache kie incubator podling business automation rules + workflow — home of drools and jbpm (from red hat).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache kie incubator podling business automation rules + workflow — home of drools and jbpm (from red hat).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   java/quarkus apps camunda, bespoke rule engines (ext)"
   },
   {
     "name": "Apache Maka",
@@ -9663,7 +9718,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9671,7 +9726,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache maka incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache maka incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache NullAway",
@@ -9687,18 +9742,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Error Prone, Gradle/Maven builds",
+    "alternatives": "the Checker Framework, Kotlin null types (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Error Prone",
+      "Gradle/Maven builds"
+    ],
+    "alternatives_list": [
+      "the Checker Framework",
+      "Kotlin null types (ext)"
+    ],
     "standards_list": [],
-    "search": "apache nullaway incubator podling code quality fast type-based null-safety checker for java (from uber).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache nullaway incubator podling code quality fast type-based null-safety checker for java (from uber).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   error prone, gradle/maven builds the checker framework, kotlin null types (ext)"
   },
   {
     "name": "Apache OpenServerless",
@@ -9717,7 +9778,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9725,7 +9786,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache openserverless incubator podling serverless faas/serverless platform (openwhisk lineage).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache openserverless incubator podling serverless faas/serverless platform (openwhisk lineage).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache Ossie",
@@ -9744,7 +9805,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9752,7 +9813,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache ossie incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache ossie incubator podling various (2025–26) recent entrants — see incubator.apache.org for current scope.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache Otava",
@@ -9771,7 +9832,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9779,7 +9840,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache otava incubator podling perf analytics automated change-point detection for metrics/time series.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache otava incubator podling perf analytics automated change-point detection for metrics/time series.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache OzHera",
@@ -9795,18 +9856,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "microservices, Prometheus/Grafana",
+    "alternatives": "SkyWalking (ASF), Datadog (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "microservices",
+      "Prometheus/Grafana"
+    ],
+    "alternatives_list": [
+      "SkyWalking (ASF)",
+      "Datadog (ext)"
+    ],
     "standards_list": [],
-    "search": "apache ozhera incubator podling observability application observability / apm platform (xiaomi).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache ozhera incubator podling observability application observability / apm platform (xiaomi).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   microservices, prometheus/grafana skywalking (asf), datadog (ext)"
   },
   {
     "name": "Apache Pegasus",
@@ -9822,18 +9889,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Raft/RocksDB stacks",
+    "alternatives": "HBase (ASF), TiKV, Cassandra (ext/ASF)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Raft/RocksDB stacks"
+    ],
+    "alternatives_list": [
+      "HBase (ASF)",
+      "TiKV",
+      "Cassandra (ext/ASF)"
+    ],
     "standards_list": [],
-    "search": "apache pegasus incubator podling key-value distributed kv store (raft + rocksdb), from xiaomi.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache pegasus incubator podling key-value distributed kv store (raft + rocksdb), from xiaomi.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   raft/rocksdb stacks hbase (asf), tikv, cassandra (ext/asf)"
   },
   {
     "name": "Apache PouchDB",
@@ -9849,18 +9922,24 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "CouchDB, offline-first web apps",
+    "alternatives": "RxDB, local-first stores (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "CouchDB",
+      "offline-first web apps"
+    ],
+    "alternatives_list": [
+      "RxDB",
+      "local-first stores (ext)"
+    ],
     "standards_list": [],
-    "search": "apache pouchdb incubator podling database javascript database that syncs with couchdb (offline-first).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache pouchdb incubator podling database javascript database that syncs with couchdb (offline-first).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   couchdb, offline-first web apps rxdb, local-first stores (ext)"
   },
   {
     "name": "Apache Seata",
@@ -9876,18 +9955,25 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Dubbo, Spring Cloud, ShardingSphere",
+    "alternatives": "Narayana, bespoke saga code (ext)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Dubbo",
+      "Spring Cloud",
+      "ShardingSphere"
+    ],
+    "alternatives_list": [
+      "Narayana",
+      "bespoke saga code (ext)"
+    ],
     "standards_list": [],
-    "search": "apache seata incubator podling transactions distributed-transaction solution for microservices.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache seata incubator podling transactions distributed-transaction solution for microservices.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   dubbo, spring cloud, shardingsphere narayana, bespoke saga code (ext)"
   },
   {
     "name": "Apache Texera",
@@ -9906,7 +9992,7 @@
     "pairs_with": "",
     "alternatives": "",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
@@ -9914,7 +10000,7 @@
     "pairs_with_list": [],
     "alternatives_list": [],
     "standards_list": [],
-    "search": "apache texera incubator podling data science collaborative, live-execution data-science workflows.         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache texera incubator podling data science collaborative, live-execution data-science workflows.         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)  "
   },
   {
     "name": "Apache Toree",
@@ -9930,17 +10016,23 @@
     "use_cases": "",
     "interfaces": "",
     "needs": "",
-    "pairs_with": "",
-    "alternatives": "",
+    "pairs_with": "Jupyter, Spark",
+    "alternatives": "Zeppelin (ASF), Spark Connect (ASF)",
     "standards": "",
-    "maturity": "Incubating — pre-graduation; APIs and governance still stabilizing.",
+    "maturity": "Incubating — pre-graduation: pre-1.0 APIs may break and release cadence is still forming; pin versions and keep a fallback. (Apache-2.0 on graduation.)",
     "leverage_note": "",
     "source": "podling-table",
     "avoid_when": "",
     "form": "",
-    "pairs_with_list": [],
-    "alternatives_list": [],
+    "pairs_with_list": [
+      "Jupyter",
+      "Spark"
+    ],
+    "alternatives_list": [
+      "Zeppelin (ASF)",
+      "Spark Connect (ASF)"
+    ],
     "standards_list": [],
-    "search": "apache toree incubator podling notebooks jupyter kernel for interactive apache spark (scala).         incubating — pre-graduation; apis and governance still stabilizing.  "
+    "search": "apache toree incubator podling notebooks jupyter kernel for interactive apache spark (scala).         incubating — pre-graduation: pre-1.0 apis may break and release cadence is still forming; pin versions and keep a fallback. (apache-2.0 on graduation.)   jupyter, spark zeppelin (asf), spark connect (asf)"
   }
 ]
